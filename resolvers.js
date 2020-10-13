@@ -95,6 +95,15 @@ const resolvers = {
           }
         })
     },
+    deleteAllUsers: (parent, args, context) => {
+      const session = context.driver.session()
+      return session
+        .run('MATCH (n) DETACH DELETE n')
+        .then(result => {
+          session.close()
+          return "Succesfully deleted all users"
+        })
+    },
     updateUser: (parent, args, context) => {
       const session = context.driver.session()
       return session

@@ -1,0 +1,9 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - sam package --template-file template.yml --s3-bucket s3://localhost-api --output-template-file packaged-template.yml
+artifacts:
+  files:
+    - packaged-template.yml
