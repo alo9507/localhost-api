@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seedDb": "node seedDb.js"
+    "seedDb": "node seedDb.js",
+    "clearDb": "node clearDB.js"
   },
   "keywords": [],
   "author": "",

@@ -2,7 +2,7 @@ const neo4j = require('neo4j-driver')
 const dotenv = require('dotenv')
 dotenv.config()
 
-console.log("Running seedDb...")
+console.log("Running clearDb...")
 console.log(`Configuring driver to ${process.env.NEO4J_URI}...`)
 
 const driver = neo4j.driver(
@@ -18,19 +18,17 @@ const driver = neo4j.driver(
 
 const session = driver.session()
 
-console.log(`Beginning seed transaction`)
+console.log(`Beginning delete transaction`)
 
 session.writeTransaction(tx => {
-        tx.run("CREATE (n:User { name: 'Andy', title: 'Developer' })");
-        tx.run("CREATE (n:User { name: 'Susana', title: 'Me' })");
-        tx.run("CREATE (n:User { name: 'Susana2', title: 'Me' })");
+        tx.run("MATCH (n) DETACH DELETE n");
     })
     .then(result => {
-        console.log(`Seed successful`)
+        console.log(`Clear successful`)
         session.close()
         process.exit(0);
     })
     .catch(e => {
-        console.log(`Error seeding DB: ${e}`)
+        console.log(`Error clearing DB: ${e}`)
         process.exit(-1);
     })
