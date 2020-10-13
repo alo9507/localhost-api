@@ -9,6 +9,9 @@ const resolvers = {
         .run('MATCH (n:User) WHERE n.id=$id RETURN n', { id: args.id })
         .then((result) => {
           session.close()
+          if (result.records == 0) { 
+            throw new Error(`User with id ${args.id} does not exist in databse`) 
+          }
           return result.records[0].get(0).properties
         })
     },
@@ -119,6 +122,7 @@ const resolvers = {
         .run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', { id: args.input.id, input: args.input })
         .then(result => {
           session.close()
+          console.log(result.records[0].get(0).properties)
           return result.records[0].get(0).properties
         })
     },
