@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "NODE_ENV=dev node index.js",
+    "start:prod": "NODE_ENV=prod node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seedDb": "node seedDb.js",
     "clearDb": "node clearDB.js"
@@ -16,11 +17,14 @@
     "apollo-log": "^0.2.0",
     "apollo-server": "^2.18.2",
     "apollo-server-lambda": "^2.18.2",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "dotenv-flow": "^3.2.0",
     "graphql": "^15.3.0",
     "install": "^0.13.0",
     "neo4j-driver": "^4.1.2",
     "nodemon": "^2.0.4",
-    "npm": "^6.14.8"
+    "npm": "^6.14.8",
+    "path": "^0.12.7"
   }
 }

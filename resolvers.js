@@ -5,8 +5,9 @@ const resolvers = {
   Query: {
     user: (parent, args, context, info) => {
       const session = context.driver.session()
+      const params = { id: args.id }
       return session
-        .run('MATCH (n:User) WHERE n.id=$id RETURN n', { id: args.id })
+        .run('MATCH (n:User) WHERE n.id=$id RETURN n', params)
         .then((result) => {
           session.close()
           if (result.records == 0) { 
@@ -25,8 +26,9 @@ const resolvers = {
     },
     getDistanceBetween: (parent, args, context) => {
       const session = context.driver.session()
+      const params = { user1ID: args.user1, user2ID: args.user2 }
       return session
-        .run('MATCH (user1:User), (user2:User) WHERE user1.id = $user1ID AND user2.id = $user2ID WITH point({ longitude: user1.longitude, latitude: user1.latitude }) AS user1Point, point({ longitude: user2.longitude, latitude: user2.latitude }) AS user2point RETURN round(distance(user1Point, user2point)) AS distanceBetweenUsers',{ user1ID: args.user1, user2ID: args.user2 })
+        .run('MATCH (user1:User), (user2:User) WHERE user1.id = $user1ID AND user2.id = $user2ID WITH point({ longitude: user1.longitude, latitude: user1.latitude }) AS user1Point, point({ longitude: user2.longitude, latitude: user2.latitude }) AS user2point RETURN round(distance(user1Point, user2point)) AS distanceBetweenUsers', params)
         .then(result => {
           session.close()
           return result.records[0].get('distanceBetweenUsers')
@@ -36,10 +38,9 @@ const resolvers = {
   User: {
     outbound: (parent, args, context, info) => {
       const session = context.driver.session()
+      const params = { id: parent.id }
       return session
-        .run('MATCH (n { id: $id })-[r:NODDED_AT]->(other:User) RETURN other', {
-          id: parent.id,
-        })
+        .run('MATCH (n { id: $id })-[r:NODDED_AT]->(other:User) RETURN other', params)
         .then((result) => {
           session.close()
           return result.records.map((record) => record.get('other').properties)
@@ -47,10 +48,9 @@ const resolvers = {
     },
     outboundCount: (parent, args, context, info) => {
       const session = context.driver.session()
+      const params = { id: parent.id }
       return session
-        .run('MATCH (n { id: $id })-[r:NODDED_AT]->(:User) RETURN COUNT(r) AS outboundCount', {
-          id: parent.id,
-        })
+        .run('MATCH (n { id: $id })-[r:NODDED_AT]->(:User) RETURN COUNT(r) AS outboundCount', params)
         .then((result) => {
           session.close()
           return toNumber(result.records[0].get('outboundCount'))
@@ -58,10 +58,9 @@ const resolvers = {
     },
     inbound: (parent, args, context, info) => {
       const session = context.driver.session()
+      const params = { id: parent.id }
       return session
-        .run('MATCH (n { id: $id })<-[r:NODDED_AT]-(other:User) RETURN other', {
-          id: parent.id,
-        })
+        .run('MATCH (n { id: $id })<-[r:NODDED_AT]-(other:User) RETURN other', params)
         .then((result) => {
           session.close()
           return result.records.map((record) => record.get('other').properties)
@@ -69,10 +68,9 @@ const resolvers = {
     },
     inboundCount: (parent, args, context, info) => {
       const session = context.driver.session()
+      const params = { id: parent.id }
       return session
-        .run('MATCH (n { id: $id })<-[r:NODDED_AT]-(:User) RETURN COUNT(r) AS inboundCount', {
-          id: parent.id,
-        })
+        .run('MATCH (n { id: $id })<-[r:NODDED_AT]-(:User) RETURN COUNT(r) AS inboundCount', params)
         .then((result) => {
           session.close()
           return toNumber(result.records[0].get('inboundCount'))
@@ -85,10 +83,11 @@ const resolvers = {
     },
     sendNod: (parent, args, context) => {
       const session = context.driver.session()
+      const params = { from: args.from, to: args.to }
       return session
         .run(
           'MATCH (a:User),(b:User) WHERE a.id = $from AND b.id = $to CREATE (a)-[r:NODDED_AT]->(b) RETURN a.id, b.id',
-          { from: args.from, to: args.to }
+          params
         )
         .then((result) => {
           session.close()
@@ -109,8 +108,9 @@ const resolvers = {
     },
     updateUser: (parent, args, context) => {
       const session = context.driver.session()
+      const params = { id: args.input.id, input: args.input }
       return session
-        .run('MATCH (n { id: $id }) SET n += $input RETURN n', { id: args.input.id, input: args.input })
+        .run('MATCH (n { id: $id }) SET n += $input RETURN n', params)
         .then(result => {
           session.close()
           return result.records[0].get(0).properties
@@ -118,11 +118,11 @@ const resolvers = {
     },
     createUser: (parents, args, context) => {
       const session = context.driver.session()
+      const params = { id: args.input.id, input: args.input }
       return session
-        .run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', { id: args.input.id, input: args.input })
+        .run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params)
         .then(result => {
           session.close()
-          console.log(result.records[0].get(0).properties)
           return result.records[0].get(0).properties
         })
     },

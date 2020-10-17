@@ -15,6 +15,7 @@ type User {
   outboundCount: Int
   inbound: [User]
   inboundCount: Int
+  email: String
 }
 
 type Query {
@@ -34,6 +35,7 @@ type Mutation {
 
 input UpdateUserInput {
   id: ID!
+  email: String
   name: String
   bio: String
   whatAmIDoing: String
@@ -46,6 +48,7 @@ input UpdateUserInput {
 
 input CreateUserInput {
   id: ID!
+  email: String!
   name: String
   bio: String
   whatAmIDoing: String
@@ -65,7 +68,6 @@ type MessageResponse {
   success: Boolean!
   message: String
 }
-
 `
 
 module.exports = typeDefs
