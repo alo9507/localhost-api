@@ -1,5 +1,5 @@
 const { driver, session } = require('neo4j-driver')
-const { toNumber } = require("./utils")
+const { toNumber } = require("../utils")
 
 const resolvers = {
   Query: {

@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=dev node index.js",
-    "start:prod": "NODE_ENV=prod node index.js",
+    "start": "NODE_ENV=dev node src/index.js",
+    "start:prod": "NODE_ENV=prod node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seedDb": "node seedDb.js",
-    "clearDb": "node clearDB.js"
+    "seedDb": "node src/scripts/seedDb.js",
+    "clearDb": "node src/scripts/clearDB.js"
   },
   "keywords": [],
   "author": "",

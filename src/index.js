@@ -1,14 +1,16 @@
-const { ApolloServer } = require('apollo-server-lambda')
-const typeDefs = require('./schema')
-const resolvers = require('./resolvers')
+const { ApolloServer } = require('apollo-server')
+const typeDefs = require('./graphql/schema')
+const resolvers = require('./graphql/resolvers')
 const neo4j = require('neo4j-driver')
 const keys = require('./keys')
 
+console.log(keys)
+
 const driver = neo4j.driver(
-    keys.neo4jUri || 'bolt://localhost:7687',
+    keys.neo4jUri,
     neo4j.auth.basic(
-      keys.neo4jUser || 'neo4j',
-      keys.neo4jPassword || 'neo4j'
+      keys.neo4jUser,
+      keys.neo4jPassword
     ),
     {
       encrypted: keys.neo4jEncrypted ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
@@ -23,9 +25,7 @@ const driver = neo4j.driver(
       playground: true
     });
 
-module.exports.handler = server.createHandler({
-    cors: {
-      origin: '*',
-      credentials: true,
-    },
-  })
+// The `listen` method launches a web server.
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
