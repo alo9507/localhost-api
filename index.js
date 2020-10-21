@@ -3,18 +3,16 @@ const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const neo4j = require('neo4j-driver')
 const { ApolloLogExtension } = require('apollo-log');
-const path = require('path');
-const dotenv = require('dotenv')
-dotenv.config({path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`)})
+const keys = require('./keys')
 
 const driver = neo4j.driver(
-    process.env.NEO4J_URI,
+    keys.neo4jUri,
     neo4j.auth.basic(
-      process.env.NEO4J_USER,
-      process.env.NEO4J_PASSWORD
+      keys.neo4jUser,
+      keys.neo4jPassword
     ),
     {
-      encrypted: process.env.NEO4J_ENCRYPTED ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
+      encrypted: keys.neo4jEncrypted ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
     }
   )
 
