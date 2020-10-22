@@ -11,7 +11,7 @@ const driver = neo4j.driver(
     keys.neo4jPassword
   ),
   {
-    encrypted: keys.neo4jEncrypted ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
+    encrypted: keys.neo4jEncrypted==="true" ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
   }
 )
 
