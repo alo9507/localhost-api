@@ -4,4 +4,5 @@ COPY package.json .
 RUN npm install
 COPY . .
 EXPOSE 4000
-CMD ["npm", "run", "start"]
+ENV NODE_ENV="dev"
+CMD ["node", "src/index.js"]

@@ -10,7 +10,9 @@ services:
     api:
         depends_on:
             - "neo4j"
-        image: alo42/localhost-api
+        build:
+            dockerfile: Dockerfile.dev
+            context: .
         volumes:
             - /app/node_modules
             - ./:/app
