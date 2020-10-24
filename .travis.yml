@@ -11,9 +11,11 @@ scripts:
 after_successes:
     - docker build -t alo42/localhost-api .
     - docker build -t alo42/neo4j ./neo4j
+    - docker build -t alo42/localhost-nginx ./nginx
     - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin
     - docker push alo42/localhost-api
     - docker push alo42/neo4j
+    - docker push alo42/localhost-nginx
 
 deploy:
     provider: elasticbeanstalk

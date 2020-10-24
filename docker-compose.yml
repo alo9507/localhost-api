@@ -25,3 +25,13 @@ services:
             - NEO4J_USER=neo4j
             - NEO4J_PASSWORD=neo4j
             - NEO4J_ENCRYPTED=false
+    nginx:
+        restart: always
+        depends_on:
+            - "api"
+            - "neo4j"
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
+        ports:
+            - '80:80'

@@ -21,7 +21,7 @@
         {
             "name": "localhost-api",
             "image": "alo42/localhost-api",
-            "essential": true,
+            "essential": false,
             "memory": 128,
             "portMappings": [
                 {
@@ -31,6 +31,21 @@
             ],
             "links": [
                 "neo4j"
+            ]
+        },
+        {
+            "name": "nginx",
+            "image": "alo42/localhost-nginx",
+            "essential": true,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "localhost-api"
             ]
         }
     ]
