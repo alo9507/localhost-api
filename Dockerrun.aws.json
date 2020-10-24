@@ -1,0 +1,37 @@
+{
+    "AWSEBDockerrunVersion": "2",
+    "containerDefinitions": [
+        {
+            "name": "neo4j",
+            "image": "alo42/neo4j",
+            "hostname": "neo4j",
+            "essential": false,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 7474,
+                    "containerPort": 7474
+                },
+                {
+                    "hostPort": 7687,
+                    "containerPort": 7687
+                }
+            ]
+        },
+        {
+            "name": "localhost-api",
+            "image": "alo42/localhost-api",
+            "essential": true,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort": 4000,
+                    "containerPort": 4000
+                }
+            ],
+            "links": [
+                "neo4j"
+            ]
+        }
+    ]
+}

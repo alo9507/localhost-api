@@ -6,9 +6,23 @@ before_install:
     - docker build -t alo42/api-test -f Dockerfile.dev .
 
 scripts:
-    - docker run -e CI=true alo42/api-test npm test
+    - docker run -e CI=true alo42/api-test npm run test
 
 after_successes:
     - docker build -t alo42/localhost-api .
+    - docker build -t alo42/neo4j ./neo4j
     - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin
     - docker push alo42/localhost-api
+    - docker push alo42/neo4j
+
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "LocalhostAPI"
+    env: "Localhostapi-env"
+    bucket_name: "elasticbeanstalk-us-east-2-273181460905"
+    bucket_path: "LocalhostAPI"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY

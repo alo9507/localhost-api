@@ -1,0 +1,5 @@
+FROM neo4j
+ENV NEO4J_AUTH=none
+EXPOSE 7474
+EXPOSE 7687
+CMD ["neo4j"]
