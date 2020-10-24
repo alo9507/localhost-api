@@ -4,6 +4,7 @@ COPY package.json .
 RUN npm install
 COPY . .
 EXPOSE 4000
+EXPOSE 80
 ENV NODE_ENV="dev"
 ENV NEO4J_URI="bolt://neo4j:7687"
 ENV NEO4J_USER="neo4j"
