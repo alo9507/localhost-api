@@ -6,7 +6,7 @@
             "image": "alo42/neo4j",
             "hostname": "neo4j",
             "essential": false,
-            "memory": 128,
+            "memory": 256,
             "portMappings": [
                 {
                     "hostPort": 7474,
@@ -22,7 +22,7 @@
             "name": "localhost-api",
             "image": "alo42/localhost-api",
             "essential": false,
-            "memory": 128,
+            "memory": 256,
             "portMappings": [
                 {
                     "hostPort": 4000,
@@ -37,7 +37,7 @@
             "name": "nginx",
             "image": "alo42/localhost-nginx",
             "essential": true,
-            "memory": 128,
+            "memory": 256,
             "portMappings": [
                 {
                     "hostPort": 80,
