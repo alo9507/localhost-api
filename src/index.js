@@ -2,8 +2,9 @@ const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./graphql/schema')
 const resolvers = require('./graphql/resolvers')
 const neo4j = require('neo4j-driver')
-const dotenv = require('dotenv')
-dotenv.configure()
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({path: path.resolve(__dirname, `../.env.${process.env.NODE_ENV}`)})
 
 const driver = neo4j.driver(
   process.env.NEO4J_URI,
