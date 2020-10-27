@@ -2,16 +2,17 @@ const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./graphql/schema')
 const resolvers = require('./graphql/resolvers')
 const neo4j = require('neo4j-driver')
-const keys = require('./keys')
+const dotenv = require('dotenv')
+dotenv.configure()
 
 const driver = neo4j.driver(
-  keys.neo4jUri,
+  process.env.NEO4J_URI,
   neo4j.auth.basic(
-    keys.neo4jUser,
-    keys.neo4jPassword
+    process.env.NEO4J_USER,
+    process.env.NEO4J_PASSWORD
   ),
   {
-    encrypted: keys.neo4jEncrypted==="true" ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
+    encrypted: 'ENCRYPTION_OFF'
   }
 )
 

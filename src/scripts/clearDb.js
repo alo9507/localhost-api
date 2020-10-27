@@ -1,17 +1,17 @@
 const neo4j = require('neo4j-driver')
 const keys = require('../keys')
 
-console.log("Running clearDb...")
-console.log(`Configuring driver to ${keys.NEO4J_URI}...`)
+console.log("Running clearDB...")
+console.log(`Configuring driver to ${process.env.NEO4J_URI}...`)
 
 const driver = neo4j.driver(
-    keys.NEO4J_URI || 'bolt://localhost:7687',
+    process.env.NEO4J_URI,
     neo4j.auth.basic(
-        keys.neo4jUser || 'neo4j',
-        keys.neo4jPassword || 'neo4j'
+        process.env.NEO4J_USER,
+        process.env.NEO4J_PASSWORD
     ),
     {
-        encrypted: keys.neo4jEncrypted ? 'ENCRYPTION_ON' : 'ENCRYPTION_OFF',
+        encrypted: "ENCRYPTION_OFF"
     }
 )
 
