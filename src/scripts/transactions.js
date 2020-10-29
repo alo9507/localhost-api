@@ -7,6 +7,11 @@ const names = [
     "Jefferey"
 ]
 
+const isVisible = [
+    true,
+    false
+]
+
 const bios = [
     "Student just chillin",
     "I am a narc",
@@ -52,7 +57,8 @@ for (let i = 1; i < 10; i++) {
         name: '${rand(names)}', 
         email: '${rand(emails)}', 
         bio: '${rand(bios)}', 
-        whatAmIDoing: '${rand(whatAmIDoings)}', 
+        whatAmIDoing: '${rand(whatAmIDoings)}',
+        isVisible: ${rand(isVisible)}, 
         age: '${rand(ages)}' })`
 
     transactions.push(tx)

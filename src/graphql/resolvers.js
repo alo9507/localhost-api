@@ -1,5 +1,6 @@
 const { driver, session } = require('neo4j-driver')
 const { toNumber } = require("../utils")
+const { objectAttributeFilter } = require("../utils")
 
 const resolvers = {
   Query: {
@@ -20,6 +21,7 @@ const resolvers = {
       const session = context.driver.session()
       return session.run('MATCH (n) RETURN n').then((result) => {
         const users = result.records.map((record) => record.get(0).properties)
+        console.log(args.filter)
         session.close()
         return users
       })
