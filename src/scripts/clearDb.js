@@ -1,5 +1,4 @@
 const neo4j = require('neo4j-driver')
-const keys = require('../keys')
 
 console.log("Running clearDB...")
 console.log(`Configuring driver to ${process.env.NEO4J_URI}...`)
