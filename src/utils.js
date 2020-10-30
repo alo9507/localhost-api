@@ -8,27 +8,23 @@ module.exports.toNumber = ({ low, high }) => {
     return low + res
   }
 
-  // a recursive function to return only those OBJECTS with ATTR which abide by PREDICATE
-module.exports.objectAttributeFilter = (obj, filter) => {
-  for(attr in filter) {
-    
-    switch(pred) {
-      case "ne":
-        return obj[attr] != pred
-      case "eq":
-        return obj[attr] == pred
-      case "le":
-        return obj[attr] <= pred
-      case "lt":
-        return obj[attr] < pred
-      case "ge":
-        return obj[attr] >= pred
-      case "gt":
-        return obj[attr] > pred
-      case contains:
-        return obj[attr].contains(pred)
-      case notContains:
-        return !obj[attr].contains(pred)
-    }
-  }
+module.exports.generateQuery = (filter) => {
+  if (filter == undefined) return "MATCH (n: User) RETURN n"
+
+  let query = "MATCH (n: User)"
+  query = query.concat("", addFiltersToQuery(filter))
+  query = query.concat(" ", "RETURN n")
+  return query
+}
+
+// a recursive function to return only those OBJECTS with ATTR which pass the FILTER
+function addFiltersToQuery(filter) {
+  const filterEntries = Object.entries(filter)
+  let whereStatements = ""
+  filterEntries.map(([property, filter]) => {
+    const filterType = typeof filter['eq']
+    const pred = filterType == 'string' ? `'${filter['eq']}'` : `${filter['eq']}`
+    whereStatements = whereStatements.concat(" ", `WHERE n.${property} = ${pred}`)
+  })
+  return whereStatements
 }

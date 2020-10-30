@@ -1,25 +1,32 @@
 version: "3"
 services:
     neo4j:
-        image: alo42/neo4j
+        build:
+            dockerfile: Dockerfile
+            context: ./neo4j
         ports:
             - "7474:7474"
             - "7687:7687"
         environment:
             - NEO4J_AUTH=none
     api:
-        image: alo42/localhost-api
         depends_on:
             - "neo4j"
+        build:
+            dockerfile: Dockerfile.dev
+            context: .
+        volumes:
+            - /app/node_modules
+            - ./:/app
         env_file:
             - .env.docker
-        ports:
-            - "4000:4000"
     nginx:
-        image: alo42/localhost-nginx
         restart: always
         depends_on:
             - "api"
             - "neo4j"
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
         ports:
             - '80:80'

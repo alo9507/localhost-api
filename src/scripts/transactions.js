@@ -59,7 +59,7 @@ for (let i = 1; i < 10; i++) {
         bio: '${rand(bios)}', 
         whatAmIDoing: '${rand(whatAmIDoings)}',
         isVisible: ${rand(isVisible)}, 
-        age: '${rand(ages)}' })`
+        age: ${rand(ages)} })`
 
     transactions.push(tx)
 }   
