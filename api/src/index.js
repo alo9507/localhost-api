@@ -13,7 +13,8 @@ const driver = neo4j.driver(
     process.env.NEO4J_PASSWORD
   ),
   {
-    encrypted: 'ENCRYPTION_OFF'
+    encrypted: 'ENCRYPTION_OFF',
+    disableLosslessIntegers: true
   }
 );
 

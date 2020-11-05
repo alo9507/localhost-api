@@ -22,10 +22,13 @@ function addFiltersToQuery(filter) {
   let whereStatementStrings = "";
   filters.map(([filterKey, filterValue]) => {
     const filterOperator = Object.keys(filterValue)[0];
+    const filterTarget = filterValue[filterOperator];
     switch (filterOperator) {
       case 'eq':
-        const filterTarget = filterValue['eq'];
         whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} = ${wrapInString(filterTarget)}`);
+        break;
+      case 'ne':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} <> ${wrapInString(filterTarget)}`);
         break;
       default:
         throw Error(`Operator ${filterOperator} not supported`);
