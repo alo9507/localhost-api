@@ -17,14 +17,27 @@ module.exports.generateQuery = (filter) => {
   return query;
 };
 
-// a recursive function to return only those OBJECTS with ATTR which pass the FILTER
 function addFiltersToQuery(filter) {
-  const filterEntries = Object.entries(filter);
-  let whereStatements = "";
-  filterEntries.map(([property, filter]) => {
-    const filterType = typeof filter['eq'];
-    const pred = filterType == 'string' ? `'${filter['eq']}'` : `${filter['eq']}`;
-    whereStatements = whereStatements.concat(" ", `WHERE n.${property} = ${pred}`);
+  const filters = Object.entries(filter);
+  let whereStatementStrings = "";
+  filters.map(([filterKey, filterValue]) => {
+    const filterOperator = Object.keys(filterValue)[0];
+    switch (filterOperator) {
+      case 'eq':
+        const filterTarget = filterValue['eq'];
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} = ${wrapInString(filterTarget)}`);
+        break;
+      default:
+        throw Error(`Operator ${filterOperator} not supported`);
+    }
   });
-  return whereStatements;
+
+  return whereStatementStrings;
 }
+
+function wrapInString(filterTarget) {
+  const pred = typeof filterTarget == 'string' ? `'${filterTarget}'` : `${filterTarget}`;
+  return pred;
+}
+
+// { name: { eq: "Andrew" }, sex: { eq: "male" } }
