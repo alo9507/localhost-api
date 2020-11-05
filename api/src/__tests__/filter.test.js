@@ -28,7 +28,7 @@ describe("Filter", () => {
 
     it("should return correct query for equality mixed number and string in same query", () => {
         const filter = { name: { eq: "Andrew" }, age: { eq: 12 } };
-        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.name = 'Andrew' WHERE n.age = 12 RETURN n");
+        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.name = 'Andrew' AND n.age = 12 RETURN n");
     });
 
     it("should return correct query for equality (boolean)", () => {
@@ -49,12 +49,12 @@ describe("Filter", () => {
 
     it("should return correct query for equality mixed number and string in same query", () => {
         const filter = { name: { ne: "Andrew" }, age: { ne: 12 } };
-        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.name <> 'Andrew' WHERE n.age <> 12 RETURN n");
+        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.name <> 'Andrew' AND n.age <> 12 RETURN n");
     });
 
     it("should return correct query for equality and inequality same query", () => {
         const filter = { name: { ne: "Andrew" }, age: { eq: 12 } };
-        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.name <> 'Andrew' WHERE n.age = 12 RETURN n");
+        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.name <> 'Andrew' AND n.age = 12 RETURN n");
     });
 
     it("should return correct query for inequality (boolean)", () => {
@@ -99,7 +99,7 @@ describe("Filter", () => {
     });
 
     it("should return correct query for mixed values", () => {
-        const filter = { isVisible: { eq: true }, sex: { eq: "male" } };
-        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.isVisible = true WHERE n.sex = 'male' RETURN n");
+        const filter = { isVisible: { eq: true }, sex: { eq: "male" }, age: { between_inclusive: [10, 20] } };
+        expect(generateQuery(filter)).toBe("MATCH (n: User) WHERE n.isVisible = true AND n.sex = 'male' AND n.age >= 10 AND n.age <= 20 RETURN n");
     });
 });
