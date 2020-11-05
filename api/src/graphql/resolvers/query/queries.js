@@ -24,6 +24,19 @@ const queries = {
             return users;
         });
     },
+    showMeCriteria: (parent, args, context, info) => {
+        const session = context.driver.session();
+        const params = { id: args.id };
+        return session
+            .run('MATCH (n: ShowMeCriteria { id: $id }) RETURN n', params)
+            .then((result) => {
+                session.close();
+                if (result.records == 0) {
+                    throw new Error(`ShowMeCriteria with id ${args.id} does not exist in databse`);
+                }
+                return result.records[0].get(0).properties;
+            });
+    },
     getDistanceBetween: (parent, args, context) => {
         const session = context.driver.session();
         const params = { user1ID: args.user1, user2ID: args.user2 };

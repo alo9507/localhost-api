@@ -50,6 +50,16 @@ const mutations = {
                 return result.records[0].get(0).properties;
             });
     },
+    updateShowMeCriteria: (parents, args, context) => {
+        const session = context.driver.session();
+        const params = { id: args.input.id, input: args.input };
+        return session
+            .run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON MATCH SET n += $input RETURN n', params)
+            .then(result => {
+                session.close();
+                return result.records[0].get(0).properties;
+            });
+    },
     deleteUser: (parent, args, context) => {
         const session = context.driver.session();
         return session

@@ -18,12 +18,14 @@ type User {
   email: String
   createdAt: Int
   updatedAt: Int
+  showMeCriteria: ShowMeCriteria
 }
 
 type Query {
   user(id: ID!): User
   users(filter: ModelUserFilterInput): [User]
   getDistanceBetween(user1: ID!, user2: ID!): Float
+  showMeCriteria(id: ID!): ShowMeCriteria
 }
 
 type Mutation {
@@ -33,6 +35,16 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User
   deleteUser(id: ID!): ID
   deleteAllUsers: String
+  updateShowMeCriteria(input: UpdateShowMeCriteriaInput): ShowMeCriteria
+}
+
+type ShowMeCriteria {
+  sex: [String]
+}
+
+input UpdateShowMeCriteriaInput {
+  id: ID!
+  sex: [String]
 }
 
 input UpdateUserInput {
