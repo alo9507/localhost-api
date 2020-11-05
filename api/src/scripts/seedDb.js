@@ -1,9 +1,12 @@
-const neo4j = require('neo4j-driver')
-const { join } = require('path')
-const transcations = require('./transactions')
+const neo4j = require('neo4j-driver');
+const { join } = require('path');
+const transcations = require('./transactions');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-console.log("Running seedDb...")
-console.log(`Configuring driver to ${process.env.NEO4J_URI}...`)
+console.log("Running seedDb...");
+console.log(`Configuring driver to ${process.env.NEO4J_URI}...`);
 
 const driver = neo4j.driver(
     process.env.NEO4J_URI,
@@ -14,23 +17,23 @@ const driver = neo4j.driver(
     {
         encrypted: "ENCRYPTION_OFF"
     }
-)
+);
 
-const session = driver.session()
+const session = driver.session();
 
-console.log(`Beginning seed transaction`)
+console.log(`Beginning seed transaction`);
 
 session.writeTransaction(tx => {
     transcations.forEach(transaction => {
         tx.run(transaction);
-    })
-    })
+    });
+})
     .then(result => {
-        console.log(`Seed successful`)
-        session.close()
+        console.log(`Seed successful`);
+        session.close();
         process.exit(0);
     })
     .catch(e => {
-        console.log(`Error seeding DB: ${e}`)
+        console.log(`Error seeding DB: ${e}`);
         process.exit(-1);
-    })
+    });

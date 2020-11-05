@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server')
+const { gql } = require('apollo-server');
 
 const typeDefs = gql`
 type User {
@@ -129,6 +129,7 @@ input ModelIntInput {
   ge: Int
   gt: Int
   between: [Int]
+  between_inclusive: [Int]
   attributeExists: Boolean
   attributeType: ModelAttributeTypes
 }
@@ -175,6 +176,6 @@ input ModelUserFilterInput {
   or: [ModelUserFilterInput]
   not: ModelUserFilterInput
 }
-`
+`;
 
-module.exports = typeDefs
+module.exports = typeDefs;

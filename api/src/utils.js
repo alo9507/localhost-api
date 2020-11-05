@@ -30,6 +30,24 @@ function addFiltersToQuery(filter) {
       case 'ne':
         whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} <> ${wrapInString(filterTarget)}`);
         break;
+      case 'le':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} <= ${wrapInString(filterTarget)}`);
+        break;
+      case 'lt':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} < ${wrapInString(filterTarget)}`);
+        break;
+      case 'ge':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} >= ${wrapInString(filterTarget)}`);
+        break;
+      case 'gt':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} > ${wrapInString(filterTarget)}`);
+        break;
+      case 'between':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} > ${wrapInString(filterTarget[0])} AND n.${filterKey} < ${wrapInString(filterTarget[1])}`);
+        break;
+      case 'between_inclusive':
+        whereStatementStrings = whereStatementStrings.concat(" ", `WHERE n.${filterKey} >= ${wrapInString(filterTarget[0])} AND n.${filterKey} <= ${wrapInString(filterTarget[1])}`);
+        break;
       default:
         throw Error(`Operator ${filterOperator} not supported`);
     }

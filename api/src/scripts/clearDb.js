@@ -1,7 +1,10 @@
-const neo4j = require('neo4j-driver')
+const neo4j = require('neo4j-driver');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-console.log("Running clearDB...")
-console.log(`Configuring driver to ${process.env.NEO4J_URI}...`)
+console.log("Running clearDB...");
+console.log(`Configuring driver to ${process.env.NEO4J_URI}...`);
 
 const driver = neo4j.driver(
     process.env.NEO4J_URI,
@@ -12,21 +15,21 @@ const driver = neo4j.driver(
     {
         encrypted: "ENCRYPTION_OFF"
     }
-)
+);
 
-const session = driver.session()
+const session = driver.session();
 
-console.log(`Beginning delete transaction`)
+console.log(`Beginning delete transaction`);
 
 session.writeTransaction(tx => {
-        tx.run("MATCH (n) DETACH DELETE n");
-    })
+    tx.run("MATCH (n) DETACH DELETE n");
+})
     .then(result => {
-        console.log(`Clear successful`)
-        session.close()
+        console.log(`Clear successful`);
+        session.close();
         process.exit(0);
     })
     .catch(e => {
-        console.log(`Error clearing DB: ${e}`)
+        console.log(`Error clearing DB: ${e}`);
         process.exit(-1);
-    })
+    });
