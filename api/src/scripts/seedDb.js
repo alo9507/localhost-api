@@ -1,12 +1,13 @@
+const { ApolloServer } = require('apollo-server');
+const typeDefs = require('../graphql/schema');
+const resolvers = require('../graphql/resolvers/resolvers');
 const neo4j = require('neo4j-driver');
-const { join } = require('path');
-const transcations = require('./transactions');
+const { createApolloFetch } = require('apollo-fetch');
+const { gql } = require('apollo-server');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
-
-console.log("Running seedDb...");
-console.log(`Configuring driver to ${process.env.NEO4J_URI}...`);
+const { print } = require('graphql');
 
 const driver = neo4j.driver(
     process.env.NEO4J_URI,
@@ -15,25 +16,104 @@ const driver = neo4j.driver(
         process.env.NEO4J_PASSWORD
     ),
     {
-        encrypted: "ENCRYPTION_OFF"
+        encrypted: 'ENCRYPTION_OFF',
+        disableLosslessIntegers: true
     }
 );
 
-const session = driver.session();
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: { driver },
+    introspection: true,
+    playground: true
+});
 
-console.log(`Beginning seed transaction`);
+server.listen()
+    .then(({ url }) => {
+        console.log(`🚀  Server ready at ${url}`);
+        const uri = 'http://localhost:4000/graphql';
+        const apolloFetch = createApolloFetch({ uri });
 
-session.writeTransaction(tx => {
-    transcations.forEach(transaction => {
-        tx.run(transaction);
+        for (let i = 0; i < 10; i++) {
+            const query = `
+                mutation CreateUser($input: CreateUserInput!){
+                    createUser(input: $input ) {
+                        id
+                        name
+                    }
+            }`;
+
+            const variables = {
+                input: {
+                    id: i,
+                    sex: rand(sex),
+                    name: rand(names),
+                    email: rand(emails),
+                    bio: rand(bios),
+                    whatAmIDoing: rand(whatAmIDoings),
+                    isVisible: rand(isVisible),
+                    age: rand(ages)
+                }
+            };
+
+            fetch(uri, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query, variables }),
+            })
+                .then(r => r.json())
+                .then(data => console.log('data returned:', data));
+        }
     });
-})
-    .then(result => {
-        console.log(`Seed successful`);
-        session.close();
-        process.exit(0);
-    })
-    .catch(e => {
-        console.log(`Error seeding DB: ${e}`);
-        process.exit(-1);
-    });
+
+const names = [
+    "Andrew",
+    "Jamie",
+    "John",
+    "Reginald",
+    "Roger",
+    "Jefferey"
+];
+
+const isVisible = [
+    true,
+    false
+];
+
+const bios = [
+    "Student just chillin",
+    "I am a narc",
+    "Wannabe policeman",
+    "Software engineer just hangin"
+];
+
+const whatAmIDoings = [
+    "Reading War and Peace and waiting to be interrupted",
+    "Doing this and that",
+    "Drinking a coffee"
+];
+
+const sex = [
+    "male",
+    "female"
+];
+
+const ages = [
+    24,
+    20,
+    32,
+    43,
+    18,
+    14
+];
+
+const emails = [
+    "me1@g.com",
+    "me2@g.com",
+    "me3@g.com"
+];
+
+function rand(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}

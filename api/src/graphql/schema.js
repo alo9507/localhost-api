@@ -32,7 +32,7 @@ type Query {
 type Mutation {
   message(message: String!): MessageResponse
   sendNod(from: ID!, to: ID!): SendNodResponse
-  createUser(input: CreateUserInput): User
+  createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(id: ID!): ID
   deleteAllUsers: String
