@@ -39,8 +39,10 @@ server.listen()
             const query = `
                 mutation CreateUser($input: CreateUserInput!){
                     createUser(input: $input ) {
-                        id
                         name
+                        id
+                        email
+                        age
                     }
             }`;
 
@@ -63,7 +65,7 @@ server.listen()
                 body: JSON.stringify({ query, variables }),
             })
                 .then(r => r.json())
-                .then(data => console.log('data returned:', data));
+                .then(data => console.log('User created:', data.data.createUser));
         }
     });
 

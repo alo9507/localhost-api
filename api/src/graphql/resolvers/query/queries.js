@@ -52,12 +52,13 @@ const queries = {
         const params = { id: args.id };
         return session
             .run(`
-            MATCH (showmecriteria: ShowMeCriteria { id: $id }) 
-            WITH showmecriteria 
-            MATCH (n: User)
-            WHERE n.sex in showmecriteria.sex 
-            AND n.isVisible = true
-            RETURN n`
+            MATCH (requestor_criteria: ShowMeCriteria { id: $id }), (requestor: User { id: $id })
+            WITH requestor, requestor_criteria
+            MATCH (other: User), (other_criteria: ShowMeCriteria { id: other.id })
+            WHERE other.isVisible = true
+            AND other.sex IN requestor_criteria.sex
+            AND requestor.sex IN other_criteria.sex
+            RETURN other`
                 , params)
             .then((result) => {
                 const users = result.records.map((record) => record.get(0).properties);
