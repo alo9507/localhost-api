@@ -49,7 +49,7 @@ const mutations = {
             try {
                 const userResult = await txc.run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params);
                 const user = userResult.records[0].get(0).properties;
-                const result2 = await txc.run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON CREATE SET n.sex = ["male", "female"] RETURN n', params);
+                const result2 = await txc.run('MERGE (showmecriteria: ShowMeCriteria { id: $id }) ON CREATE SET showmecriteria.sex = ["male", "female"] RETURN showmecriteria', params);
                 txc.commit();
                 resolve(user);
             } catch (e) {
