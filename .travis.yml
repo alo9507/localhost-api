@@ -3,13 +3,13 @@ services:
     - docker
 
 before_install:
-    - docker build -t alo42/api-test -f Dockerfile.dev .
+    - docker build -t alo42/api-test -f ./api/Dockerfile.dev ./api
 
 scripts:
     - docker run -e CI=true alo42/api-test npm run test
 
 after_successes:
-    - docker build -t alo42/localhost-api .
+    - docker build -t alo42/localhost-api ./api
     - docker build -t alo42/neo4j ./neo4j
     - docker build -t alo42/localhost-nginx ./nginx
     - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin

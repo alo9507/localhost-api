@@ -14,12 +14,12 @@ services:
             - "neo4j"
         build:
             dockerfile: Dockerfile.dev
-            context: .
+            context: ./api
         volumes:
             - /app/node_modules
-            - ./:/app
+            - ./api:/app
         env_file:
-            - .env.docker
+            - api/.env.docker
     nginx:
         restart: always
         depends_on:

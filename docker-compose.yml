@@ -12,9 +12,7 @@ services:
         depends_on:
             - "neo4j"
         env_file:
-            - .env.docker
-        ports:
-            - "4000:4000"
+            - ./api/.env.docker
     nginx:
         image: alo42/localhost-nginx
         restart: always
