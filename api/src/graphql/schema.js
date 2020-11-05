@@ -26,6 +26,7 @@ type Query {
   users(filter: ModelUserFilterInput): [User]
   getDistanceBetween(user1: ID!, user2: ID!): Float
   showMeCriteria(id: ID!): ShowMeCriteria
+  getViableUsers(id: ID!): [User]
 }
 
 type Mutation {

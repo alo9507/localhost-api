@@ -40,15 +40,26 @@ const mutations = {
                 return result.records[0].get(0).properties;
             });
     },
+    // session.run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON CREATE SET n.sex = ["male", "female"] RETURN n', params)
     createUser: (parents, args, context) => {
         const session = context.driver.session();
         const params = { id: args.input.id, input: args.input };
-        return session
-            .run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params)
-            .then(result => {
-                session.close();
-                return result.records[0].get(0).properties;
-            });
+        const txc = session.beginTransaction();
+        const promise = new Promise(async (resolve, reject) => {
+            try {
+                const userResult = await txc.run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params);
+                const user = userResult.records[0].get(0).properties;
+                const result2 = await txc.run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON CREATE SET n.sex = ["male", "female"] RETURN n', params);
+                txc.commit();
+                resolve(user);
+            } catch (e) {
+                reject(e);
+                txc.rollback();
+            } finally {
+                session.close;
+            }
+        });
+        return promise;
     },
     updateShowMeCriteria: (parents, args, context) => {
         const session = context.driver.session();

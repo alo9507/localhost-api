@@ -46,6 +46,24 @@ const queries = {
                 session.close();
                 return result.records[0].get('distanceBetweenUsers');
             });
+    },
+    getViableUsers: (parent, args, context) => {
+        const session = context.driver.session();
+        const params = { id: args.id };
+        return session
+            .run(`
+            MATCH (showmecriteria: ShowMeCriteria { id: $id }) 
+            WITH showmecriteria 
+            MATCH (n: User)
+            WHERE n.sex in showmecriteria.sex 
+            AND n.isVisible = true
+            RETURN n`
+                , params)
+            .then((result) => {
+                const users = result.records.map((record) => record.get(0).properties);
+                session.close();
+                return users;
+            });
     }
 };
 
