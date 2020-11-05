@@ -20,10 +20,10 @@ after_successes:
 deploy:
     provider: elasticbeanstalk
     region: "us-east-2"
-    app: "LocalhostAPI"
-    env: "Localhostapi-env"
+    app: "localhost-api"
+    env: "LocalhostApi-env"
     bucket_name: "elasticbeanstalk-us-east-2-273181460905"
-    bucket_path: "LocalhostAPI"
+    bucket_path: "localhost-api"
     on:
         branch: master
     access_key_id: $AWS_ACCESS_KEY_ID

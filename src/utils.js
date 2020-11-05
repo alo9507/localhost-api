@@ -28,3 +28,5 @@ function addFiltersToQuery(filter) {
   })
   return whereStatements
 }
+
+{name: {eq: "Andrew"}, birthplace: { town:{ eq:"North Andover" } }}
