@@ -1,33 +1,7 @@
-const { ApolloServer } = require('apollo-server');
-const typeDefs = require('../graphql/schema');
-const resolvers = require('../graphql/resolvers/resolvers');
-const neo4j = require('neo4j-driver');
 const { createApolloFetch } = require('apollo-fetch');
-const { gql } = require('apollo-server');
-const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
-const { print } = require('graphql');
-
-const driver = neo4j.driver(
-    process.env.NEO4J_URI,
-    neo4j.auth.basic(
-        process.env.NEO4J_USER,
-        process.env.NEO4J_PASSWORD
-    ),
-    {
-        encrypted: 'ENCRYPTION_OFF',
-        disableLosslessIntegers: true
-    }
-);
-
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: { driver },
-    introspection: true,
-    playground: true
-});
+const server = require('../apollo/server');
+const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbMocks');
+const { rand } = require('../utils');
 
 server.listen()
     .then(async ({ url }) => {
@@ -59,65 +33,11 @@ server.listen()
                 }
             };
 
-            await fetch(uri, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query, variables }),
-            });
+            await apolloFetch({ query, variables });
+
+            console.log("Stopping server..");
+            await server.stop();
+            console.log("Server stopped. DB Seeded");
+            process.exit(0);
         }
-        console.log("Stopping server..");
-        await server.stop();
-        console.log("Server stopped. DB Seeded");
-        process.exit(0);
     });
-
-const names = [
-    "Andrew",
-    "Jamie",
-    "John",
-    "Reginald",
-    "Roger",
-    "Jefferey"
-];
-
-const isVisible = [
-    true,
-    false
-];
-
-const bios = [
-    "Student just chillin",
-    "I am a narc",
-    "Wannabe policeman",
-    "Software engineer just hangin"
-];
-
-const whatAmIDoings = [
-    "Reading War and Peace and waiting to be interrupted",
-    "Doing this and that",
-    "Drinking a coffee"
-];
-
-const sex = [
-    "male",
-    "female"
-];
-
-const ages = [
-    24,
-    20,
-    32,
-    43,
-    18,
-    14
-];
-
-const emails = [
-    "me1@g.com",
-    "me2@g.com",
-    "me3@g.com"
-];
-
-function rand(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}

@@ -1,11 +1,5 @@
-module.exports.toNumber = ({ low, high }) => {
-  let res = high;
-
-  for (let i = 0; i < 32; i++) {
-    res *= 2;
-  }
-
-  return low + res;
+module.exports.rand = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
 };
 
 module.exports.generateQuery = (filter) => {
@@ -62,5 +56,3 @@ function wrapInString(filterTarget) {
   const pred = typeof filterTarget == 'string' ? `'${filterTarget}'` : `${filterTarget}`;
   return pred;
 }
-
-// { name: { eq: "Andrew" }, sex: { eq: "male" } }
