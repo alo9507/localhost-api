@@ -7,8 +7,8 @@ const user = {
         const params = { id: parent.id };
         return session
             .run(`
-                MATCH (sender: SocialNode { id: "0" })-[r:NODDED_AT]->(recipient: SocialNode) 
-                WITH recipient
+                MATCH (sender: SocialNode { id: "1" })-[r:NODDED_AT]->(recipient: SocialNode)
+                WHERE NOT (recipient)-[:NODDED_AT]->(sender)
                 MATCH (other: User { id: recipient.id })
                 RETURN other`, params)
             .then((result) => {
@@ -16,23 +16,13 @@ const user = {
                 return result.records.map((record) => record.get('other').properties);
             });
     },
-    outboundCount: (parent, args, context, info) => {
-        const session = context.driver.session();
-        const params = { id: parent.id };
-        return session
-            .run('MATCH (n: SocialNode { id: $id })-[r:NODDED_AT]->(: SocialNode) RETURN COUNT(r) AS outboundCount', params)
-            .then((result) => {
-                session.close();
-                return result.records[0].get('outboundCount');
-            });
-    },
     inbound: (parent, args, context, info) => {
         const session = context.driver.session();
         const params = { id: parent.id };
         return session
             .run(`
-            MATCH (recipient: SocialNode { id: $id })<-[r:NODDED_AT]-(sender: SocialNode) 
-            WITH sender
+            MATCH (recipient: SocialNode { id: "1" })<-[r:NODDED_AT]-(sender: SocialNode) 
+            WHERE NOT (sender)<-[:NODDED_AT]-(recipient)
             MATCH (other: User { id: sender.id })
             RETURN other`, params)
             .then((result) => {
@@ -40,14 +30,20 @@ const user = {
                 return result.records.map((record) => record.get('other').properties);
             });
     },
-    inboundCount: (parent, args, context, info) => {
+    mutual: (parent, args, context, info) => {
         const session = context.driver.session();
         const params = { id: parent.id };
         return session
-            .run('MATCH (n: SocialNode { id: $id })<-[r:NODDED_AT]-(: SocialNode) RETURN COUNT(r) AS inboundCount', params)
+            .run(`
+            MATCH (recipient: SocialNode { id: $id })<-[r:NODDED_AT]-(sender: SocialNode)
+            WITH recipient, sender
+            MATCH (sender)<-[r:NODDED_AT]-(recipient)
+            WITH sender
+            MATCH (other: User { id: sender.id })
+            RETURN other`, params)
             .then((result) => {
                 session.close();
-                return result.records[0].get('inboundCount');
+                return result.records.map((record) => record.get('other').properties);
             });
     },
     showMeCriteria: (parent, args, context, info) => {

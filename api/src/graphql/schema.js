@@ -12,9 +12,8 @@ type User {
   latitude: Float
   longitude: Float
   outbound: [User]
-  outboundCount: Int
   inbound: [User]
-  inboundCount: Int
+  mutual: [User]
   email: String
   createdAt: Int
   updatedAt: Int
