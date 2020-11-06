@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=dev nodemon src/index.js",
     "start:prod": "NODE_ENV=prod node src/index.js",
-    "test": "jest",
+    "test": "NODE_ENV=dev jest",
     "seedDb": "NODE_ENV=dev node src/scripts/seedDb.js",
     "clearDb": "NODE_ENV=dev node src/scripts/clearDB.js"
   },

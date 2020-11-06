@@ -7,10 +7,10 @@ const mutations = {
     },
     sendNod: (parent, args, context) => {
         const session = context.driver.session();
-        const params = { from: args.from, to: args.to };
+        const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message };
         return session
             .run(
-                'MATCH (a:User),(b:User) WHERE a.id = $from AND b.id = $to CREATE (a)-[r:NODDED_AT]->(b) RETURN a.id, b.id',
+                'MATCH (a: SocialNode),(b: SocialNode) WHERE a.id = $from AND b.id = $to CREATE (a)-[r:NODDED_AT { seen: false, createdAt: timestamp(), message: $message }]->(b) RETURN a.id, b.id, $message',
                 params
             )
             .then((result) => {
@@ -18,6 +18,23 @@ const mutations = {
                 return {
                     from: result.records[0].get('a.id'),
                     to: result.records[0].get('b.id'),
+                    message: result.records[0].get('$message')
+                };
+            });
+    },
+    nodSeen: (parent, args, context) => {
+        const session = context.driver.session();
+        const params = { recipient: args.recipient, sender: args.sender };
+        return session
+            .run(
+                'MATCH (a: SocialNode { id: $sender } )-[r:NODDED_AT]->(b: SocialNode { id: $recipient } ) SET r.seen = true RETURN $recipient, $sender',
+                params
+            )
+            .then((result) => {
+                session.close();
+                return {
+                    sender: result.records[0].get('$sender'),
+                    recipient: result.records[0].get('$recipient'),
                 };
             });
     },
@@ -49,7 +66,8 @@ const mutations = {
             try {
                 const userResult = await txc.run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params);
                 const user = userResult.records[0].get(0).properties;
-                const result2 = await txc.run('MERGE (showmecriteria: ShowMeCriteria { id: $id }) ON CREATE SET showmecriteria.sex = ["male", "female"] RETURN showmecriteria', params);
+                const showMeCriteriaResult = await txc.run('MERGE (showmecriteria: ShowMeCriteria { id: $id }) ON CREATE SET showmecriteria.sex = ["male", "female"] RETURN showmecriteria', params);
+                const socialNodeResult = await txc.run('MERGE (socialNode: SocialNode { id: $id }) RETURN socialNode', params);
                 txc.commit();
                 resolve(user);
             } catch (e) {

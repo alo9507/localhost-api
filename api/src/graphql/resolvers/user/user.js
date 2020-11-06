@@ -6,7 +6,11 @@ const user = {
         const session = context.driver.session();
         const params = { id: parent.id };
         return session
-            .run('MATCH (n { id: $id })-[r:NODDED_AT]->(other:User) RETURN other', params)
+            .run(`
+                MATCH (sender: SocialNode { id: "0" })-[r:NODDED_AT]->(recipient: SocialNode) 
+                WITH recipient
+                MATCH (other: User { id: recipient.id })
+                RETURN other`, params)
             .then((result) => {
                 session.close();
                 return result.records.map((record) => record.get('other').properties);
@@ -16,7 +20,7 @@ const user = {
         const session = context.driver.session();
         const params = { id: parent.id };
         return session
-            .run('MATCH (n { id: $id })-[r:NODDED_AT]->(:User) RETURN COUNT(r) AS outboundCount', params)
+            .run('MATCH (n: SocialNode { id: $id })-[r:NODDED_AT]->(: SocialNode) RETURN COUNT(r) AS outboundCount', params)
             .then((result) => {
                 session.close();
                 return result.records[0].get('outboundCount');
@@ -26,7 +30,11 @@ const user = {
         const session = context.driver.session();
         const params = { id: parent.id };
         return session
-            .run('MATCH (n { id: $id })<-[r:NODDED_AT]-(other:User) RETURN other', params)
+            .run(`
+            MATCH (recipient: SocialNode { id: $id })<-[r:NODDED_AT]-(sender: SocialNode) 
+            WITH sender
+            MATCH (other: User { id: sender.id })
+            RETURN other`, params)
             .then((result) => {
                 session.close();
                 return result.records.map((record) => record.get('other').properties);
@@ -36,7 +44,7 @@ const user = {
         const session = context.driver.session();
         const params = { id: parent.id };
         return session
-            .run('MATCH (n { id: $id })<-[r:NODDED_AT]-(:User) RETURN COUNT(r) AS inboundCount', params)
+            .run('MATCH (n: SocialNode { id: $id })<-[r:NODDED_AT]-(: SocialNode) RETURN COUNT(r) AS inboundCount', params)
             .then((result) => {
                 session.close();
                 return result.records[0].get('inboundCount');
