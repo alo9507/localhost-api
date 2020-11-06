@@ -30,7 +30,7 @@ const server = new ApolloServer({
 });
 
 server.listen()
-    .then(({ url }) => {
+    .then(async ({ url }) => {
         console.log(`🚀  Server ready at ${url}`);
         const uri = 'http://localhost:4000/graphql';
         const apolloFetch = createApolloFetch({ uri });
@@ -59,14 +59,16 @@ server.listen()
                 }
             };
 
-            fetch(uri, {
+            await fetch(uri, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ query, variables }),
-            })
-                .then(r => r.json())
-                .then(data => console.log('User created:', data.data.createUser));
+            });
         }
+        console.log("Stopping server..");
+        await server.stop();
+        console.log("Server stopped. DB Seeded");
+        process.exit(0);
     });
 
 const names = [

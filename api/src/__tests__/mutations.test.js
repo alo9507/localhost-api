@@ -1,9 +1,8 @@
 const seedDb = require("../scripts/seedDb");
 describe.only("Integration Test mutations", () => {
 
-    beforeAll(async (done) => {
+    beforeAll(async () => {
         await seedDb();
-        done();
     });
 
     test("test", () => {
