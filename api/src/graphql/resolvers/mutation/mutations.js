@@ -10,7 +10,30 @@ const mutations = {
         const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message };
         return session
             .run(
-                'MATCH (a: SocialNode),(b: SocialNode) WHERE a.id = $from AND b.id = $to CREATE (a)-[r:NODDED_AT { seen: false, createdAt: timestamp(), message: $message }]->(b) RETURN a.id, b.id, $message',
+                `MATCH (a: SocialNode),(b: SocialNode) 
+                WHERE a.id = $from AND b.id = $to 
+                CREATE (a)-[r:NODDED_AT { initiator: true, seen: false, createdAt: timestamp(), message: $message }]->(b) 
+                RETURN a.id, b.id, $message`,
+                params
+            )
+            .then((result) => {
+                session.close();
+                return {
+                    from: result.records[0].get('a.id'),
+                    to: result.records[0].get('b.id'),
+                    message: result.records[0].get('$message')
+                };
+            });
+    },
+    returnNod: (parent, args, context) => {
+        const session = context.driver.session();
+        const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message };
+        return session
+            .run(
+                `MATCH (a: SocialNode),(b: SocialNode) 
+                WHERE a.id = $from AND b.id = $to 
+                CREATE (a)-[r:NODDED_AT { initiator: false, seen: false, createdAt: timestamp(), message: $message }]->(b) 
+                RETURN a.id, b.id, $message`,
                 params
             )
             .then((result) => {
@@ -96,6 +119,28 @@ const mutations = {
             .then(result => {
                 session.close();
                 return args.id;
+            });
+    },
+    report: (parent, args, context) => {
+        const session = context.driver.session();
+        const params = { from: args.from, to: args.to, reason: args.reason === undefined ? "" : args.reason, message: args.message === undefined ? "" : args.message };
+        return session
+            .run(
+                `MATCH (a: SocialNode),(b: SocialNode) 
+                WHERE a.id = $from AND b.id = $to 
+                CREATE (a)-[r:REPORTED { createdAt: timestamp(), reason: $reason, message: $message }]->(b) 
+                RETURN a.id, b.id, $reason, $message`, params)
+            .then((result) => {
+                session.close();
+                if (result.records == 0) {
+                    throw new Error(`User with id ${args.from} or user with id ${args.to} does not exist in databse`);
+                }
+                return {
+                    from: result.records[0].get('a.id'),
+                    to: result.records[0].get('b.id'),
+                    reason: result.records[0].get('$reason'),
+                    message: result.records[0].get('$message')
+                };
             });
     }
 };

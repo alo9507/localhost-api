@@ -32,12 +32,21 @@ type Query {
 type Mutation {
   message(message: String!): MessageResponse
   sendNod(from: ID!, to: ID!, message: String): SendNodResponse
+  returnNod(from: ID!, to: ID!, message: String): SendNodResponse
   createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(id: ID!): ID
   deleteAllUsers: String
   updateShowMeCriteria(input: UpdateShowMeCriteriaInput): ShowMeCriteria
   nodSeen(recipient: ID!, sender: ID!): NodeSeenResponse
+  report(from: ID!, to: ID!, reason: String, message: String): ReportedResponse
+}
+
+type ReportedResponse {
+  from: ID!
+  to: ID!
+  reason: String
+  message: String
 }
 
 type ShowMeCriteria {
