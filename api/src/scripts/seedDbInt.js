@@ -3,6 +3,7 @@ const server = require('../apollo/server');
 const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/mockUsers');
 const { rand } = require('../utils');
 const users = require("./mocks/mockUsers");
+const { CREATE_USER } = require("../graphql/client/mutations");
 
 const seedDbInt = () => {
     const promise = new Promise(async (resolve, reject) => {
@@ -12,20 +13,10 @@ const seedDbInt = () => {
         const uri = 'http://localhost:4000/graphql';
         const apolloFetch = createApolloFetch({ uri });
 
-        const query = `
-            mutation CreateUser($input: CreateUserInput!){
-                createUser(input: $input ) {
-                    name
-                    id
-                    email
-                    age
-                }
-        }`;
-
-        users.forEach(async user => {
-            const variables = { input: user };
-            await apolloFetch({ query, variables });
-        });
+        for (name in users) {
+            const variables = { input: users[name] };
+            await apolloFetch({ query: CREATE_USER, variables });
+        };
         resolve();
     });
     return promise;

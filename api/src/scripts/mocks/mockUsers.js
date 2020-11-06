@@ -1,5 +1,5 @@
-const users = [
-    {
+const users = {
+    john: {
         id: "john",
         sex: "male",
         name: "John",
@@ -9,7 +9,7 @@ const users = [
         isVisible: true,
         age: 25
     },
-    {
+    jenny: {
         id: "jenny",
         sex: "female",
         name: "Jenny",
@@ -19,7 +19,7 @@ const users = [
         isVisible: true,
         age: 50
     },
-    {
+    bill: {
         id: "bill",
         sex: "male",
         name: "Bill",
@@ -29,7 +29,7 @@ const users = [
         isVisible: false,
         age: 16
     },
-    {
+    tamara: {
         id: "tamara",
         sex: "female",
         name: "Tamara",
@@ -39,6 +39,6 @@ const users = [
         isVisible: false,
         age: 24
     },
-];
+};
 
 module.exports = users;

@@ -14,3 +14,17 @@ mutation CreateUser($input: CreateUserInput!){
         age
     }
 }`);
+
+module.exports.UPDATE_USER = print(gql`
+mutation UpdateUser($input: UpdateUserInput!){
+    updateUser(input: $input ) {
+        id
+        sex
+        name
+        email
+        bio
+        whatAmIDoing
+        isVisible
+        age
+    }
+}`);

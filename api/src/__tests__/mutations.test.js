@@ -1,8 +1,9 @@
 const seedDbInt = require("../scripts/seedDbInt");
 const { createApolloFetch } = require('apollo-fetch');
-const { CREATE_USER } = require('../graphql/client/mutations');
+const { CREATE_USER, UPDATE_USER } = require('../graphql/client/mutations');
 const { GET_USER } = require('../graphql/client/queries');
 const clearDb = require('../scripts/clearDb');
+const mockUsers = require("../scripts/mocks/mockUsers");
 
 describe("Integration Test mutations", () => {
     const uri = 'http://localhost:4000/graphql';
@@ -13,9 +14,12 @@ describe("Integration Test mutations", () => {
         return seedDbInt();
     });
 
+    afterAll(async () => {
+        return clearDb();
+    });
+
     test('creates a user', async () => {
         const newUserId = "totallynewid";
-        let query = CREATE_USER;
 
         const expectedResponse = {
             age: 43,
@@ -29,12 +33,22 @@ describe("Integration Test mutations", () => {
         };
 
         const variables = { input: expectedResponse };
-        const result = await apolloFetch({ query, variables });
+        const result = await apolloFetch({ query: CREATE_USER, variables });
         expect(result.data.createUser).toEqual(expectedResponse);
 
-        query = GET_USER;
-        const getUserResult = await apolloFetch({ query, variables: { id: newUserId } });
+        const getUserResult = await apolloFetch({ query: GET_USER, variables: { id: newUserId } });
         expect(result.data.createUser).toEqual(expectedResponse);
+    });
+
+    test('updates a user', async () => {
+        const userId = "john";
+
+        const getUserResult = await apolloFetch({ query: GET_USER, variables: { id: userId } });
+        expect(getUserResult.data.user).toEqual(mockUsers.john);
+
+        const variables = { input: { id: userId, name: "Not John Anymore" } };
+        const updateUserResult = await apolloFetch({ query: UPDATE_USER, variables });
+        expect(updateUserResult.data.updateUser).toEqual({ ...mockUsers.john, name: "Not John Anymore" });
     });
 
 });

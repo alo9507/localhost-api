@@ -73,7 +73,7 @@ const mutations = {
         const session = context.driver.session();
         const params = { id: args.input.id, input: args.input };
         return session
-            .run('MATCH (n { id: $id }) SET n += $input RETURN n', params)
+            .run('MATCH (n: User { id: $id }) SET n += $input RETURN n', params)
             .then(result => {
                 session.close();
                 return result.records[0].get(0).properties;
