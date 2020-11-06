@@ -2,18 +2,15 @@ const { toNumber } = require("../../../utils");
 const { generateQuery } = require("../../../utils");
 
 const mutations = {
-    message: (parent, args) => {
-        return { message: args.message, success: true };
-    },
     sendNod: (parent, args, context) => {
         const session = context.driver.session();
-        const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message };
+        const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message, location: args.location === undefined ? "" : args.location };
         return session
             .run(
                 `MATCH (a: SocialNode),(b: SocialNode) 
                 WHERE a.id = $from AND b.id = $to 
-                CREATE (a)-[r:NODDED_AT { initiator: true, seen: false, createdAt: timestamp(), message: $message }]->(b) 
-                RETURN a.id, b.id, $message`,
+                CREATE (a)-[r:NODDED_AT { initiator: true, seen: false, createdAt: timestamp(), message: $message, location: $location }]->(b) 
+                RETURN a.id, b.id, $message, $location`,
                 params
             )
             .then((result) => {
@@ -21,19 +18,20 @@ const mutations = {
                 return {
                     from: result.records[0].get('a.id'),
                     to: result.records[0].get('b.id'),
-                    message: result.records[0].get('$message')
+                    message: result.records[0].get('$message'),
+                    location: result.records[0].get('$location')
                 };
             });
     },
     returnNod: (parent, args, context) => {
         const session = context.driver.session();
-        const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message };
+        const params = { from: args.from, to: args.to, message: args.message === undefined ? "" : args.message, location: args.location === undefined ? "" : args.location };
         return session
             .run(
                 `MATCH (a: SocialNode),(b: SocialNode) 
                 WHERE a.id = $from AND b.id = $to 
-                CREATE (a)-[r:NODDED_AT { initiator: false, seen: false, createdAt: timestamp(), message: $message }]->(b) 
-                RETURN a.id, b.id, $message`,
+                CREATE (a)-[r:NODDED_AT { initiator: false, seen: false, createdAt: timestamp(), message: $message, location: $location }]->(b) 
+                RETURN a.id, b.id, $message, $location`,
                 params
             )
             .then((result) => {
@@ -41,7 +39,8 @@ const mutations = {
                 return {
                     from: result.records[0].get('a.id'),
                     to: result.records[0].get('b.id'),
-                    message: result.records[0].get('$message')
+                    message: result.records[0].get('$message'),
+                    location: result.records[0].get('$location')
                 };
             });
     },

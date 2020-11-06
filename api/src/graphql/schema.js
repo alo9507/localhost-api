@@ -30,15 +30,14 @@ type Query {
 }
 
 type Mutation {
-  message(message: String!): MessageResponse
-  sendNod(from: ID!, to: ID!, message: String): SendNodResponse
-  returnNod(from: ID!, to: ID!, message: String): SendNodResponse
+  sendNod(from: ID!, to: ID!, message: String, location: String): SendNodResponse
+  returnNod(from: ID!, to: ID!, message: String, location: String): SendNodResponse
   createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(id: ID!): ID
   deleteAllUsers: String
   updateShowMeCriteria(input: UpdateShowMeCriteriaInput): ShowMeCriteria
-  nodSeen(recipient: ID!, sender: ID!): NodeSeenResponse
+  nodSeen(recipient: ID!, sender: ID!): NodSeenResponse
   report(from: ID!, to: ID!, reason: String, message: String): ReportedResponse
 }
 
@@ -88,16 +87,12 @@ type SendNodResponse {
   from: String
   to: String
   message: String
+  location: String
 }
 
-type NodeSeenResponse {
+type NodSeenResponse {
   recipient: String
   sender: String
-}
-
-type MessageResponse {
-  success: Boolean!
-  message: String
 }
 
 enum ModelSortDirection {
