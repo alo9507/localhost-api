@@ -8,7 +8,7 @@
     "start:prod": "NODE_ENV=prod node src/index.js",
     "test": "NODE_ENV=dev jest",
     "seedDb": "NODE_ENV=dev node src/scripts/seedDb.js",
-    "clearDb": "NODE_ENV=dev node src/scripts/clearDB.js"
+    "clearDb": "NODE_ENV=dev CMD_LINE=true node src/scripts/clearDB.js"
   },
   "keywords": [],
   "author": "",
