@@ -28,9 +28,16 @@ type Query {
   getViableUsers(id: ID!): [User]
 }
 
+input SendNodInput {
+  from: ID!
+  to: ID!
+  message: String
+  location: String
+}
+
 type Mutation {
-  sendNod(from: ID!, to: ID!, message: String, location: String): SendNodResponse
-  returnNod(from: ID!, to: ID!, message: String, location: String): SendNodResponse
+  sendNod(input: SendNodInput!): SendNodResponse
+  returnNod(input: SendNodInput!): SendNodResponse
   createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser(id: ID!): ID

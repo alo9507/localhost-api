@@ -28,3 +28,13 @@ mutation UpdateUser($input: UpdateUserInput!){
         age
     }
 }`);
+
+module.exports.SEND_NOD = print(gql`
+mutation SendNode($input: SendNodInput!){
+    sendNod(input: $input ) {
+        from
+        to
+        location
+        message
+    }
+}`);

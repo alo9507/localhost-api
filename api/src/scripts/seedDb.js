@@ -1,9 +1,11 @@
 const { createApolloFetch } = require('apollo-fetch');
 const server = require('../apollo/server');
-const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbMocks');
+const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbData');
 const { rand } = require('../utils');
 
-server.listen()
+
+
+server.listen({ port: 4001 })
     .then(async ({ url }) => {
         console.log(`🚀  Server ready at ${url}`);
         const uri = 'http://localhost:4000/graphql';
@@ -34,10 +36,8 @@ server.listen()
             };
 
             await apolloFetch({ query, variables });
-
-            console.log("Stopping server..");
-            await server.stop();
-            console.log("Server stopped. DB Seeded");
-            process.exit(0);
         }
+        await server.stop();
+        console.log("DB Seeded");
+        process.exit(0);
     });
