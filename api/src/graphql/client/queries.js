@@ -12,5 +12,14 @@ query GetUser($id: ID!){
         whatAmIDoing
         isVisible
         age
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
     }
 }`);

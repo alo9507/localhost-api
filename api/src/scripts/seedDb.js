@@ -3,12 +3,9 @@ const server = require('../apollo/server');
 const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbData');
 const { rand } = require('../utils');
 
-
-
 server.listen({ port: 4001 })
     .then(async ({ url }) => {
-        console.log(`🚀  Server ready at ${url}`);
-        const uri = 'http://localhost:4000/graphql';
+        const uri = 'http://localhost:4001/graphql';
         const apolloFetch = createApolloFetch({ uri });
 
         for (let i = 0; i < 10; i++) {

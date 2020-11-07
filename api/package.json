@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=dev nodemon src/index.js",
+    "ss": "npm run clearDb && npm run seedDb && npm start",
     "start:prod": "NODE_ENV=prod node src/index.js",
-    "test": "NODE_ENV=dev jest",
+    "test": "NODE_ENV=dev jest --watch",
     "seedDb": "NODE_ENV=dev node src/scripts/seedDb.js",
     "clearDb": "NODE_ENV=dev CMD_LINE=true node src/scripts/clearDB.js"
   },

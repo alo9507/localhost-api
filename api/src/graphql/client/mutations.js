@@ -12,6 +12,15 @@ mutation CreateUser($input: CreateUserInput!){
         whatAmIDoing
         isVisible
         age
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
     }
 }`);
 
@@ -26,15 +35,41 @@ mutation UpdateUser($input: UpdateUserInput!){
         whatAmIDoing
         isVisible
         age
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
     }
 }`);
 
 module.exports.SEND_NOD = print(gql`
-mutation SendNode($input: SendNodInput!){
+mutation SendNod($input: SendNodInput!){
     sendNod(input: $input ) {
         from
         to
         location
         message
+    }
+}`);
+
+module.exports.SEND_NOD = print(gql`
+mutation ReturnNod($input: SendNodInput!){
+    returnNod(input: $input ) {
+        from
+        to
+        location
+        message
+    }
+}`);
+
+module.exports.DELETE_ALL_USERS = print(gql`
+mutation DeleteAllUsers {
+    deleteAllUsers {
+        success
     }
 }`);
