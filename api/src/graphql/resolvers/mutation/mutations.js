@@ -90,7 +90,10 @@ const mutations = {
             try {
                 const userResult = await txc.run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params);
                 const user = userResult.records[0].get(0).properties;
-                const showMeCriteriaResult = await txc.run('MERGE (showmecriteria: ShowMeCriteria { id: $id }) ON CREATE SET showmecriteria.sex = ["male", "female"] RETURN showmecriteria', params);
+                const showMeCriteriaResult = await txc.run(`
+                MERGE (showmecriteria: ShowMeCriteria { id: $id }) 
+                ON CREATE SET showmecriteria.sex = ["male", "female"], showmecriteria.age = [18, 100]
+                RETURN showmecriteria`, params);
                 const socialNodeResult = await txc.run('MERGE (socialNode: SocialNode { id: $id }) RETURN socialNode', params);
                 txc.commit();
                 resolve(user);
@@ -107,7 +110,7 @@ const mutations = {
         const session = context.driver.session();
         const params = { id: args.input.id, input: args.input };
         return session
-            .run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON MATCH SET n += $input RETURN n', params)
+            .run('MERGE (n: ShowMeCriteria { id: $id }) ON MATCH SET n += $input RETURN n', params)
             .then(result => {
                 session.close();
                 return result.records[0].get(0).properties;

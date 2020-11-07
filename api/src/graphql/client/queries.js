@@ -46,6 +46,7 @@ query GetUser($id: ID!){
         }
         showMeCriteria {
             sex
+            age
         }
     }
 }`);

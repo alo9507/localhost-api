@@ -196,12 +196,12 @@ describe("Integration Test mutations", () => {
         const users = await createUsers([mockUsers.john]);
 
         const getUserResult = await apolloFetch({ query: GET_USER_FULL, variables: { id: users[0].id } });
-        expect(getUserResult.data.user.showMeCriteria).toEqual({ sex: ["male", "female"] });
+        expect(getUserResult.data.user.showMeCriteria).toEqual({ sex: ["male", "female"], age: [18, 100] });
 
-        const updateShowMeCriteriaInput = { id: users[0].id, sex: ["male"] };
+        const updateShowMeCriteriaInput = { id: users[0].id, sex: ["male"], age: [20, 30] };
         const variables = { input: updateShowMeCriteriaInput };
         const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
-        expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ["male"] });
+        expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ["male"], age: [20, 30] });
     });
 
 });

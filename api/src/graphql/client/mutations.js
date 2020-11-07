@@ -88,5 +88,6 @@ module.exports.UPDATE_SHOWME_CRITERIA = print(gql`
 mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     updateShowMeCriteria(input: $input) {
         sex
+        age
     }
 }`);

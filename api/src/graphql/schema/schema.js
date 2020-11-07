@@ -67,11 +67,13 @@ type ReportedResponse {
 
 type ShowMeCriteria {
   sex: [String]
+  age: [Int]
 }
 
 input UpdateShowMeCriteriaInput {
   id: ID!
   sex: [String]
+  age: [Int]
 }
 
 input UpdateUserInput {
