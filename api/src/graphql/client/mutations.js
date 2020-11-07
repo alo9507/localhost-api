@@ -84,6 +84,16 @@ mutation ReportUser($input: ReportInput!) {
     }
 }`);
 
+module.exports.BLOCK = print(gql`
+mutation BlockUser($input: BlockInput!) {
+    block(input: $input) {
+        from
+        to
+        reason
+        message
+    }
+}`);
+
 module.exports.UPDATE_SHOWME_CRITERIA = print(gql`
 mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     updateShowMeCriteria(input: $input) {

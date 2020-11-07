@@ -1,5 +1,5 @@
 const { createApolloFetch } = require('apollo-fetch');
-const { CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } = require('../graphql/client/mutations');
+const { BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } = require('../graphql/client/mutations');
 const { GET_USER, GET_USER_FULL } = require('../graphql/client/queries');
 const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
@@ -190,6 +190,15 @@ describe("Integration Test mutations", () => {
         const variables = { input: reportInput };
         const reportResult = await apolloFetch({ query: REPORT, variables });
         expect(reportResult.data.report).toEqual(reportInput);
+    });
+
+    test("should report user", async () => {
+        await createUsers([mockUsers.john, mockUsers.jenny]);
+
+        const blockInput = { from: "john", to: "jenny", reason: "he bit me", message: "really bad" };
+        const variables = { input: blockInput };
+        const blockResult = await apolloFetch({ query: BLOCK, variables });
+        expect(blockResult.data.block).toEqual(blockInput);
     });
 
     test("should update showme criteria", async () => {

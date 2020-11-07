@@ -147,6 +147,29 @@ const mutations = {
                     message: result.records[0].get('$message')
                 };
             });
+    },
+    block: (parent, args, context) => {
+        const session = context.driver.session();
+        const { from, to, message, reason } = args.input;
+        const params = { from, to, message: message === undefined ? "" : message, reason: reason === undefined ? "" : reason };
+        return session
+            .run(
+                `MATCH (a: SocialNode),(b: SocialNode) 
+                WHERE a.id = $from AND b.id = $to 
+                CREATE (a)-[r:BLOCKED { createdAt: timestamp(), reason: $reason, message: $message }]->(b) 
+                RETURN a.id, b.id, $reason, $message`, params)
+            .then((result) => {
+                session.close();
+                if (result.records == 0) {
+                    throw new Error(`User with id ${args.from} or user with id ${args.to} does not exist in databse`);
+                }
+                return {
+                    from: result.records[0].get('a.id'),
+                    to: result.records[0].get('b.id'),
+                    reason: result.records[0].get('$reason'),
+                    message: result.records[0].get('$message')
+                };
+            });
     }
 };
 

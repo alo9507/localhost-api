@@ -48,7 +48,8 @@ type Mutation {
   deleteAllUsers: String
   updateShowMeCriteria(input: UpdateShowMeCriteriaInput!): ShowMeCriteria
   nodSeen(recipient: ID!, sender: ID!): NodSeenResponse
-  report(input: ReportInput): ReportedResponse
+  report(input: ReportInput!): ReportedResponse
+  block(input: BlockInput!): BlockResponse
 }
 
 input ReportInput {
@@ -58,7 +59,21 @@ input ReportInput {
   message: String
 }
 
+input BlockInput {
+  from: ID!, 
+  to: ID!, 
+  reason: String, 
+  message: String
+}
+
 type ReportedResponse {
+  from: ID!
+  to: ID!
+  reason: String
+  message: String
+}
+
+type BlockResponse {
   from: ID!
   to: ID!
   reason: String
