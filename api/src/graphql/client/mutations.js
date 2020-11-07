@@ -57,7 +57,7 @@ mutation SendNod($input: SendNodInput!){
     }
 }`);
 
-module.exports.SEND_NOD = print(gql`
+module.exports.RETURN_NOD = print(gql`
 mutation ReturnNod($input: SendNodInput!){
     returnNod(input: $input ) {
         from
