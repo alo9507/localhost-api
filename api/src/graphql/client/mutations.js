@@ -73,3 +73,20 @@ mutation DeleteAllUsers {
         success
     }
 }`);
+
+module.exports.REPORT = print(gql`
+mutation ReportUser($input: ReportInput!) {
+    report(input: $input) {
+        from
+        to
+        reason
+        message
+    }
+}`);
+
+module.exports.UPDATE_SHOWME_CRITERIA = print(gql`
+mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
+    updateShowMeCriteria(input: $input) {
+        sex
+    }
+}`);

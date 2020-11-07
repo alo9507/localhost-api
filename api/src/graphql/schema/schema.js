@@ -46,9 +46,16 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User
   deleteUser(id: ID!): ID
   deleteAllUsers: String
-  updateShowMeCriteria(input: UpdateShowMeCriteriaInput): ShowMeCriteria
+  updateShowMeCriteria(input: UpdateShowMeCriteriaInput!): ShowMeCriteria
   nodSeen(recipient: ID!, sender: ID!): NodSeenResponse
-  report(from: ID!, to: ID!, reason: String, message: String): ReportedResponse
+  report(input: ReportInput): ReportedResponse
+}
+
+input ReportInput {
+  from: ID!, 
+  to: ID!, 
+  reason: String, 
+  message: String
 }
 
 type ReportedResponse {

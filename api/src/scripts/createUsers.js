@@ -12,7 +12,7 @@ async function createUsers(users) {
             const variables = { input: users[name] };
             await apolloFetch({ query: CREATE_USER, variables });
         };
-        resolve();
+        resolve(users);
     });
 
     return promise;

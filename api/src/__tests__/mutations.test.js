@@ -1,12 +1,11 @@
 const { createApolloFetch } = require('apollo-fetch');
-const { CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD } = require('../graphql/client/mutations');
-const { GET_USER } = require('../graphql/client/queries');
+const { CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } = require('../graphql/client/mutations');
+const { GET_USER, GET_USER_FULL } = require('../graphql/client/queries');
 const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
 const createUsers = require("../scripts/createUsers");
 const createAndSendNod = require("../scripts/createAndSendNod");
 const server = require("../apollo/server");
-const { user } = require('../graphql/resolvers/query/queries');
 
 describe("Integration Test mutations", () => {
     const uri = 'http://localhost:4000/graphql';
@@ -43,7 +42,7 @@ describe("Integration Test mutations", () => {
             ...input,
             inbound: [],
             outbound: [],
-            mutual: []
+            mutual: [],
         };
 
         const variables = { input };
@@ -182,6 +181,27 @@ describe("Integration Test mutations", () => {
         await createAndSendNod([mockUsers.john, mockUsers.jenny]);
 
 
+    });
+
+    test("should report user", async () => {
+        await createUsers([mockUsers.john, mockUsers.jenny]);
+
+        const reportInput = { from: "john", to: "jenny", reason: "he bit me", message: "really bad" };
+        const variables = { input: reportInput };
+        const reportResult = await apolloFetch({ query: REPORT, variables });
+        expect(reportResult.data.report).toEqual(reportInput);
+    });
+
+    test("should update showme criteria", async () => {
+        const users = await createUsers([mockUsers.john]);
+
+        const getUserResult = await apolloFetch({ query: GET_USER_FULL, variables: { id: users[0].id } });
+        expect(getUserResult.data.user.showMeCriteria).toEqual({ sex: ["male", "female"] });
+
+        const updateShowMeCriteriaInput = { id: users[0].id, sex: ["male"] };
+        const variables = { input: updateShowMeCriteriaInput };
+        const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
+        expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ["male"] });
     });
 
 });

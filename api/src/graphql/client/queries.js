@@ -23,3 +23,29 @@ query GetUser($id: ID!){
         }
     }
 }`);
+
+module.exports.GET_USER_FULL = print(gql`
+query GetUser($id: ID!){
+    user(id: $id) {
+        id
+        sex
+        name
+        email
+        bio
+        whatAmIDoing
+        isVisible
+        age
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
+        showMeCriteria {
+            sex
+        }
+    }
+}`);

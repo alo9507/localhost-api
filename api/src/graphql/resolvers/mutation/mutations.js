@@ -124,7 +124,8 @@ const mutations = {
     },
     report: (parent, args, context) => {
         const session = context.driver.session();
-        const params = { from: args.from, to: args.to, reason: args.reason === undefined ? "" : args.reason, message: args.message === undefined ? "" : args.message };
+        const { from, to, message, reason } = args.input;
+        const params = { from, to, message: message === undefined ? "" : message, reason: reason === undefined ? "" : reason };
         return session
             .run(
                 `MATCH (a: SocialNode),(b: SocialNode) 
