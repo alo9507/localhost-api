@@ -21,7 +21,7 @@ const user = {
         const params = { id: parent.id };
         return session
             .run(`
-            MATCH (recipient: SocialNode { id: "1" })<-[r:NODDED_AT]-(sender: SocialNode) 
+            MATCH (recipient: SocialNode { id: $id })<-[r:NODDED_AT]-(sender: SocialNode) 
             WHERE NOT (sender)<-[:NODDED_AT]-(recipient)
             MATCH (other: User { id: sender.id })
             RETURN other`, params)

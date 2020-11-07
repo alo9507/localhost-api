@@ -1,5 +1,5 @@
 const { createApolloFetch } = require('apollo-fetch');
-const { CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS } = require('../graphql/client/mutations');
+const { CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD } = require('../graphql/client/mutations');
 const { GET_USER } = require('../graphql/client/queries');
 const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
@@ -88,6 +88,92 @@ describe("Integration Test mutations", () => {
 
         const senderUserResponse = await apolloFetch({ query: GET_USER, variables: { id: senderId } });
         expect(senderUserResponse.data.user).toEqual(expectedSenderResponse);
+
+        const expectedRecipientResponse = {
+            ...mockUsers.jenny,
+            inbound: [
+                {
+                    id: "john"
+                }],
+            outbound: [],
+            mutual: []
+        };
+
+        const recipientUserResponse = await apolloFetch({ query: GET_USER, variables: { id: recipientId } });
+        expect(recipientUserResponse.data.user).toEqual(expectedRecipientResponse);
+    });
+
+    test('return a nod from one user to another', async () => {
+        await createUsers([mockUsers.john, mockUsers.jenny]);
+
+        // SEND A NOD
+        const senderId = "john";
+        const recipientId = "jenny";
+
+        const input = { from: senderId, to: recipientId, message: "nice ass", location: "mylocation" };
+        const variables = { input };
+        const sendNodResult = await apolloFetch({ query: SEND_NOD, variables });
+        expect(sendNodResult.data.sendNod).toEqual(input);
+
+        const expectedSenderResponse = {
+            ...mockUsers.john,
+            inbound: [],
+            outbound: [
+                {
+                    id: "jenny"
+                }
+            ],
+            mutual: []
+        };
+
+        const senderUserResponse = await apolloFetch({ query: GET_USER, variables: { id: senderId } });
+        expect(senderUserResponse.data.user).toEqual(expectedSenderResponse);
+
+        const expectedRecipientResponse = {
+            ...mockUsers.jenny,
+            inbound: [
+                {
+                    id: "john"
+                }],
+            outbound: [],
+            mutual: []
+        };
+
+        const recipientUserResponse = await apolloFetch({ query: GET_USER, variables: { id: recipientId } });
+        expect(recipientUserResponse.data.user).toEqual(expectedRecipientResponse);
+
+        // RETURN A NOD
+        const returnNodInput = { from: recipientId, to: senderId, message: "thx", location: "mylocation" };
+        const returnNodResponse = await apolloFetch({ query: RETURN_NOD, variables: { input: returnNodInput } });
+        expect(returnNodResponse.data.returnNod).toEqual(returnNodInput);
+
+        const expectedReturnerResponse = {
+            ...mockUsers.jenny,
+            inbound: [],
+            outbound: [],
+            mutual: [
+                {
+                    id: "john"
+                }
+            ]
+        };
+
+        const returnerUserResponse = await apolloFetch({ query: GET_USER, variables: { id: recipientId } });
+        expect(returnerUserResponse.data.user).toEqual(expectedReturnerResponse);
+
+        const expectedInitialSenderResponse = {
+            ...mockUsers.john,
+            inbound: [],
+            outbound: [],
+            mutual: [
+                {
+                    id: "jenny"
+                }
+            ]
+        };
+
+        const initialSenderUserResponse = await apolloFetch({ query: GET_USER, variables: { id: senderId } });
+        expect(initialSenderUserResponse.data.user).toEqual(expectedInitialSenderResponse);
     });
 
 });
