@@ -4,7 +4,9 @@ const { GET_USER } = require('../graphql/client/queries');
 const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
 const createUsers = require("../scripts/createUsers");
+const createAndSendNod = require("../scripts/createAndSendNod");
 const server = require("../apollo/server");
+const { user } = require('../graphql/resolvers/query/queries');
 
 describe("Integration Test mutations", () => {
     const uri = 'http://localhost:4000/graphql';
@@ -174,6 +176,12 @@ describe("Integration Test mutations", () => {
 
         const initialSenderUserResponse = await apolloFetch({ query: GET_USER, variables: { id: senderId } });
         expect(initialSenderUserResponse.data.user).toEqual(expectedInitialSenderResponse);
+    });
+
+    test("should fetch unseen inbound nods", async () => {
+        await createAndSendNod([mockUsers.john, mockUsers.jenny]);
+
+
     });
 
 });

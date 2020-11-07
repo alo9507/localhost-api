@@ -12,12 +12,16 @@ type User {
   latitude: Float
   longitude: Float
   outbound: [User]
-  inbound: [User]
+  inbound(filter: InboundFilterInput): [User]
   mutual: [User]
   email: String
   createdAt: Int
   updatedAt: Int
   showMeCriteria: ShowMeCriteria
+}
+
+input InboundFilterInput {
+  seen: Boolean
 }
 
 type Query {
