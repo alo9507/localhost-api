@@ -1,5 +1,5 @@
 const { createApolloFetch } = require('apollo-fetch');
-const { BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } = require('../graphql/client/mutations');
+const { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } = require('../graphql/client/mutations');
 const { GET_USER, GET_USER_FULL } = require('../graphql/client/queries');
 const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
@@ -199,6 +199,29 @@ describe("Integration Test mutations", () => {
         const variables = { input: blockInput };
         const blockResult = await apolloFetch({ query: BLOCK, variables });
         expect(blockResult.data.block).toEqual(blockInput);
+    });
+
+    test("should allow becoming invisible to some users", async () => {
+        await createUsers([mockUsers.john, mockUsers.jenny]);
+
+        const becomeInvisibleToInput = { from: "john", to: "jenny" };
+        const variables = { input: becomeInvisibleToInput };
+        const becomeInvisibleToResult = await apolloFetch({ query: BECOME_INVISIBLE_TO, variables });
+        expect(becomeInvisibleToResult.data.becomeInvisibleTo).toEqual(becomeInvisibleToInput);
+    });
+
+    test("should allow becoming visible to some users", async () => {
+        await createUsers([mockUsers.john, mockUsers.jenny]);
+
+        const becomeInvisibleToInput = { from: "john", to: "jenny" };
+        const becomeInvisibleToInput_variables = { input: becomeInvisibleToInput };
+        const becomeInvisibleToResult = await apolloFetch({ query: BECOME_INVISIBLE_TO, variables: becomeInvisibleToInput_variables });
+        expect(becomeInvisibleToResult.data.becomeInvisibleTo).toEqual(becomeInvisibleToInput);
+
+        const becomeVisibleToInput = { from: "john", to: "jenny" };
+        const variables = { input: becomeVisibleToInput };
+        const becomeVisibleToResult = await apolloFetch({ query: BECOME_VISIBLE_TO, variables });
+        expect(becomeVisibleToResult.data.becomeVisibleTo).toEqual(becomeVisibleToInput);
     });
 
     test("should update showme criteria", async () => {

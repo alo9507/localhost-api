@@ -50,6 +50,8 @@ type Mutation {
   nodSeen(recipient: ID!, sender: ID!): NodSeenResponse
   report(input: ReportInput!): ReportedResponse
   block(input: BlockInput!): BlockResponse
+  becomeInvisibleTo(input: BecomeInvisibleToInput!): BecomeInvisibleToResponse
+  becomeVisibleTo(input: BecomeVisibleToInput!): BecomeVisibleToResponse
 }
 
 input ReportInput {
@@ -57,6 +59,26 @@ input ReportInput {
   to: ID!, 
   reason: String, 
   message: String
+}
+
+input BecomeVisibleToInput {
+  from: ID!
+  to: ID!
+}
+
+type BecomeVisibleToResponse {
+  from: ID
+  to: ID
+}
+
+input BecomeInvisibleToInput {
+  from: ID!
+  to: ID!
+}
+
+type BecomeInvisibleToResponse {
+  from: ID
+  to: ID
 }
 
 input BlockInput {

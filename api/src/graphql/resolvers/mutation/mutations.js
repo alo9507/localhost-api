@@ -170,6 +170,48 @@ const mutations = {
                     message: result.records[0].get('$message')
                 };
             });
+    },
+    becomeInvisibleTo: (parent, args, context) => {
+        const session = context.driver.session();
+        const { from, to } = args.input;
+        const params = { from, to };
+        return session
+            .run(
+                `MATCH (a: SocialNode),(b: SocialNode) 
+                WHERE a.id = $from AND b.id = $to 
+                CREATE (a)-[r:BECAME_INVISIBLE_TO { createdAt: timestamp() }]->(b) 
+                RETURN a.id, b.id`, params)
+            .then((result) => {
+                session.close();
+                if (result.records == 0) {
+                    throw new Error(`User with id ${args.from} or user with id ${args.to} does not exist in databse`);
+                }
+                return {
+                    from: result.records[0].get('a.id'),
+                    to: result.records[0].get('b.id'),
+                };
+            });
+    },
+    becomeVisibleTo: (parent, args, context) => {
+        const session = context.driver.session();
+        const { from, to } = args.input;
+        const params = { from, to };
+        return session
+            .run(
+                `MATCH (a: SocialNode {id: $from})-[r:BECAME_INVISIBLE_TO]->(b: SocialNode {id: $to}) 
+                WITH r,a,b
+                DETACH DELETE r
+                RETURN a.id, b.id`, params)
+            .then((result) => {
+                session.close();
+                if (result.records == 0) {
+                    throw new Error(`User with id ${args.from} or user with id ${args.to} does not exist in databse or they were invisible to begin with`);
+                }
+                return {
+                    from: result.records[0].get('a.id'),
+                    to: result.records[0].get('b.id'),
+                };
+            });
     }
 };
 

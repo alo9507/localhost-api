@@ -94,6 +94,22 @@ mutation BlockUser($input: BlockInput!) {
     }
 }`);
 
+module.exports.BECOME_INVISIBLE_TO = print(gql`
+mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
+    becomeInvisibleTo(input: $input) {
+        from
+        to
+    }
+}`);
+
+module.exports.BECOME_VISIBLE_TO = print(gql`
+mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
+    becomeVisibleTo(input: $input) {
+        from
+        to
+    }
+}`);
+
 module.exports.UPDATE_SHOWME_CRITERIA = print(gql`
 mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     updateShowMeCriteria(input: $input) {
