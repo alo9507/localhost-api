@@ -5,15 +5,17 @@ const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
 const createUsers = require("../scripts/createUsers");
 const createAndSendNod = require("../scripts/createAndSendNod");
-const server = require("../apollo/server");
+const createServer = require("../apollo/server");
 
 describe("Integration Test mutations", () => {
-    const uri = 'http://localhost:4000/graphql';
+    const port = 4001;
+    const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
+    const server = createServer();
 
     beforeAll(async () => {
         await clearDb();
-        await server.listen();
+        await server.listen({ port });
     });
 
     afterAll(async () => {
@@ -54,7 +56,7 @@ describe("Integration Test mutations", () => {
     });
 
     test('updates a user', async () => {
-        await createUsers([mockUsers.john]);
+        await createUsers([mockUsers.john], port);
         const userId = "john";
 
         const getUserResult = await apolloFetch({ query: GET_USER, variables: { id: userId } });
@@ -66,7 +68,7 @@ describe("Integration Test mutations", () => {
     });
 
     test('sends a nod from one user to another', async () => {
-        await createUsers([mockUsers.john, mockUsers.jenny]);
+        await createUsers([mockUsers.john, mockUsers.jenny], port);
 
         const senderId = "john";
         const recipientId = "jenny";
@@ -105,7 +107,7 @@ describe("Integration Test mutations", () => {
     });
 
     test('return a nod from one user to another', async () => {
-        await createUsers([mockUsers.john, mockUsers.jenny]);
+        await createUsers([mockUsers.john, mockUsers.jenny], port);
 
         // SEND A NOD
         const senderId = "john";
@@ -178,13 +180,11 @@ describe("Integration Test mutations", () => {
     });
 
     test("should fetch unseen inbound nods", async () => {
-        await createAndSendNod([mockUsers.john, mockUsers.jenny]);
-
-
+        await createAndSendNod([mockUsers.john, mockUsers.jenny], port);
     });
 
     test("should report user", async () => {
-        await createUsers([mockUsers.john, mockUsers.jenny]);
+        await createUsers([mockUsers.john, mockUsers.jenny], port);
 
         const reportInput = { from: "john", to: "jenny", reason: "he bit me", message: "really bad" };
         const variables = { input: reportInput };
@@ -193,7 +193,7 @@ describe("Integration Test mutations", () => {
     });
 
     test("should report user", async () => {
-        await createUsers([mockUsers.john, mockUsers.jenny]);
+        await createUsers([mockUsers.john, mockUsers.jenny], port);
 
         const blockInput = { from: "john", to: "jenny", reason: "he bit me", message: "really bad" };
         const variables = { input: blockInput };
@@ -202,7 +202,7 @@ describe("Integration Test mutations", () => {
     });
 
     test("should allow becoming invisible to some users", async () => {
-        await createUsers([mockUsers.john, mockUsers.jenny]);
+        await createUsers([mockUsers.john, mockUsers.jenny], port);
 
         const becomeInvisibleToInput = { from: "john", to: "jenny" };
         const variables = { input: becomeInvisibleToInput };
@@ -211,7 +211,7 @@ describe("Integration Test mutations", () => {
     });
 
     test("should allow becoming visible to some users", async () => {
-        await createUsers([mockUsers.john, mockUsers.jenny]);
+        await createUsers([mockUsers.john, mockUsers.jenny], port);
 
         const becomeInvisibleToInput = { from: "john", to: "jenny" };
         const becomeInvisibleToInput_variables = { input: becomeInvisibleToInput };
@@ -225,7 +225,7 @@ describe("Integration Test mutations", () => {
     });
 
     test("should update showme criteria", async () => {
-        const users = await createUsers([mockUsers.john]);
+        const users = await createUsers([mockUsers.john], port);
 
         const getUserResult = await apolloFetch({ query: GET_USER_FULL, variables: { id: users[0].id } });
         expect(getUserResult.data.user.showMeCriteria).toEqual({ sex: ["male", "female"], age: [18, 100] });

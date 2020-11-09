@@ -1,3 +1,5 @@
+const { showMeCriteria } = require("../../graphql/resolvers/query/queries");
+
 const users = {
     john: {
         id: "john",
@@ -8,6 +10,66 @@ const users = {
         whatAmIDoing: "What john is doing",
         isVisible: true,
         age: 25
+    },
+    male_25_visible: {
+        id: "john",
+        sex: "male",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 25
+    },
+    male_25_invisible: {
+        id: "john",
+        sex: "male",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: false,
+        age: 25
+    },
+    female_25_visible: {
+        id: "joanna",
+        sex: "female",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 25
+    },
+    female_25_invisible: {
+        id: "joanna",
+        sex: "female",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: false,
+        age: 25
+    },
+    male_40_visible: {
+        id: "john",
+        sex: "male",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 40
+    },
+    female_40_visible: {
+        id: "joanna",
+        sex: "female",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 40
     },
     jenny: {
         id: "jenny",

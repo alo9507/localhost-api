@@ -113,8 +113,14 @@ const mutations = {
             .run('MERGE (n: ShowMeCriteria { id: $id }) ON MATCH SET n += $input RETURN n', params)
             .then(result => {
                 session.close();
+                if (result.records == 0) {
+                    throw new Error(`No records for showme`);
+                }
                 return result.records[0].get(0).properties;
+            }).catch(e => {
+                throw new Error(`SHOWME ERROR: ${e}`);
             });
+        ;
     },
     deleteUser: (parent, args, context) => {
         const session = context.driver.session();

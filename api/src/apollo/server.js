@@ -3,12 +3,16 @@ const typeDefs = require('../graphql/schema/schema');
 const resolvers = require('../graphql/resolvers/resolvers');
 const driver = require('../neo4j/driver');
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: { driver },
-    introspection: true,
-    playground: true
-});
+function createServer() {
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: { driver },
+        introspection: true,
+        playground: true
+    });
 
-module.exports = server;
+    return server;
+}
+
+module.exports = createServer;

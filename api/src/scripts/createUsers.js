@@ -3,8 +3,8 @@ const server = require('../apollo/server');
 const clearDb = require("./clearDb");
 const { CREATE_USER, UPDATE_USER, SEND_NOD } = require('../graphql/client/mutations');
 
-async function createUsers(users) {
-    const uri = 'http://localhost:4000/graphql';
+async function createUsers(users, port) {
+    const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
 
     let promise = new Promise(async (resolve, reject) => {

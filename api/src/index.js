@@ -1,5 +1,5 @@
-const server = require("./apollo/server");
+const createServer = require("./apollo/server");
 
-server.listen().then(({ url }) => {
+createServer().listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });

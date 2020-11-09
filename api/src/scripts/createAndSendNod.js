@@ -1,10 +1,9 @@
 const { createApolloFetch } = require('apollo-fetch');
-const server = require('../apollo/server');
 const clearDb = require("./clearDb");
 const { CREATE_USER, SEND_NOD } = require('../graphql/client/mutations');
 
-async function createAndSendNod(users) {
-    const uri = 'http://localhost:4000/graphql';
+async function createAndSendNod(users, port) {
+    const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
 
     let promise = new Promise(async (resolve, reject) => {

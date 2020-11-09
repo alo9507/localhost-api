@@ -1,7 +1,9 @@
 const { createApolloFetch } = require('apollo-fetch');
-const server = require('../apollo/server');
+const createServer = require('../apollo/server');
 const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbData');
 const { rand } = require('../utils');
+
+const server = createServer();
 
 server.listen({ port: 4001 })
     .then(async ({ url }) => {

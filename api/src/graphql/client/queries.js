@@ -50,3 +50,11 @@ query GetUser($id: ID!){
         }
     }
 }`);
+
+module.exports.GET_VIABLE_USERS = print(gql`
+query GetViableUsers($id: ID!){
+    getViableUsers(id: $id) {
+        id
+    }
+}`);
+
