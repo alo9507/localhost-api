@@ -8,7 +8,7 @@
     "ss": "npm run clearDb && npm run seedDb && npm start",
     "start:prod": "NODE_ENV=prod node src/index.js",
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",
-    "test": "NODE_ENV=dev jest --watch",
+    "test": "NODE_ENV=test jest --watch",
     "seedDb": "NODE_ENV=dev node src/scripts/seedDb.js",
     "clearDb": "NODE_ENV=dev CMD_LINE=true node src/scripts/clearDB.js"
   },

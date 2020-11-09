@@ -14,10 +14,10 @@ describe("Integration Test mutations", () => {
     const port = 4001;
     const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
-    const server = createServer(process.env.NEO4J_URI);
+    const server = createServer(process.env.NEO4J_URI1);
 
     beforeAll(async () => {
-        await clearDb();
+        await clearDb(process.env.NEO4J_URI1);
         await server.listen({ port });
     });
 
@@ -26,7 +26,7 @@ describe("Integration Test mutations", () => {
     });
 
     afterEach(async () => {
-        await clearDb();
+        await clearDb(process.env.NEO4J_URI1);
     });
 
     test('creates a user', async () => {

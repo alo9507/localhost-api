@@ -1,8 +1,11 @@
 const createDriver = require('../neo4j/driver');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-const clearDb = () => {
+const clearDb = (databaseUri) => {
     const promise = new Promise((resolve, reject) => {
-        const session = createDriver().session();
+        const session = createDriver(databaseUri).session();
 
         session.writeTransaction(tx => {
             tx.run("MATCH (n) DETACH DELETE n");
@@ -21,6 +24,6 @@ const clearDb = () => {
     return promise;
 };
 
-clearDb();
+clearDb(process.env.NEO4J_URI);
 
 module.exports = clearDb;

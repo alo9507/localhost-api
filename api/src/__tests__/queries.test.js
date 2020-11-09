@@ -14,10 +14,10 @@ describe("Integration Test mutations", () => {
     const port = 4002;
     const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
-    const server = createServer(process.env.NEO4J_URI);
+    const server = createServer(process.env.NEO4J_URI2);
 
     beforeAll(async () => {
-        await clearDb();
+        await clearDb(process.env.NEO4J_URI2);
         await server.listen({ port });
     });
 
@@ -26,7 +26,7 @@ describe("Integration Test mutations", () => {
     });
 
     afterEach(async () => {
-        await clearDb();
+        await clearDb(process.env.NEO4J_URI2);
     });
 
     test("should fetch only viable users according to user visibility and showmecriteria", async () => {
@@ -43,7 +43,6 @@ describe("Integration Test mutations", () => {
         const updateShowMeCriteriaInput = { id: "john", sex: ["male"], age: [20, 30] };
         const variables = { input: updateShowMeCriteriaInput };
         const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
-        console.log(updateShowMeCriteriaResult);
         expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ["male"], age: [20, 30] });
 
         const viableUsersResult = await apolloFetch({ query: GET_VIABLE_USERS, variables: { id: "john" } });
