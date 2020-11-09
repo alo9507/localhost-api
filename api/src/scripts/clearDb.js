@@ -1,8 +1,8 @@
-const driver = require('../neo4j/driver');
+const createDriver = require('../neo4j/driver');
 
 const clearDb = () => {
     const promise = new Promise((resolve, reject) => {
-        const session = driver.session();
+        const session = createDriver().session();
 
         session.writeTransaction(tx => {
             tx.run("MATCH (n) DETACH DELETE n");

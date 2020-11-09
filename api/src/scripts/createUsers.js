@@ -1,5 +1,4 @@
 const { createApolloFetch } = require('apollo-fetch');
-const server = require('../apollo/server');
 const clearDb = require("./clearDb");
 const { CREATE_USER, UPDATE_USER, SEND_NOD } = require('../graphql/client/mutations');
 

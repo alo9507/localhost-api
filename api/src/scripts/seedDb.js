@@ -2,8 +2,11 @@ const { createApolloFetch } = require('apollo-fetch');
 const createServer = require('../apollo/server');
 const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbData');
 const { rand } = require('../utils');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-const server = createServer();
+const server = createServer(process.env.NEO4J_URI);
 
 server.listen({ port: 4001 })
     .then(async ({ url }) => {
