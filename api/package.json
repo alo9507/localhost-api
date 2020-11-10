@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "transpile": "babel . --out-dir build --ignore node_modules/",
-    "start:dev": "nodemon build/src/index.js",
+    "transpile": "babel src --out-dir build --ignore 'node_modules/'",
+    "start:dev": "nodemon build/index.js",
     "start": "NODE_ENV=dev npm-run-all transpile start:dev",
     "ss": "npm run clearDb && npm run seedDb && npm start",
     "start:prod": "NODE_ENV=prod node src/index.js",
