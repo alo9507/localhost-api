@@ -12,7 +12,7 @@ var _require2 = require("../../../utils"),
 
 var mutations = {
   sendNod: function sendNod(parent, args, context) {
-    var _args$input2;
+    var _args$input2, _args$input3;
 
     var session = context.driver.session();
     var _args$input = args.input,
@@ -24,7 +24,7 @@ var mutations = {
       from: from,
       to: to,
       message: (_args$input2 = args.input) === null || _args$input2 === void 0 ? void 0 : _args$input2.message,
-      location: location === undefined ? "" : location
+      location: (_args$input3 = args.input) === null || _args$input3 === void 0 ? void 0 : _args$input3.location
     };
     return session.run("MATCH (a: SocialNode),(b: SocialNode) \n                WHERE a.id = $from AND b.id = $to \n                CREATE (a)-[r:NODDED_AT { initiator: true, seen: false, createdAt: timestamp(), message: $message, location: $location }]->(b) \n                RETURN a.id, b.id, $message, $location", params).then(function (result) {
       session.close();
@@ -38,11 +38,11 @@ var mutations = {
   },
   returnNod: function returnNod(parent, args, context) {
     var session = context.driver.session();
-    var _args$input3 = args.input,
-        from = _args$input3.from,
-        to = _args$input3.to,
-        message = _args$input3.message,
-        location = _args$input3.location;
+    var _args$input4 = args.input,
+        from = _args$input4.from,
+        to = _args$input4.to,
+        message = _args$input4.message,
+        location = _args$input4.location;
     var params = {
       from: from,
       to: to,
@@ -183,11 +183,11 @@ var mutations = {
   },
   report: function report(parent, args, context) {
     var session = context.driver.session();
-    var _args$input4 = args.input,
-        from = _args$input4.from,
-        to = _args$input4.to,
-        message = _args$input4.message,
-        reason = _args$input4.reason;
+    var _args$input5 = args.input,
+        from = _args$input5.from,
+        to = _args$input5.to,
+        message = _args$input5.message,
+        reason = _args$input5.reason;
     var params = {
       from: from,
       to: to,
@@ -211,11 +211,11 @@ var mutations = {
   },
   block: function block(parent, args, context) {
     var session = context.driver.session();
-    var _args$input5 = args.input,
-        from = _args$input5.from,
-        to = _args$input5.to,
-        message = _args$input5.message,
-        reason = _args$input5.reason;
+    var _args$input6 = args.input,
+        from = _args$input6.from,
+        to = _args$input6.to,
+        message = _args$input6.message,
+        reason = _args$input6.reason;
     var params = {
       from: from,
       to: to,
@@ -239,9 +239,9 @@ var mutations = {
   },
   becomeInvisibleTo: function becomeInvisibleTo(parent, args, context) {
     var session = context.driver.session();
-    var _args$input6 = args.input,
-        from = _args$input6.from,
-        to = _args$input6.to;
+    var _args$input7 = args.input,
+        from = _args$input7.from,
+        to = _args$input7.to;
     var params = {
       from: from,
       to: to
@@ -261,9 +261,9 @@ var mutations = {
   },
   becomeVisibleTo: function becomeVisibleTo(parent, args, context) {
     var session = context.driver.session();
-    var _args$input7 = args.input,
-        from = _args$input7.from,
-        to = _args$input7.to;
+    var _args$input8 = args.input,
+        from = _args$input8.from,
+        to = _args$input8.to;
     var params = {
       from: from,
       to: to

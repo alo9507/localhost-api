@@ -1,0 +1,17 @@
+version: "3"
+services:
+  neo4j1:
+    image: alo42/neo4j
+    ports:
+      - "7475:7474"
+      - "7688:7687"
+    environment:
+      - NEO4J_AUTH=none
+  neo4j2:
+    image: alo42/neo4j
+    ports:
+      - "7476:7474"
+      - "7689:7687"
+    environment:
+      - NEO4J_AUTH=none
+  
