@@ -1,13 +1,13 @@
-const { createApolloFetch } = require('apollo-fetch');
-const { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } = require('../graphql/client/mutations');
-const { GET_USER, GET_USER_FULL } = require('../graphql/client/queries');
-const clearDb = require('../scripts/clearDb');
-const mockUsers = require("../scripts/mocks/mockUsers");
-const createUsers = require("../scripts/createUsers");
-const createAndSendNod = require("../scripts/createAndSendNod");
-const createServer = require("../apollo/server");
-const path = require('path');
-const dotenv = require('dotenv');
+import { createApolloFetch } from 'apollo-fetch';
+import { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
+import { GET_USER, GET_USER_FULL } from '../graphql/client/queries';
+import clearDb from '../scripts/clearDb';
+import mockUsers from "../scripts/mocks/mockUsers";
+import createUsers from "../scripts/createUsers";
+import createAndSendNod from "../scripts/createAndSendNod";
+import createServer from "../apollo/server";
+import path from 'path';
+import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 describe("Integration Test mutations", () => {

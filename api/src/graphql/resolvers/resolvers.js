@@ -1,6 +1,6 @@
-const queries = require("./query/queries");
-const user = require("./user/user");
-const mutations = require("./mutation/mutations");
+import queries from "./query/queries";
+import user from "./user/user";
+import mutations from "./mutation/mutations";
 
 const resolvers = {
   Query: queries,

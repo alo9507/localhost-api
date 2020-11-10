@@ -1,4 +1,4 @@
-const { generateQuery } = require("../utils");
+import { generateQuery } from "../utils";
 
 describe("Filter", () => {
 

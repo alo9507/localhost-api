@@ -1,6 +1,6 @@
-const { createApolloFetch } = require('apollo-fetch');
-const clearDb = require("./clearDb");
-const { CREATE_USER, SEND_NOD } = require('../graphql/client/mutations');
+import { createApolloFetch } from 'apollo-fetch';
+import clearDb from "./clearDb";
+import { CREATE_USER, SEND_NOD } from '../graphql/client/mutations';
 
 async function createAndSendNod(users, port) {
     const uri = `http://localhost:${port}/graphql`;
@@ -24,4 +24,4 @@ async function createAndSendNod(users, port) {
     return promise;
 }
 
-module.exports = createAndSendNod;
+export default createAndSendNod;

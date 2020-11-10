@@ -1,5 +1,5 @@
-const { toNumber } = require("../../../utils");
-const { generateQuery } = require("../../../utils");
+import { toNumber } from "../../../utils";
+import { generateQuery } from "../../../utils";
 
 const queries = {
     user: (parent, args, context, info) => {
@@ -70,4 +70,4 @@ const queries = {
     }
 };
 
-module.exports = queries;
+export default queries;

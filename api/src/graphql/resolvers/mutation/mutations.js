@@ -1,5 +1,5 @@
-const { toNumber } = require("../../../utils");
-const { generateQuery } = require("../../../utils");
+import { toNumber } from "../../../utils";
+import { generateQuery } from "../../../utils";
 
 const mutations = {
     sendNod: (parent, args, context) => {
@@ -221,4 +221,4 @@ const mutations = {
     }
 };
 
-module.exports = mutations;
+export default mutations;

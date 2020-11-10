@@ -1,5 +1,5 @@
-const { toNumber } = require("../../../utils");
-const { generateQuery } = require("../../../utils");
+import { toNumber } from "../../../utils";
+import { generateQuery } from "../../../utils";
 
 const user = {
     outbound: (parent, args, context, info) => {
@@ -98,4 +98,4 @@ const user = {
     },
 };
 
-module.exports = user;
+export default user;
