@@ -1,7 +1,7 @@
-const gql = require("graphql-tag");
-const { print } = require('graphql');
+import gql from "graphql-tag";
+import { print } from 'graphql';
 
-module.exports.CREATE_USER = print(gql`
+const CREATE_USER = print(gql`
 mutation CreateUser($input: CreateUserInput!){
     createUser(input: $input ) {
         id
@@ -24,7 +24,7 @@ mutation CreateUser($input: CreateUserInput!){
     }
 }`);
 
-module.exports.UPDATE_USER = print(gql`
+const UPDATE_USER = print(gql`
 mutation UpdateUser($input: UpdateUserInput!){
     updateUser(input: $input ) {
         id
@@ -47,7 +47,7 @@ mutation UpdateUser($input: UpdateUserInput!){
     }
 }`);
 
-module.exports.SEND_NOD = print(gql`
+const SEND_NOD = print(gql`
 mutation SendNod($input: SendNodInput!){
     sendNod(input: $input ) {
         from
@@ -57,7 +57,7 @@ mutation SendNod($input: SendNodInput!){
     }
 }`);
 
-module.exports.RETURN_NOD = print(gql`
+const RETURN_NOD = print(gql`
 mutation ReturnNod($input: SendNodInput!){
     returnNod(input: $input ) {
         from
@@ -67,14 +67,14 @@ mutation ReturnNod($input: SendNodInput!){
     }
 }`);
 
-module.exports.DELETE_ALL_USERS = print(gql`
+const DELETE_ALL_USERS = print(gql`
 mutation DeleteAllUsers {
     deleteAllUsers {
         success
     }
 }`);
 
-module.exports.REPORT = print(gql`
+const REPORT = print(gql`
 mutation ReportUser($input: ReportInput!) {
     report(input: $input) {
         from
@@ -84,7 +84,7 @@ mutation ReportUser($input: ReportInput!) {
     }
 }`);
 
-module.exports.BLOCK = print(gql`
+const BLOCK = print(gql`
 mutation BlockUser($input: BlockInput!) {
     block(input: $input) {
         from
@@ -94,7 +94,7 @@ mutation BlockUser($input: BlockInput!) {
     }
 }`);
 
-module.exports.BECOME_INVISIBLE_TO = print(gql`
+const BECOME_INVISIBLE_TO = print(gql`
 mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
     becomeInvisibleTo(input: $input) {
         from
@@ -102,7 +102,7 @@ mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
     }
 }`);
 
-module.exports.BECOME_VISIBLE_TO = print(gql`
+const BECOME_VISIBLE_TO = print(gql`
 mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
     becomeVisibleTo(input: $input) {
         from
@@ -110,10 +110,23 @@ mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
     }
 }`);
 
-module.exports.UPDATE_SHOWME_CRITERIA = print(gql`
+const UPDATE_SHOWME_CRITERIA = print(gql`
 mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     updateShowMeCriteria(input: $input) {
         sex
         age
     }
 }`);
+
+export {
+    CREATE_USER,
+    UPDATE_USER,
+    SEND_NOD,
+    RETURN_NOD,
+    DELETE_ALL_USERS,
+    REPORT,
+    BLOCK,
+    BECOME_INVISIBLE_TO,
+    BECOME_VISIBLE_TO,
+    UPDATE_SHOWME_CRITERIA
+};

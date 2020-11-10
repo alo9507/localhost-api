@@ -1,9 +1,9 @@
-const { createApolloFetch } = require('apollo-fetch');
-const createServer = require('../apollo/server');
-const { names, isVisible, bios, whatAmIDoings, sex, ages, emails } = require('./mocks/seedDbData');
-const { rand } = require('../utils');
-const path = require('path');
-const dotenv = require('dotenv');
+import { createApolloFetch } from 'apollo-fetch';
+import createServer from '../apollo/server';
+import { names, isVisible, bios, whatAmIDoings, sex, ages, emails } from './mocks/seedDbData';
+import { rand } from '../utils';
+import path from 'path';
+import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 const server = createServer(process.env.NEO4J_URI);

@@ -1,4 +1,4 @@
-const { showMeCriteria } = require("../../graphql/resolvers/query/queries");
+import { showMeCriteria } from "../../graphql/resolvers/query/queries";
 
 const users = {
     john: {

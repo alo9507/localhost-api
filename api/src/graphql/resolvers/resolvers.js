@@ -8,4 +8,4 @@ const resolvers = {
   Mutation: mutations,
 };
 
-module.exports = resolvers;
+export default resolvers;

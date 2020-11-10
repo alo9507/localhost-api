@@ -1,6 +1,6 @@
-const neo4j = require('neo4j-driver');
-const path = require('path');
-const dotenv = require('dotenv');
+import neo4j from 'neo4j-driver';
+import path from 'path';
+import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 function createDriver(neo4jURI) {
@@ -19,4 +19,4 @@ function createDriver(neo4jURI) {
     return driver;
 }
 
-module.exports = createDriver;
+export default createDriver;

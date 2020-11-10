@@ -1,8 +1,8 @@
-module.exports.rand = (arr) => {
+const rand = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-module.exports.generateQuery = (filter) => {
+const generateQuery = (filter) => {
   if (filter == undefined) return "MATCH (n: User) RETURN n";
 
   let query = "MATCH (n: User)";
@@ -56,3 +56,5 @@ function wrapInString(filterTarget) {
   const pred = typeof filterTarget == 'string' ? `'${filterTarget}'` : `${filterTarget}`;
   return pred;
 }
+
+export { rand, generateQuery };

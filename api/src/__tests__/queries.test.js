@@ -5,7 +5,7 @@ const clearDb = require('../scripts/clearDb');
 const mockUsers = require("../scripts/mocks/mockUsers");
 const createUsers = require("../scripts/createUsers");
 const createAndSendNod = require("../scripts/createAndSendNod");
-const createServer = require("../apollo/server");
+import createServer from "../apollo/server";
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });

@@ -1,4 +1,4 @@
-module.exports.names = [
+const names = [
     "Andrew",
     "Jamie",
     "John",
@@ -7,30 +7,30 @@ module.exports.names = [
     "Jefferey"
 ];
 
-module.exports.isVisible = [
+const isVisible = [
     true,
     false
 ];
 
-module.exports.bios = [
+const bios = [
     "Student just chillin",
     "I am a narc",
     "Wannabe policeman",
     "Software engineer just hangin"
 ];
 
-module.exports.whatAmIDoings = [
+const whatAmIDoings = [
     "Reading War and Peace and waiting to be interrupted",
     "Doing this and that",
     "Drinking a coffee"
 ];
 
-module.exports.sex = [
+const sex = [
     "male",
     "female"
 ];
 
-module.exports.ages = [
+const ages = [
     24,
     20,
     32,
@@ -39,8 +39,10 @@ module.exports.ages = [
     14
 ];
 
-module.exports.emails = [
+const emails = [
     "me1@g.com",
     "me2@g.com",
     "me3@g.com"
 ];
+
+export { names, isVisible, bios, whatAmIDoings, sex, ages, emails };
