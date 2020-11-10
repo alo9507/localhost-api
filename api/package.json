@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=dev nodemon src/index.js",
+    "transpile": "babel . --out-dir build --ignore node_modules/",
+    "start:dev": "nodemon build/src/index.js",
+    "start": "NODE_ENV=dev npm-run-all transpile start:dev",
     "ss": "npm run clearDb && npm run seedDb && npm start",
     "start:prod": "NODE_ENV=prod node src/index.js",
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",
@@ -16,6 +18,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "apollo-fetch": "^0.7.0",
     "apollo-server": "^2.18.2",
     "dotenv": "^8.2.0",
@@ -25,5 +30,16 @@
     "neo4j-driver": "^4.1.2",
     "nodemon": "^2.0.4",
     "path": "^0.12.7"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "ignore": [
+      "node_modules"
+    ]
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }

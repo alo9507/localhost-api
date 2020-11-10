@@ -5,7 +5,7 @@ const mutations = {
     sendNod: (parent, args, context) => {
         const session = context.driver.session();
         const { from, to, message, location } = args.input;
-        const params = { from, to, message: message === undefined ? "" : message, location: location === undefined ? "" : location };
+        const params = { from, to, message: args.input?.message, location: args.input?.location };
         return session
             .run(
                 `MATCH (a: SocialNode),(b: SocialNode) 
