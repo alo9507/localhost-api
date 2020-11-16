@@ -2,22 +2,24 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Jest",
+            "name": "Debug Jest Tests",
             "type": "node",
             "request": "launch",
             "env": {
                 "CI": "true"
             },
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/jest",
-            "args": [
+            "runtimeArgs": [
+                "--inspect-brk",
+                "${workspaceRoot}/api/node_modules/.bin/jest",
                 "--runInBand",
-                "--no-cache",
-                "--setupTestFrameworkScriptFile=${workspaceRoot}/test-setup.js",
+                "--roots=${workspaceRoot}/api/src",
+                "--testPathPattern='querie'",
+                "--setupTestFrameworkScriptFile=${workspaceRoot}/api/test-setup.js",
             ],
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector",
+            "cwd": "${workspaceRoot}/api",
             "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
+            "internalConsoleOptions": "neverOpen",
+            "port": 9229
         }
     ]
 }

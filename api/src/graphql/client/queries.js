@@ -66,5 +66,5 @@ query ShowMeCriteria($id: ID!) {
     }
 }`);
 
-export { GET_USER, GET_USER_FULL, GET_VIABLE_USERS };
+export { GET_USER, GET_USER_FULL, GET_VIABLE_USERS, SHOW_ME_CRITERIA };
 

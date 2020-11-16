@@ -1,4 +1,3 @@
-import { createApolloFetch } from 'apollo-fetch';
 import { UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
 import { GET_VIABLE_USERS, SHOW_ME_CRITERIA } from '../graphql/client/queries';
 import clearDb from '../scripts/clearDb';
@@ -6,18 +5,19 @@ import mockUsers from "../scripts/mocks/mockUsers";
 import createUsers from "../scripts/createUsers";
 import createAndSendNod from "../scripts/createAndSendNod";
 import createServer from "../apollo/server";
+import createFetch from '../apollo/fetch';
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-describe("Integration Test mutations", () => {
+describe("Integration Test queries", () => {
     const port = 4003;
     const uri = `http://localhost:${port}/graphql`;
-    const apolloFetch = createApolloFetch({ uri });
+    const apolloFetch = createFetch(uri, false);
+
     const server = createServer(process.env.NEO4J_URI2);
 
     beforeAll(async () => {
-        console.log("beforeEach");
         await clearDb(process.env.NEO4J_URI2);
         await server.listen({ port });
     });
@@ -27,7 +27,6 @@ describe("Integration Test mutations", () => {
     });
 
     afterEach(async () => {
-        console.log("queries env", process.env.NEO4J_URI2);
         await clearDb(process.env.NEO4J_URI2);
     });
 
