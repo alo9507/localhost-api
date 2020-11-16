@@ -24,6 +24,4 @@ const clearDb = (databaseUri) => {
     return promise;
 };
 
-clearDb(process.env.NEO4J_URI);
-
 export default clearDb;

@@ -7,10 +7,11 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 const server = createServer(process.env.NEO4J_URI);
+const port = 4005;
 
-server.listen({ port: 4001 })
+server.listen({ port })
     .then(async ({ url }) => {
-        const uri = 'http://localhost:4001/graphql';
+        const uri = 'http://localhost:80';
         const apolloFetch = createApolloFetch({ uri });
 
         for (let i = 0; i < 10; i++) {

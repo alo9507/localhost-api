@@ -12,7 +12,7 @@ const users = {
         age: 25
     },
     male_25_visible: {
-        id: "john",
+        id: "male_25_visible",
         sex: "male",
         name: "John",
         email: "john@g.com",
@@ -22,7 +22,7 @@ const users = {
         age: 25
     },
     male_25_invisible: {
-        id: "john",
+        id: "male_25_invisible",
         sex: "male",
         name: "John",
         email: "john@g.com",
@@ -32,7 +32,7 @@ const users = {
         age: 25
     },
     female_25_visible: {
-        id: "joanna",
+        id: "female_25_visible",
         sex: "female",
         name: "John",
         email: "john@g.com",
@@ -42,7 +42,7 @@ const users = {
         age: 25
     },
     female_25_invisible: {
-        id: "joanna",
+        id: "female_25_invisible",
         sex: "female",
         name: "John",
         email: "john@g.com",
@@ -52,7 +52,7 @@ const users = {
         age: 25
     },
     male_40_visible: {
-        id: "john",
+        id: "male_40_visible",
         sex: "male",
         name: "John",
         email: "john@g.com",
@@ -62,7 +62,7 @@ const users = {
         age: 40
     },
     female_40_visible: {
-        id: "joanna",
+        id: "female_40_visible",
         sex: "female",
         name: "John",
         email: "john@g.com",

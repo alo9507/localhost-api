@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 describe("Integration Test mutations", () => {
-    const port = 4001;
+    const port = 4002;
     const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
     const server = createServer(process.env.NEO4J_URI1);

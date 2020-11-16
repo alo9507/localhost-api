@@ -6,14 +6,14 @@
   "scripts": {
     "transpile": "babel src --out-dir build --ignore 'src/__tests__'",
     "start:dev": "nodemon build/index.js",
-    "start": "NODE_ENV=dev npm-run-all transpile start:dev",
+    "start": "NODE_ENV=dev npm-run-all transpile start:prod",
     "ss": "npm run clearDb && npm run seedDb && npm start",
     "start:prod": "NODE_ENV=prod node build/index.js",
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",
     "test:local": "NODE_ENV=test jest --watch",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --watch",
     "seedDb": "NODE_ENV=dev node build/scripts/seedDb.js",
-    "clearDb": "NODE_ENV=dev CMD_LINE=true node build/scripts/clearDB.js"
+    "clearDb": "NODE_ENV=dev CMD_LINE=true node build/scripts/runClearDB.js"
   },
   "keywords": [],
   "author": "",
@@ -28,17 +28,15 @@
     "dotenv": "^8.2.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
-    "jest": "^26.6.0",
+    "jest": "^26.6.3",
     "neo4j-driver": "^4.1.2",
     "nodemon": "^2.0.4",
     "path": "^0.12.7"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "ignore": [
-      "node_modules"
+  "jest": {
+    "verbose": true,
+    "roots": [
+      "<rootDir>/src"
     ]
   },
   "devDependencies": {

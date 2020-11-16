@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 import { print } from 'graphql';
 
 const CREATE_USER = print(gql`
-mutation CreateUser($input: CreateUserInput!){
-    createUser(input: $input ) {
+mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
         id
         sex
         name

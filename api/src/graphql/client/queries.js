@@ -2,7 +2,7 @@ const gql = require("graphql-tag");
 const { print } = require('graphql');
 
 const GET_USER = print(gql`
-query GetUser($id: ID!){
+query GetUser($id: ID!) {
     user(id: $id) {
         id
         sex
@@ -55,6 +55,14 @@ const GET_VIABLE_USERS = print(gql`
 query GetViableUsers($id: ID!){
     getViableUsers(id: $id) {
         id
+    }
+}`);
+
+const SHOW_ME_CRITERIA = print(gql`
+query ShowMeCriteria($id: ID!) {
+    showMeCriteria(id: $id) {
+        sex
+        age
     }
 }`);
 
