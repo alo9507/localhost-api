@@ -58,8 +58,9 @@ const queries = {
             WHERE other.isVisible = true
             AND other.sex IN requestor_criteria.sex
             AND requestor.sex IN other_criteria.sex
-            AND requestor.age IN other_criteria.age
-            AND other.age IN requestor_criteria.age
+            AND requestor.age IN range(other_criteria.age[0], other_criteria.age[1])
+            AND other.age IN range(requestor_criteria.age[0], requestor_criteria.age[1])
+            AND other.id <> requestor.id
             RETURN other`
                 , params)
             .then((result) => {
