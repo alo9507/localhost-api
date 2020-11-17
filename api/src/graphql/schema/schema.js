@@ -52,6 +52,19 @@ type Mutation {
   block(input: BlockInput!): BlockResponse
   becomeInvisibleTo(input: BecomeInvisibleToInput!): BecomeInvisibleToResponse
   becomeVisibleTo(input: BecomeVisibleToInput!): BecomeVisibleToResponse
+  updateLocation(input: UpdateLocationInput!): UpdateLocationResponse
+}
+
+input UpdateLocationInput {
+  id: ID!,
+  latitude: Float!,
+  longitude: Float!
+}
+
+type UpdateLocationResponse {
+  id: ID!,
+  latitude: Float!,
+  longitude: Float!
 }
 
 input ReportInput {

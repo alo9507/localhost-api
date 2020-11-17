@@ -88,7 +88,7 @@ const mutations = {
         const txc = session.beginTransaction();
         const promise = new Promise(async (resolve, reject) => {
             try {
-                const userResult = await txc.run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n += $input RETURN n', params);
+                const userResult = await txc.run('MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n.latitude=0.0, n.longitude=0.0, n += $input RETURN n', params);
                 const user = userResult.records[0].get(0).properties;
                 const showMeCriteriaResult = await txc.run(`
                 MERGE (showmecriteria: ShowMeCriteria { id: $id }) 
@@ -218,7 +218,17 @@ const mutations = {
                     to: result.records[0].get('b.id'),
                 };
             });
-    }
+    },
+    updateLocation: (parent, args, context) => {
+        const session = context.driver.session();
+        const params = { id: args.input.id, latitude: args.input.latitude, longitude: args.input.longitude };
+        return session
+            .run('MATCH (n: User { id: $id }) SET n.latitude = $latitude, n.longitude = $longitude RETURN n.latitude, n.longitude, n.id', params)
+            .then(result => {
+                session.close();
+                return { id: result.records[0].get('n.id'), latitude: result.records[0].get('n.latitude'), longitude: result.records[0].get('n.longitude') };
+            });
+    },
 };
 
 export default mutations;

@@ -1,5 +1,5 @@
 import createFetch from '../apollo/fetch';
-import { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
+import { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA, UPDATE_USER_LOCATION } from '../graphql/client/mutations';
 import { GET_USER, GET_USER_FULL } from '../graphql/client/queries';
 import clearDb from '../scripts/clearDb';
 import mockUsers from "../scripts/mocks/mockUsers";
@@ -237,6 +237,15 @@ describe("Integration Test mutations", () => {
         const variables = { input: updateShowMeCriteriaInput };
         const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
         expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ["male"], age: [20, 30] });
+    });
+
+    test("should update location", async () => {
+        const users = await createUsers([mockUsers.john], port);
+
+        const updateUserLocationInput = { id: users[0].id, latitude: 12.5435, longitude: 10.432 };
+        const variables = { input: updateUserLocationInput };
+        const updateLocationResult = await apolloFetch({ query: UPDATE_USER_LOCATION, variables });
+        expect(updateLocationResult.data.updateLocation).toEqual({ id: "john", latitude: 12.5435, longitude: 10.432 });
     });
 
 });

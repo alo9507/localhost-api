@@ -118,6 +118,15 @@ mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     }
 }`);
 
+const UPDATE_USER_LOCATION = print(gql`
+mutation UpdateUserLocation($input: UpdateLocationInput!) {
+    updateLocation(input: $input) {
+        id
+        latitude
+        longitude
+    }
+}`);
+
 export {
     CREATE_USER,
     UPDATE_USER,
@@ -128,5 +137,6 @@ export {
     BLOCK,
     BECOME_INVISIBLE_TO,
     BECOME_VISIBLE_TO,
-    UPDATE_SHOWME_CRITERIA
+    UPDATE_SHOWME_CRITERIA,
+    UPDATE_USER_LOCATION
 };
