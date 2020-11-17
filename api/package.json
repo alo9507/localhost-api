@@ -12,6 +12,7 @@
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",
     "test:local": "NODE_ENV=test jest --watch",
     "test": "NODE_ENV=test jest --watch",
+    "test:cicd": "NODE_ENV=test jest",
     "seedDb": "NODE_ENV=dev node build/scripts/seedDb.js",
     "clearDb": "NODE_ENV=dev CMD_LINE=true node build/scripts/runClearDB.js"
   },

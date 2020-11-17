@@ -1,15 +1,5 @@
 version: "3"
 services:
-  api:
-      depends_on:
-        - "neo4j1"
-        - "neo4j2"
-      build:
-        dockerfile: Dockerfile.dev
-        context: ./api
-      volumes:
-        - /app/node_modules
-        - ./api:/app
   neo4j1:
     image: alo42/neo4j
     ports:

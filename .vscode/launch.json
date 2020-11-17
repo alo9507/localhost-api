@@ -15,6 +15,7 @@
                 "--roots=${workspaceRoot}/api/src",
                 "--testPathPattern='querie'",
                 "--setupTestFrameworkScriptFile=${workspaceRoot}/api/test-setup.js",
+                "--forceExit"
             ],
             "cwd": "${workspaceRoot}/api",
             "console": "integratedTerminal",

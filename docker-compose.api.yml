@@ -1,0 +1,14 @@
+version: "3"
+services:
+    api:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./api
+        volumes:
+            - /app/node_modules
+            - ./api:/app
+        env_file:
+            - api/.env.docker
+        ports:
+          - "4002:4002"
+          - "4003:4003"

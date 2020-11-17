@@ -1,4 +1,4 @@
-import { createApolloFetch } from 'apollo-fetch';
+import createFetch from '../apollo/fetch';
 import { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
 import { GET_USER, GET_USER_FULL } from '../graphql/client/queries';
 import clearDb from '../scripts/clearDb';
@@ -13,7 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV
 describe("Integration Test mutations", () => {
     const port = 4002;
     const uri = `http://localhost:${port}/graphql`;
-    const apolloFetch = createApolloFetch({ uri });
+    const apolloFetch = createFetch(uri, false);
     const server = createServer(process.env.NEO4J_URI1);
 
     beforeAll(async () => {

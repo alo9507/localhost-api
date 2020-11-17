@@ -30,34 +30,38 @@ describe("Integration Test queries", () => {
         await clearDb(process.env.NEO4J_URI2);
     });
 
-    test("should fetch only viable users according to user visibility and showmecriteria", async () => {
+    test("should fetch only viable users according to user visibility and ShowMeCriteria of both parties", async () => {
         const users = await createUsers([
             mockUsers.john,
             mockUsers.male_25_visible,
-            // mockUsers.male_25_invisible,
-            // mockUsers.male_40_visible,
-            // mockUsers.female_25_visible,
-            // mockUsers.female_25_invisible,
-            // mockUsers.female_40_visible
+            mockUsers.male_25_invisible,
+            mockUsers.male_40_visible,
+            mockUsers.female_25_visible,
+            mockUsers.female_25_invisible,
+            mockUsers.female_40_visible
         ], port);
 
         // john is young male seeking visible young male
         const updateShowMeCriteriaInput = { id: "john", sex: ["male"], age: [20, 30] };
-        const variables = { input: updateShowMeCriteriaInput };
-        const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
+        const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables: { input: updateShowMeCriteriaInput } });
         expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ["male"], age: [20, 30] });
 
         // male_25_visible is male seeking visible young male
         const updateShowMeCriteriaInput_2 = { id: "male_25_visible", sex: ["male"], age: [20, 30] };
-        const variables_2 = { input: updateShowMeCriteriaInput_2 };
-        const updateShowMeCriteriaResult_2 = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables: variables_2 });
+        const updateShowMeCriteriaResult_2 = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables: { input: updateShowMeCriteriaInput_2 } });
         expect(updateShowMeCriteriaResult_2.data.updateShowMeCriteria).toEqual({ sex: ["male"], age: [20, 30] });
-
-        const showMeCrit = await apolloFetch({ query: SHOW_ME_CRITERIA, variables: { id: "male_25_visible" } });
-        expect(showMeCrit.data.showMeCriteria).toEqual({ sex: ["male"], age: [20, 30] });
 
         const viableUsersResult = await apolloFetch({ query: GET_VIABLE_USERS, variables: { id: "john" } });
         expect(viableUsersResult.data.getViableUsers).toEqual([{ id: "male_25_visible" }]);
+
+        // john now wants to see young MALES AND FEMALES
+        const updateShowMeCriteriaInput_3 = { id: "john", sex: ["male", "female"] };
+        const updateShowMeCriteriaResult_3 = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables: { input: updateShowMeCriteriaInput_3 } });
+        expect(updateShowMeCriteriaResult_3.data.updateShowMeCriteria).toEqual({ sex: ["male", "female"], age: [20, 30] });
+
+        // and see them he shall
+        const viableUsersResult2 = await apolloFetch({ query: GET_VIABLE_USERS, variables: { id: "john" } });
+        expect(new Set(viableUsersResult2.data.getViableUsers)).toEqual(new Set([{ id: "male_25_visible" }, { id: "female_25_visible" }]));
     });
 
 }); 
