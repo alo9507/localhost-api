@@ -219,14 +219,31 @@ const mutations = {
                 };
             });
     },
-    updateLocation: (parent, args, context) => {
+    updateLocationGetUsers: (parent, args, context) => {
         const session = context.driver.session();
         const params = { id: args.input.id, latitude: args.input.latitude, longitude: args.input.longitude };
         return session
-            .run('MATCH (n: User { id: $id }) SET n.latitude = $latitude, n.longitude = $longitude RETURN n.latitude, n.longitude, n.id', params)
+            .run(`
+            MATCH (n: User { id: $id }) 
+            SET n.latitude = $latitude, n.longitude = $longitude 
+            WITH n
+            MATCH (requestor_criteria: ShowMeCriteria { id: $id }), (requestor: User { id: $id })
+            WITH requestor, requestor_criteria
+            MATCH (other: User), (other_criteria: ShowMeCriteria { id: other.id })
+            MATCH (n: User)
+            WHERE distance(point({ longitude: $longitude, latitude: $latitude, height: 0 }), point({ latitude: n.latitude, longitude: n.longitude, height: 0 })) < 1000
+            AND other.isVisible = true
+            AND other.sex IN requestor_criteria.sex
+            AND requestor.sex IN other_criteria.sex
+            AND requestor.age IN range(other_criteria.age[0], other_criteria.age[1])
+            AND other.age IN range(requestor_criteria.age[0], requestor_criteria.age[1])
+            AND other.id <> requestor.id
+            RETURN other
+            `, params)
             .then(result => {
+                const users = result.records.map((record) => record.get(0).properties);
                 session.close();
-                return { id: result.records[0].get('n.id'), latitude: result.records[0].get('n.latitude'), longitude: result.records[0].get('n.longitude') };
+                return users;
             });
     },
 };

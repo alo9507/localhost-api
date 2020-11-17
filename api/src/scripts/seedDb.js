@@ -34,7 +34,9 @@ server.listen({ port })
                     bio: rand(bios),
                     whatAmIDoing: rand(whatAmIDoings),
                     isVisible: rand(isVisible),
-                    age: rand(ages)
+                    age: rand(ages),
+                    latitude: 0.0,
+                    longitude: 0.0
                 }
             };
 
