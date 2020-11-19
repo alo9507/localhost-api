@@ -1,6 +1,6 @@
 const mutations = {
     signUp: (parent, args, context) => {
-        const session = context.amplify;
+        const session = context.authProvider;
 
     },
     signIn: (parent, args, context) => {

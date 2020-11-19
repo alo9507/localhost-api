@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "lhaccountservices88fe2871": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

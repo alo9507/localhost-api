@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lhaccountservices-dev-204011-authRole",
+      "UnauthRoleArn": "arn:aws:iam::273181460905:role/amplify-lhaccountservices-dev-204011-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::273181460905:role/amplify-lhaccountservices-dev-204011-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-lhaccountservices-dev-204011-deployment",
+      "UnauthRoleName": "amplify-lhaccountservices-dev-204011-unauthRole",
+      "StackName": "amplify-lhaccountservices-dev-204011",
+      "StackId": "arn:aws:cloudformation:us-east-2:273181460905:stack/amplify-lhaccountservices-dev-204011/2b8dcb70-2a08-11eb-8e9d-0293f8bd79ba",
+      "AmplifyAppId": "dlut6rrue9gmi"
+    },
+    "categories": {
+      "auth": {
+        "lhaccountservices88fe2871": {}
+      }
+    }
+  }
+}
