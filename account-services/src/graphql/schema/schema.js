@@ -12,7 +12,7 @@ type Query {
 type Mutation {
     signUp(input: SignUpInput!): SignUpResponse
     signIn(input: SignInInput!): SignInResponse
-    signOut(input: SignOutInput!): SignOutResponse
+    signOut: SignOutResponse
 }
 
 input SignUpInput {
@@ -37,10 +37,6 @@ type SignInResponse {
     password: String
     authToken: String
     userId: String
-}
-
-input SignOutInput {
-    thing: String
 }
 
 type SignOutResponse {

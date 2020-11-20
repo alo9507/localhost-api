@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf ./build && tsc",
-    "start": "nodemon",
+    "start": "node ./build/index.js",
+    "start:dev": "nodemon",
     "start:prod": "node ./build/index.js",
     "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test-report": "NODE_ENV=test jest --coverage",
     "lint": "eslint . --ext .ts",
     "lint+": "eslint . --ext .ts --fix"
   },

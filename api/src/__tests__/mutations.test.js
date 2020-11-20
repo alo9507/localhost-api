@@ -1,5 +1,5 @@
 import createFetch from '../apollo/fetch';
-import { BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA, UPDATE_USER_LOCATION } from '../graphql/client/mutations';
+import { UPDATE_LOCATION_AND_GET_USERS, BECOME_VISIBLE_TO, BECOME_INVISIBLE_TO, BLOCK, CREATE_USER, UPDATE_USER, SEND_NOD, DELETE_ALL_USERS, RETURN_NOD, REPORT, UPDATE_SHOWME_CRITERIA, UPDATE_USER_LOCATION } from '../graphql/client/mutations';
 import { GET_USER, GET_USER_FULL } from '../graphql/client/queries';
 import clearDb from '../scripts/clearDb';
 import mockUsers from "../scripts/mocks/mockUsers";
@@ -246,6 +246,18 @@ describe("Integration Test mutations", () => {
         const variables = { input: updateUserLocationInput };
         const updateLocationResult = await apolloFetch({ query: UPDATE_USER_LOCATION, variables });
         expect(updateLocationResult.data.updateLocation).toEqual({ id: "john", latitude: 12.5435, longitude: 10.432 });
+    });
+
+    test.only("should fetch only viable users according to user visibility and ShowMeCriteria of both parties", async () => {
+        const users = await createUsers([
+            mockUsers.john,
+            mockUsers.lat10_long10,
+            mockUsers.lat80_long80
+        ], port);
+
+        const variables = { input: { id: "john", latitude: "10.0", longitude: "10.0" } };
+        const usersNearJohn = await apolloFetch({ query: UPDATE_LOCATION_AND_GET_USERS, variables });
+        expect(new Set(usersNearJohn.data.updateLocationGetUsers)).toEqual(new Set([{ id: "lat10_long10" }]));
     });
 
 });

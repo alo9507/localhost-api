@@ -11,6 +11,30 @@ const users = {
         isVisible: true,
         age: 25
     },
+    lat10_long10: {
+        id: "lat10_long10",
+        sex: "male",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 25,
+        latitude: 10,
+        longitude: 10
+    },
+    lat80_long80: {
+        id: "lat80_long80",
+        sex: "male",
+        name: "John",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 25,
+        latitude: 80,
+        longitude: 80
+    },
     male_25_visible: {
         id: "male_25_visible",
         sex: "male",

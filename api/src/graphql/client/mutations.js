@@ -127,6 +127,16 @@ mutation UpdateUserLocation($input: UpdateLocationInput!) {
     }
 }`);
 
+const UPDATE_LOCATION_AND_GET_USERS = print(gql`
+query UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
+    updateLocationGetUsers(input: $input) {
+        id
+        name
+        latitude
+        longitude
+    }
+}`);
+
 export {
     CREATE_USER,
     UPDATE_USER,
@@ -138,5 +148,6 @@ export {
     BECOME_INVISIBLE_TO,
     BECOME_VISIBLE_TO,
     UPDATE_SHOWME_CRITERIA,
-    UPDATE_USER_LOCATION
+    UPDATE_USER_LOCATION,
+    UPDATE_LOCATION_AND_GET_USERS
 };

@@ -1,15 +1,30 @@
 const mutations = {
-    signUp: (parent, args, context) => {
+    signUp: async (parent, args, context) => {
         const session = context.authProvider;
-
+        const result = await context.authProvider.signUp(args.input.email, args.input.password);
+        return {
+            email: args.input.email,
+            password: args.input.password,
+            userId: result.userId,
+            authToken: result.authToken
+        };
     },
-    signIn: (parent, args, context) => {
-        const session = context.amplify;
-
+    signIn: async (parent, args, context) => {
+        const session = context.authProvider;
+        const result = await context.authProvider.signIn(args.input.email, args.input.password);
+        return {
+            email: args.input.email,
+            password: args.input.password,
+            userId: result.userId,
+            authToken: result.authToken
+        };
     },
-    signOut: (parent, args, context) => {
-        const session = context.amplify;
-
+    signOut: async (parent, args, context) => {
+        const session = context.authProvider;
+        const result = await context.authProvider.signOut();
+        return {
+            success: result
+        };
     },
 };
 

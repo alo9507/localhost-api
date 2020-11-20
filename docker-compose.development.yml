@@ -20,6 +20,17 @@ services:
             - ./api:/app
         env_file:
             - api/.env.docker
+    account:
+        depends_on:
+            - "neo4j"
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./api
+        volumes:
+            - /app/node_modules
+            - ./account-services:/app
+        env_file:
+            - api/.env.docker
     nginx:
         restart: always
         depends_on:
