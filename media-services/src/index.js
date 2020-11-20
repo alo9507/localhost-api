@@ -1,18 +1,19 @@
-import express from "express";
-import uploadFile from "./aws/uploader";
+
+import upload from "./aws/upload";
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-const express = require('express');
-const app = express();
-const port = 3000;
+import express from "express";
+const http = require('http').Server(app);
 
-app.post('/uploadImage', (req, res) => {
-    const imageUrl = await uploadFile(req.data);
-    res.send(imageUrl);
+const app = express();
+
+app.post('/upload', upload.single('photo'), (req, res, next) => {
+    res.json(req.file);
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+let port = process.env.PORT || 3000;
+http.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 });
