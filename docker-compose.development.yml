@@ -1,5 +1,15 @@
 version: "3"
 services:
+    nginx:
+        restart: always
+        depends_on:
+            - "api"
+            - "neo4j"
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
+        ports:
+            - '80:80'
     neo4j:
         build:
             dockerfile: Dockerfile
@@ -25,19 +35,18 @@ services:
             - "neo4j"
         build:
             dockerfile: Dockerfile.dev
-            context: ./api
+            context: ./account-services
         volumes:
-            - /app/node_modules
             - ./account-services:/app
         env_file:
             - api/.env.docker
-    nginx:
-        restart: always
+    media:
         depends_on:
-            - "api"
             - "neo4j"
         build:
             dockerfile: Dockerfile.dev
-            context: ./nginx
-        ports:
-            - '80:80'
+            context: ./media-services
+        volumes:
+            - ./media-services:/app
+        env_file:
+            - api/.env.docker
