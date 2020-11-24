@@ -11,6 +11,18 @@ const users = {
         isVisible: true,
         age: 25
     },
+    nearby: {
+        id: "nearby",
+        sex: "male",
+        name: "Near By",
+        email: "john@g.com",
+        bio: "John's bio",
+        whatAmIDoing: "What john is doing",
+        isVisible: true,
+        age: 25,
+        latitude: 10,
+        longitude: 10
+    },
     lat10_long10: {
         id: "lat10_long10",
         sex: "male",

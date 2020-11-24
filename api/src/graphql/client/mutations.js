@@ -128,12 +128,9 @@ mutation UpdateUserLocation($input: UpdateLocationInput!) {
 }`);
 
 const UPDATE_LOCATION_AND_GET_USERS = print(gql`
-query UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
+mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
     updateLocationGetUsers(input: $input) {
         id
-        name
-        latitude
-        longitude
     }
 }`);
 

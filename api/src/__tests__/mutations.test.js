@@ -8,12 +8,13 @@ import createAndSendNod from "../scripts/createAndSendNod";
 import createServer from "../apollo/server";
 import path from 'path';
 import dotenv from 'dotenv';
+import { generateRandomPoint } from '../geo';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 describe("Integration Test mutations", () => {
     const port = 4002;
     const uri = `http://localhost:${port}/graphql`;
-    const apolloFetch = createFetch(uri, false);
+    const apolloFetch = createFetch(uri, true);
     const server = createServer(process.env.NEO4J_URI1);
 
     beforeAll(async () => {
@@ -248,16 +249,24 @@ describe("Integration Test mutations", () => {
         expect(updateLocationResult.data.updateLocation).toEqual({ id: "john", latitude: 12.5435, longitude: 10.432 });
     });
 
-    test.only("should fetch only viable users according to user visibility and ShowMeCriteria of both parties", async () => {
+    test.only("should fetch only viable users according to user visibility, ShowMeCriteria of both parties, and location", async () => {
         const users = await createUsers([
             mockUsers.john,
-            mockUsers.lat10_long10,
+            mockUsers.nearby,
             mockUsers.lat80_long80
         ], port);
 
-        const variables = { input: { id: "john", latitude: "10.0", longitude: "10.0" } };
+        const johnLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
+
+        const nearbyPoint = generateRandomPoint(johnLocation, 999);
+
+        const nearbyVariables = { input: { id: "nearby", latitude: nearbyPoint.latitude, longitude: nearbyPoint.longitude } };
+        const stuff = await apolloFetch({ query: UPDATE_LOCATION_AND_GET_USERS, variables: nearbyVariables });
+
+        const variables = { input: { id: "john", latitude: johnLocation.latitude, longitude: johnLocation.longitude } };
         const usersNearJohn = await apolloFetch({ query: UPDATE_LOCATION_AND_GET_USERS, variables });
-        expect(new Set(usersNearJohn.data.updateLocationGetUsers)).toEqual(new Set([{ id: "lat10_long10" }]));
+
+        expect(new Set(usersNearJohn.data.updateLocationGetUsers)).toEqual(new Set([{ id: "nearby" }]));
     });
 
 });
