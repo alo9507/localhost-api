@@ -1,4 +1,12 @@
-import { showMeCriteria } from "../../graphql/resolvers/query/queries";
+import { generateRandomPoint } from '../../geo';
+
+const cafeLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
+const networkingEventLocation = { latitude: 50.22244098031902, longitude: 50.125367053780863 };
+
+const locations = {
+    "cafe": generateRandomPoint(cafeLocation, 800),
+    "networkingEvent": generateRandomPoint(networkingEventLocation, 800)
+};
 
 const users = {
     john: {
@@ -105,7 +113,9 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: "What john is doing",
         isVisible: true,
-        age: 40
+        age: 40,
+        latitude: locations["networkingEvent"].latitude,
+        longitude: locations["networkingEvent"].longitude
     },
     jenny: {
         id: "jenny",
@@ -115,7 +125,9 @@ const users = {
         bio: "Jenny's bio",
         whatAmIDoing: "What jenny is doing",
         isVisible: true,
-        age: 50
+        age: 50,
+        latitude: locations["networkingEvent"].latitude,
+        longitude: locations["networkingEvent"].longitude
     },
     bill: {
         id: "bill",
@@ -125,7 +137,9 @@ const users = {
         bio: "Bill's bio",
         whatAmIDoing: "What Bill is doing",
         isVisible: false,
-        age: 16
+        age: 16,
+        latitude: locations["cafe"].latitude,
+        longitude: locations["cafe"].longitude
     },
     tamara: {
         id: "tamara",
@@ -135,7 +149,9 @@ const users = {
         bio: "Tamara's bio",
         whatAmIDoing: "What Tamara is doing",
         isVisible: false,
-        age: 24
+        age: 24,
+        latitude: locations["cafe"].latitude,
+        longitude: locations["cafe"].longitude
     },
 };
 

@@ -1,3 +1,5 @@
+import { generateRandomPoint } from '../../geo';
+
 const names = [
     "Andrew",
     "Jamie",
@@ -10,12 +12,6 @@ const names = [
 const isVisible = [
     true,
     false
-];
-
-const locations = [
-    { latitude: 10.0, longitude: 10.0 },
-    { latitude: 20.0, longitude: 20.0 },
-    { latitude: 30.0, longitude: 30.0 },
 ];
 
 const bios = [
@@ -50,5 +46,13 @@ const emails = [
     "me2@g.com",
     "me3@g.com"
 ];
+
+const cafeLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
+const networkingEventLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
+
+const locations = {
+    "cafe": generateRandomPoint(cafeLocation, 999),
+    "networkingEvent": generateRandomPoint(networkingEventLocation, 999)
+};
 
 export { names, isVisible, bios, whatAmIDoings, sex, ages, emails };
