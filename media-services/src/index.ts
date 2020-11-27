@@ -5,9 +5,8 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 import express from "express";
-const http = require('http').Server(app);
-
 const app = express();
+const http = require('http').Server(app);
 
 app.post('/upload', upload.single('photo'), (req, res, next) => {
     res.json(req.file);
