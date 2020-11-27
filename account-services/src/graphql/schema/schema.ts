@@ -1,47 +1,47 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-type User {
+  type User {
     email: String
-}
+  }
 
-type Query {
+  type Query {
     user: String
-}
+  }
 
-type Mutation {
+  type Mutation {
     signUp(input: SignUpInput!): SignUpResponse
     signIn(input: SignInInput!): SignInResponse
     signOut: SignOutResponse
-}
+  }
 
-input SignUpInput {
+  input SignUpInput {
     email: String!
     password: String!
-}
+  }
 
-type SignUpResponse {
+  type SignUpResponse {
     email: String
     password: String
     authToken: String
     userId: String
-}
+  }
 
-input SignInInput {
+  input SignInInput {
     email: String
     password: String
-}
+  }
 
-type SignInResponse {
+  type SignInResponse {
     email: String
     password: String
     authToken: String
     userId: String
-}
+  }
 
-type SignOutResponse {
+  type SignOutResponse {
     success: Boolean
-}
+  }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf ./build && tsc",
     "start": "npm run build && NODE_ENV=prod node build/index.js",
-    "start:dev": "nodemon",
+    "start:dev": "NODE_ENV=dev nodemon",
     "start:prod": "NODE_ENV=prod node build/index.js",
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",
     "test": "NODE_ENV=test jest --watch",
