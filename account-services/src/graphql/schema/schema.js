@@ -16,8 +16,8 @@ type Mutation {
 }
 
 input SignUpInput {
-    email: String
-    password: String
+    email: String!
+    password: String!
 }
 
 type SignUpResponse {

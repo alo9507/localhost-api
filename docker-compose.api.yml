@@ -1,14 +1,24 @@
 version: "3"
 services:
+    neo4j:
+        build:
+            dockerfile: Dockerfile
+            context: ./neo4j
+        ports:
+            - "7474:7474"
+            - "7687:7687"
+        environment:
+            - NEO4J_AUTH=none
     api:
+        depends_on:
+            - "neo4j"
         build:
             dockerfile: Dockerfile.dev
             context: ./api
+        ports:
+            - "4000:4000"
         volumes:
             - /app/node_modules
             - ./api:/app
         env_file:
             - api/.env.docker
-        ports:
-          - "4002:4002"
-          - "4003:4003"
