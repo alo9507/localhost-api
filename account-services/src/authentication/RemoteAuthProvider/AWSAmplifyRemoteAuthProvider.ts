@@ -1,4 +1,4 @@
-import { Auth } from 'aws-amplify';
+import {Auth} from 'aws-amplify';
 import AuthError from '../AuthError/AuthError';
 import AuthSession from '../AuthSession/AuthSession';
 import RemoteAuthProvider from '../RemoteAuthProvider/RemoteAuthProvider';
@@ -52,7 +52,7 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     return promise;
   }
 
-  async signUp(email: string, password: string): Promise<AuthSession> {
+  signUp(email: string, password: string): Promise<AuthSession> {
     const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const signUpResult = await Auth.signUp({
@@ -67,14 +67,19 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
         switch (e.message) {
           case "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6":
             reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+            break;
           case 'User does not exist.':
             reject(`${AuthError.userNotFound}:  ${e.message}`);
+            break;
           case 'Username should be either an email or a phone number.':
             reject(`${AuthError.usernameInvalid}:  ${e.message}`);
+            break;
           case 'Password did not conform with policy: Password not long enough':
             reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+            break;
           case 'An account with the given email already exists.':
             reject(`${AuthError.emailAlreadyExists}:  ${e.message}`);
+            break;
           default:
             reject(`${AuthError.unknownError}:  ${e.message}`);
         }

@@ -6,7 +6,7 @@
   "scripts": {
     "transpile": "babel src --out-dir build --ignore 'src/__tests__'",
     "start:dev": "nodemon build/index.js",
-    "start": "NODE_ENV=dev npm-run-all transpile start:prod",
+    "start": "NODE_ENV=dev npm-run-all transpile start:dev",
     "ss": "npm run clearDb && npm run seedDb && npm start",
     "start:prod": "NODE_ENV=prod node build/index.js",
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",

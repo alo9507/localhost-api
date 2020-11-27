@@ -37,16 +37,7 @@ services:
             dockerfile: Dockerfile.dev
             context: ./account-services
         volumes:
+            - /app/node_modules
             - ./account-services:/app
-        env_file:
-            - api/.env.docker
-    media:
-        depends_on:
-            - "neo4j"
-        build:
-            dockerfile: Dockerfile.dev
-            context: ./media-services
-        volumes:
-            - ./media-services:/app
         env_file:
             - api/.env.docker

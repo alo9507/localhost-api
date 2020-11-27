@@ -8,7 +8,9 @@
     "build": "rm -rf ./build && tsc",
     "start:dev": "nodemon build/index.js",
     "ss": "npm run clearDb && npm run seedDb && npm start",
-    "test": "NODE_ENV=test jest --watch"
+    "test": "NODE_ENV=test jest --watch",
+    "lint": "eslint . --ext .ts",
+    "lint+": "eslint . --ext .ts --fix"
   },
   "keywords": [],
   "author": "",
