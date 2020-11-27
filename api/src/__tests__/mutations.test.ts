@@ -14,7 +14,7 @@ dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV
 describe("Integration Test mutations", () => {
     const port = 4002;
     const uri = `http://localhost:${port}/graphql`;
-    const apolloFetch = createFetch(uri, true);
+    const apolloFetch = createFetch(uri, false);
     const server = createServer(process.env.NEO4J_URI1);
 
     beforeAll(async () => {
@@ -249,7 +249,7 @@ describe("Integration Test mutations", () => {
         expect(updateLocationResult.data.updateLocation).toEqual({ id: "john", latitude: 12.5435, longitude: 10.432 });
     });
 
-    test.only("should fetch only viable users according to user visibility, ShowMeCriteria of both parties, and location", async () => {
+    test("should fetch only viable users according to user visibility, ShowMeCriteria of both parties, and location", async () => {
         const users = await createUsers([
             mockUsers.john,
             mockUsers.nearby,

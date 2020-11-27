@@ -1,4 +1,3 @@
-import { toNumber } from "../../../utils";
 import { generateQuery } from "../../../utils";
 
 const queries = {

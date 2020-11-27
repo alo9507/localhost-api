@@ -1,5 +1,5 @@
 import { UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
-import { GET_VIABLE_USERS, SHOW_ME_CRITERIA, UPDATE_LOCATION_AND_GET_USERS } from '../graphql/client/queries';
+import { GET_VIABLE_USERS, SHOW_ME_CRITERIA } from '../graphql/client/queries';
 import clearDb from '../scripts/clearDb';
 import mockUsers from "../scripts/mocks/mockUsers";
 import createUsers from "../scripts/createUsers";

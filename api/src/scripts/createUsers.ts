@@ -7,10 +7,10 @@ async function createUsers(users, port) {
     const apolloFetch = createApolloFetch({ uri });
 
     let promise = new Promise(async (resolve, reject) => {
-        for (name in users) {
+        users.forEach(async name => {
             const variables = { input: users[name] };
             await apolloFetch({ query: CREATE_USER, variables });
-        };
+        });
         resolve(users);
     });
 

@@ -269,4 +269,4 @@ input ModelUserFilterInput {
 }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;

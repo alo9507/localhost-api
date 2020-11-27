@@ -4,25 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "transpile": "babel src --out-dir build --ignore 'src/__tests__'",
-    "start:dev": "nodemon build/index.js",
-    "start": "NODE_ENV=dev npm-run-all transpile start:dev",
-    "ss": "npm run clearDb && npm run seedDb && npm start",
+    "build": "rm -rf ./build && tsc",
+    "start": "npm run build && NODE_ENV=prod node build/index.js",
+    "start:dev": "nodemon",
     "start:prod": "NODE_ENV=prod node build/index.js",
     "testdbs": "docker-compose -f ../docker-compose.test.yml up",
-    "test:local": "NODE_ENV=test jest --watch",
     "test": "NODE_ENV=test jest --watch",
     "test:cicd": "NODE_ENV=test jest",
-    "seedDb": "npm run transpile && NODE_ENV=dev node build/scripts/seedDb.js",
-    "clearDb": "NODE_ENV=dev CMD_LINE=true node build/scripts/runClearDB.js"
+    "seedDb": "NODE_ENV=dev ts-node seedDb.js",
+    "clearDb": "NODE_ENV=dev CMD_LINE=true node build/scripts/runClearDB.js",
+    "test-report": "NODE_ENV=test jest --coverage",
+    "lint": "eslint . --ext .ts",
+    "lint+": "eslint . --ext .ts --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
+    "@types/jest": "^26.0.15",
     "apollo-fetch": "^0.7.0",
     "apollo-server": "^2.18.2",
     "babel-jest": "^26.6.3",
@@ -30,17 +29,42 @@
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "jest": "^26.6.3",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "neo4j-driver": "^4.1.2",
     "nodemon": "^2.0.4",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.4",
+    "tsc": "^1.20150623.0"
   },
   "jest": {
-    "verbose": true,
+    "coverageDirectory": "<rootDir>/reports/jest-coverage",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transformIgnorePatterns": [
+      "node_modules/"
+    ],
     "roots": [
       "<rootDir>/src"
-    ]
+    ],
+    "verbose": true
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5"
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/node": "^14.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
   }
 }

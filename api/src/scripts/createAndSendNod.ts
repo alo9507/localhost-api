@@ -6,11 +6,12 @@ async function createAndSendNod(users, port) {
     const uri = `http://localhost:${port}/graphql`;
     const apolloFetch = createApolloFetch({ uri });
 
-    let promise = new Promise(async (resolve, reject) => {
-        for (name in users) {
+    let promise = new Promise<void>(async (resolve, reject) => {
+        users.forEach(async name => {
             const variables = { input: users[name] };
             await apolloFetch({ query: CREATE_USER, variables });
-        };
+        });
+
         if (users.length != 2) {
             throw new Error("Needs 2 users");
         }

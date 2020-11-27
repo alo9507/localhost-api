@@ -3,8 +3,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-const clearDb = (databaseUri) => {
-    const promise = new Promise((resolve, reject) => {
+const clearDb = (databaseUri): Promise<void> => {
+    const promise = new Promise<void>((resolve, reject) => {
         const session = createDriver(databaseUri).session();
 
         session.writeTransaction(tx => {
