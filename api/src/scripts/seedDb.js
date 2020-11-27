@@ -13,7 +13,7 @@ const port = 4005;
 server.listen({ port })
     .then(async ({ url }) => {
         const uri = 'http://localhost:4005';
-        const apolloFetch = createFetch(uri, true);
+        const apolloFetch = createFetch(uri, false);
 
         const query = `
                 mutation CreateUser($input: CreateUserInput!){

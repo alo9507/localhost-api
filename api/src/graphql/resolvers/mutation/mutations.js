@@ -230,7 +230,7 @@ const mutations = {
             MATCH (requestor_criteria: ShowMeCriteria { id: $id }), (requestor: User { id: $id })
             WITH requestor, requestor_criteria
             MATCH (other: User), (other_criteria: ShowMeCriteria { id: other.id })
-            WHERE distance(point({ longitude: $longitude, latitude: $latitude, height: 0 }), point({ latitude: other.latitude, longitude: other.longitude, height: 0 })) < 1000
+            WHERE distance(point({ longitude: $longitude, latitude: $latitude, height: 0 }), point({ latitude: other.latitude, longitude: other.longitude, height: 0 })) < 3000
             AND other.isVisible = true
             AND other.sex IN requestor_criteria.sex
             AND requestor.sex IN other_criteria.sex

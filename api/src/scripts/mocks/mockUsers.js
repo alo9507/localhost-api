@@ -72,7 +72,7 @@ const users = {
         email: "john@g.com",
         bio: "John's bio",
         whatAmIDoing: "What john is doing",
-        isVisible: false,
+        isVisible: true,
         age: 25
     },
     female_25_visible: {
@@ -92,7 +92,7 @@ const users = {
         email: "john@g.com",
         bio: "John's bio",
         whatAmIDoing: "What john is doing",
-        isVisible: false,
+        isVisible: true,
         age: 25
     },
     male_40_visible: {
@@ -136,8 +136,8 @@ const users = {
         email: "bill@g.com",
         bio: "Bill's bio",
         whatAmIDoing: "What Bill is doing",
-        isVisible: false,
-        age: 16,
+        isVisible: true,
+        age: 20,
         latitude: locations["cafe"].latitude,
         longitude: locations["cafe"].longitude
     },
@@ -148,7 +148,7 @@ const users = {
         email: "tamara@g.com",
         bio: "Tamara's bio",
         whatAmIDoing: "What Tamara is doing",
-        isVisible: false,
+        isVisible: true,
         age: 24,
         latitude: locations["cafe"].latitude,
         longitude: locations["cafe"].longitude
