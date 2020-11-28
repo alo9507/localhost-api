@@ -1,4 +1,4 @@
-import { generateRandomPoint } from '../geo';
+import { generateRandomPoint } from '../../geo';
 
 const cafeLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
 const networkingEventLocation = { latitude: 50.22244098031902, longitude: 50.125367053780863 };

@@ -1,4 +1,4 @@
-import createFetch from '../apollo/fetch';
+import createFetch from '../../apollo/fetch';
 import {
   UPDATE_LOCATION_AND_GET_USERS,
   BECOME_VISIBLE_TO,
@@ -11,16 +11,16 @@ import {
   REPORT,
   UPDATE_SHOWME_CRITERIA,
   UPDATE_USER_LOCATION
-} from '../graphql/client/mutations';
-import { GET_USER, GET_USER_FULL } from '../graphql/client/queries';
-import clearDb from '../scripts/clearDb';
-import mockUsers from '../mocks/mockUsers_mutations';
-import createUsers from '../scripts/createUsers';
-import createAndSendNod from '../scripts/createAndSendNod';
-import createServer from '../apollo/server';
+} from '../../graphql/client/mutations';
+import { GET_USER, GET_USER_FULL } from '../../graphql/client/queries';
+import clearDb from '../../scripts/clearDb';
+import mockUsers from './mockUsers_mutations';
+import createUsers from '../../scripts/createUsers';
+import createAndSendNod from '../../scripts/createAndSendNod';
+import createServer from '../../apollo/server';
 import path from 'path';
 import dotenv from 'dotenv';
-import { generateRandomPoint } from '../geo';
+import { generateRandomPoint } from '../../geo';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 describe('Integration Test mutations', () => {

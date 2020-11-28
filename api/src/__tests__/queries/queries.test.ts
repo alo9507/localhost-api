@@ -1,10 +1,10 @@
-import { UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
-import { GET_VIABLE_USERS } from '../graphql/client/queries';
-import clearDb from '../scripts/clearDb';
-import mockUsers from '../mocks/mockUsers_queries';
-import createUsers from '../scripts/createUsers';
-import createServer from '../apollo/server';
-import createFetch from '../apollo/fetch';
+import { UPDATE_SHOWME_CRITERIA } from '../../graphql/client/mutations';
+import { GET_VIABLE_USERS } from '../../graphql/client/queries';
+import clearDb from '../../scripts/clearDb';
+import mockUsers from './mockUsers_queries';
+import createUsers from '../../scripts/createUsers';
+import createServer from '../../apollo/server';
+import createFetch from '../../apollo/fetch';
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });

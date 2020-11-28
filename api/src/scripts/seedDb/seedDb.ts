@@ -1,6 +1,6 @@
-import createFetch from '../apollo/fetch';
-import createServer from '../apollo/server';
-import mockUsers from '../mocks/mockUsers_queries';
+import createFetch from '../../apollo/fetch';
+import createServer from '../../apollo/server';
+import mockUsers from './mockUsers_seedDb';
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
