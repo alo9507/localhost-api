@@ -6,10 +6,10 @@ async function createUsers(users, port) {
   const apolloFetch = createFetch(uri, false);
 
   const promise = new Promise(async (resolve, reject) => {
-    users.forEach(async (user) => {
+    for (const user of users) {
       const variables = { input: user };
-      await apolloFetch({ query: CREATE_USER, variables });
-    });
+      const result = await apolloFetch({ query: CREATE_USER, variables });
+    }
     resolve(users);
   });
 

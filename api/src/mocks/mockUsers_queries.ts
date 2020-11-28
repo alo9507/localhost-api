@@ -1,7 +1,7 @@
-import {generateRandomPoint} from '../../geo';
+import { generateRandomPoint } from '../geo';
 
-const cafeLocation = {latitude: 24.22244098031902, longitude: 23.125367053780863};
-const networkingEventLocation = {latitude: 50.22244098031902, longitude: 50.125367053780863};
+const cafeLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
+const networkingEventLocation = { latitude: 50.22244098031902, longitude: 50.125367053780863 };
 
 const locations = {
   cafe: generateRandomPoint(cafeLocation, 800),
@@ -72,7 +72,7 @@ const users = {
     email: 'john@g.com',
     bio: "John's bio",
     whatAmIDoing: 'What john is doing',
-    isVisible: true,
+    isVisible: false,
     age: 25
   },
   female_25_visible: {
@@ -92,7 +92,7 @@ const users = {
     email: 'john@g.com',
     bio: "John's bio",
     whatAmIDoing: 'What john is doing',
-    isVisible: true,
+    isVisible: false,
     age: 25
   },
   male_40_visible: {

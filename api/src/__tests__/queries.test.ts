@@ -1,9 +1,8 @@
 import { UPDATE_SHOWME_CRITERIA } from '../graphql/client/mutations';
-import { GET_VIABLE_USERS, SHOW_ME_CRITERIA } from '../graphql/client/queries';
+import { GET_VIABLE_USERS } from '../graphql/client/queries';
 import clearDb from '../scripts/clearDb';
-import mockUsers from '../scripts/mocks/mockUsers';
+import mockUsers from '../mocks/mockUsers_queries';
 import createUsers from '../scripts/createUsers';
-import createAndSendNod from '../scripts/createAndSendNod';
 import createServer from '../apollo/server';
 import createFetch from '../apollo/fetch';
 import path from 'path';
@@ -30,7 +29,7 @@ describe('Integration Test queries', () => {
     await clearDb(process.env.NEO4J_URI2);
   });
 
-  test.only('should fetch only viable users according to user visibility and ShowMeCriteria of both parties', async () => {
+  test('should fetch only viable users according to user visibility and ShowMeCriteria of both parties', async () => {
     const users = await createUsers(
       [
         mockUsers.john,
