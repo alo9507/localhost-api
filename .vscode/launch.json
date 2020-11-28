@@ -14,7 +14,7 @@
                 "--runInBand",
                 "--roots=${workspaceRoot}/api/src",
                 "--testPathPattern='querie'",
-                "--setupTestFrameworkScriptFile=${workspaceRoot}/api/test-setup.js",
+                "--setupTestFrameworkScriptFile=${workspaceRoot}/api/src/__tests__/test-setup.js",
                 "--forceExit"
             ],
             "cwd": "${workspaceRoot}/api",

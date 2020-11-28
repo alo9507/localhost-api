@@ -1,20 +1,19 @@
-import { createApolloFetch } from 'apollo-fetch';
-import clearDb from "./clearDb";
-import { CREATE_USER, UPDATE_USER, SEND_NOD } from '../graphql/client/mutations';
+import createFetch from '../apollo/fetch';
+import { CREATE_USER } from '../graphql/client/mutations';
 
 async function createUsers(users, port) {
-    const uri = `http://localhost:${port}/graphql`;
-    const apolloFetch = createApolloFetch({ uri });
+  const uri = `http://localhost:${port}/graphql`;
+  const apolloFetch = createFetch(uri, false);
 
-    let promise = new Promise(async (resolve, reject) => {
-        users.forEach(async name => {
-            const variables = { input: users[name] };
-            await apolloFetch({ query: CREATE_USER, variables });
-        });
-        resolve(users);
+  const promise = new Promise(async (resolve, reject) => {
+    users.forEach(async (user) => {
+      const variables = { input: user };
+      await apolloFetch({ query: CREATE_USER, variables });
     });
+    resolve(users);
+  });
 
-    return promise;
+  return promise;
 }
 
 export default createUsers;

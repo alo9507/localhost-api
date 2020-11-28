@@ -1,150 +1,162 @@
-import gql from "graphql-tag";
-import { print } from 'graphql';
+import gql from 'graphql-tag';
+import {print} from 'graphql';
 
 const CREATE_USER = print(gql`
-mutation CreateUser($input: CreateUserInput!) {
+  mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
+      id
+      sex
+      name
+      email
+      bio
+      whatAmIDoing
+      isVisible
+      age
+      inbound {
         id
-        sex
-        name
-        email
-        bio
-        whatAmIDoing
-        isVisible
-        age
-        inbound {
-            id
-        }
-        outbound {
-            id
-        }
-        mutual {
-            id
-        }
+      }
+      outbound {
+        id
+      }
+      mutual {
+        id
+      }
     }
-}`);
+  }
+`);
 
 const UPDATE_USER = print(gql`
-mutation UpdateUser($input: UpdateUserInput!){
-    updateUser(input: $input ) {
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      id
+      sex
+      name
+      email
+      bio
+      whatAmIDoing
+      isVisible
+      age
+      inbound {
         id
-        sex
-        name
-        email
-        bio
-        whatAmIDoing
-        isVisible
-        age
-        inbound {
-            id
-        }
-        outbound {
-            id
-        }
-        mutual {
-            id
-        }
+      }
+      outbound {
+        id
+      }
+      mutual {
+        id
+      }
     }
-}`);
+  }
+`);
 
 const SEND_NOD = print(gql`
-mutation SendNod($input: SendNodInput!){
-    sendNod(input: $input ) {
-        from
-        to
-        location
-        message
+  mutation SendNod($input: SendNodInput!) {
+    sendNod(input: $input) {
+      from
+      to
+      location
+      message
     }
-}`);
+  }
+`);
 
 const RETURN_NOD = print(gql`
-mutation ReturnNod($input: SendNodInput!){
-    returnNod(input: $input ) {
-        from
-        to
-        location
-        message
+  mutation ReturnNod($input: SendNodInput!) {
+    returnNod(input: $input) {
+      from
+      to
+      location
+      message
     }
-}`);
+  }
+`);
 
 const DELETE_ALL_USERS = print(gql`
-mutation DeleteAllUsers {
+  mutation DeleteAllUsers {
     deleteAllUsers {
-        success
+      success
     }
-}`);
+  }
+`);
 
 const REPORT = print(gql`
-mutation ReportUser($input: ReportInput!) {
+  mutation ReportUser($input: ReportInput!) {
     report(input: $input) {
-        from
-        to
-        reason
-        message
+      from
+      to
+      reason
+      message
     }
-}`);
+  }
+`);
 
 const BLOCK = print(gql`
-mutation BlockUser($input: BlockInput!) {
+  mutation BlockUser($input: BlockInput!) {
     block(input: $input) {
-        from
-        to
-        reason
-        message
+      from
+      to
+      reason
+      message
     }
-}`);
+  }
+`);
 
 const BECOME_INVISIBLE_TO = print(gql`
-mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
+  mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
     becomeInvisibleTo(input: $input) {
-        from
-        to
+      from
+      to
     }
-}`);
+  }
+`);
 
 const BECOME_VISIBLE_TO = print(gql`
-mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
+  mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
     becomeVisibleTo(input: $input) {
-        from
-        to
+      from
+      to
     }
-}`);
+  }
+`);
 
 const UPDATE_SHOWME_CRITERIA = print(gql`
-mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
+  mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     updateShowMeCriteria(input: $input) {
-        sex
-        age
+      sex
+      age
     }
-}`);
+  }
+`);
 
 const UPDATE_USER_LOCATION = print(gql`
-mutation UpdateUserLocation($input: UpdateLocationInput!) {
+  mutation UpdateUserLocation($input: UpdateLocationInput!) {
     updateLocation(input: $input) {
-        id
-        latitude
-        longitude
+      id
+      latitude
+      longitude
     }
-}`);
+  }
+`);
 
 const UPDATE_LOCATION_AND_GET_USERS = print(gql`
-mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
+  mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
     updateLocationGetUsers(input: $input) {
-        id
+      id
     }
-}`);
+  }
+`);
 
 export {
-    CREATE_USER,
-    UPDATE_USER,
-    SEND_NOD,
-    RETURN_NOD,
-    DELETE_ALL_USERS,
-    REPORT,
-    BLOCK,
-    BECOME_INVISIBLE_TO,
-    BECOME_VISIBLE_TO,
-    UPDATE_SHOWME_CRITERIA,
-    UPDATE_USER_LOCATION,
-    UPDATE_LOCATION_AND_GET_USERS
+  CREATE_USER,
+  UPDATE_USER,
+  SEND_NOD,
+  RETURN_NOD,
+  DELETE_ALL_USERS,
+  REPORT,
+  BLOCK,
+  BECOME_INVISIBLE_TO,
+  BECOME_VISIBLE_TO,
+  UPDATE_SHOWME_CRITERIA,
+  UPDATE_USER_LOCATION,
+  UPDATE_LOCATION_AND_GET_USERS
 };
