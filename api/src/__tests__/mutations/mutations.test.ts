@@ -26,7 +26,7 @@ dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV
 describe('Integration Test mutations', () => {
   const port = 4002;
   const uri = `http://localhost:${port}/graphql`;
-  const apolloFetch = createFetch(uri, false);
+  const apolloFetch = createFetch(uri, true);
   const server = createServer(process.env.NEO4J_URI1);
 
   beforeAll(async () => {
@@ -98,6 +98,7 @@ describe('Integration Test mutations', () => {
     const input = { from: senderId, to: recipientId, message: 'nice ass', location: 'mylocation' };
     const variables = { input };
     const sendNodResult = await apolloFetch({ query: SEND_NOD, variables });
+    console.log(sendNodResult)
     expect(sendNodResult.data.sendNod).toEqual(input);
 
     const expectedSenderResponse = {
@@ -231,6 +232,7 @@ describe('Integration Test mutations', () => {
     const becomeInvisibleToInput = { from: 'john', to: 'jenny' };
     const variables = { input: becomeInvisibleToInput };
     const becomeInvisibleToResult = await apolloFetch({ query: BECOME_INVISIBLE_TO, variables });
+    console.log(becomeInvisibleToResult)
     expect(becomeInvisibleToResult.data.becomeInvisibleTo).toEqual(becomeInvisibleToInput);
   });
 
@@ -260,6 +262,7 @@ describe('Integration Test mutations', () => {
     const updateShowMeCriteriaInput = { id: users[0].id, sex: ['male'], age: [20, 30] };
     const variables = { input: updateShowMeCriteriaInput };
     const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
+    console.log("showmecriteria", updateShowMeCriteriaResult)
     expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ['male'], age: [20, 30] });
   });
 

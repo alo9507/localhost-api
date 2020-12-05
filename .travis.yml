@@ -7,7 +7,7 @@ before_install:
     - docker-compose -f docker-compose.test.yml up -d
 
 scripts:
-    - docker run --network=host -p 4002:4002 -p 4003:4003 alo42/api-test npm run test:cicd
+    - docker run --network=host alo42/api-test npm run test:cicd
 
 after_successes:
     - docker build -t alo42/localhost-api ./api

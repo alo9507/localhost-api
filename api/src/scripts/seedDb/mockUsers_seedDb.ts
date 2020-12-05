@@ -9,6 +9,16 @@ const locations = {
 };
 
 const users = {
+    george: {
+        id: "433b6860-51a1-411a-ad43-ad74035541a3",
+        sex: 'male',
+        name: 'George',
+        email: 'george@g.com',
+        bio: "George's bio",
+        whatAmIDoing: 'What George is doing',
+        isVisible: true,
+        age: 25
+    },
     john: {
         id: 'john',
         sex: 'male',

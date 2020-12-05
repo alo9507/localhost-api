@@ -1,10 +1,10 @@
-import {generateQuery} from '../../../utils';
+import { generateQuery } from '../../../utils';
 
 const mutations = {
   sendNod: (parent, args, context) => {
     const session = context.driver.session();
-    const {from, to, message, location} = args.input;
-    const params = {from, to, message: args.input?.message, location: args.input?.location};
+    const { from, to, message, location } = args.input;
+    const params = { from, to, message: args.input?.message, location: args.input?.location };
     return session
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 
@@ -25,7 +25,7 @@ const mutations = {
   },
   returnNod: (parent, args, context) => {
     const session = context.driver.session();
-    const {from, to, message, location} = args.input;
+    const { from, to, message, location } = args.input;
     const params = {
       from,
       to,
@@ -52,7 +52,7 @@ const mutations = {
   },
   nodSeen: (parent, args, context) => {
     const session = context.driver.session();
-    const params = {recipient: args.recipient, sender: args.sender};
+    const params = { recipient: args.recipient, sender: args.sender };
     return session
       .run(
         'MATCH (a: SocialNode { id: $sender } )-[r:NODDED_AT]->(b: SocialNode { id: $recipient } ) SET r.seen = true RETURN $recipient, $sender',
@@ -75,7 +75,7 @@ const mutations = {
   },
   updateUser: (parent, args, context) => {
     const session = context.driver.session();
-    const params = {id: args.input.id, input: args.input};
+    const params = { id: args.input.id, input: args.input };
     return session.run('MATCH (n: User { id: $id }) SET n += $input RETURN n', params).then((result) => {
       session.close();
       return result.records[0].get(0).properties;
@@ -84,7 +84,7 @@ const mutations = {
   // session.run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON CREATE SET n.sex = ["male", "female"] RETURN n', params)
   createUser: (parents, args, context) => {
     const session = context.driver.session();
-    const params = {id: args.input.id, input: args.input};
+    const params = { id: args.input.id, input: args.input };
     const txc = session.beginTransaction();
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -114,7 +114,7 @@ const mutations = {
   },
   updateShowMeCriteria: (parents, args, context) => {
     const session = context.driver.session();
-    const params = {id: args.input.id, input: args.input};
+    const params = { id: args.input.id, input: args.input };
     return session
       .run('MERGE (n: ShowMeCriteria { id: $id }) ON MATCH SET n += $input RETURN n', params)
       .then((result) => {
@@ -130,14 +130,14 @@ const mutations = {
   },
   deleteUser: (parent, args, context) => {
     const session = context.driver.session();
-    return session.run('MATCH (n { id: $id }) DETACH DELETE n', {id: args.id}).then((result) => {
+    return session.run('MATCH (n { id: $id }) DETACH DELETE n', { id: args.id }).then((result) => {
       session.close();
       return args.id;
     });
   },
   report: (parent, args, context) => {
     const session = context.driver.session();
-    const {from, to, message, reason} = args.input;
+    const { from, to, message, reason } = args.input;
     const params = {
       from,
       to,
@@ -167,7 +167,7 @@ const mutations = {
   },
   block: (parent, args, context) => {
     const session = context.driver.session();
-    const {from, to, message, reason} = args.input;
+    const { from, to, message, reason } = args.input;
     const params = {
       from,
       to,
@@ -197,8 +197,8 @@ const mutations = {
   },
   becomeInvisibleTo: (parent, args, context) => {
     const session = context.driver.session();
-    const {from, to} = args.input;
-    const params = {from, to};
+    const { from, to } = args.input;
+    const params = { from, to };
     return session
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 
@@ -220,8 +220,8 @@ const mutations = {
   },
   becomeVisibleTo: (parent, args, context) => {
     const session = context.driver.session();
-    const {from, to} = args.input;
-    const params = {from, to};
+    const { from, to } = args.input;
+    const params = { from, to };
     return session
       .run(
         `MATCH (a: SocialNode {id: $from})-[r:BECAME_INVISIBLE_TO]->(b: SocialNode {id: $to}) 
@@ -245,7 +245,7 @@ const mutations = {
   },
   updateLocationGetUsers: (parent, args, context) => {
     const session = context.driver.session();
-    const params = {id: args.input.id, latitude: args.input.latitude, longitude: args.input.longitude};
+    const params = { id: args.input.id, latitude: args.input.latitude, longitude: args.input.longitude };
     return session
       .run(
         `
@@ -256,6 +256,7 @@ const mutations = {
             WITH requestor, requestor_criteria
             MATCH (other: User), (other_criteria: ShowMeCriteria { id: other.id })
             WHERE distance(point({ longitude: $longitude, latitude: $latitude, height: 0 }), point({ latitude: other.latitude, longitude: other.longitude, height: 0 })) < 1000
+            AND requestor.isVisible = true
             AND other.isVisible = true
             AND other.sex IN requestor_criteria.sex
             AND requestor.sex IN other_criteria.sex
