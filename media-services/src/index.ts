@@ -8,8 +8,11 @@ dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV
 const app = express();
 app.use(cors())
 
-app.post('/media/upload', upload.array('photo'), (req, res) => {
-  res.send("Uploaded!")
+app.post('/media/upload', upload.single('photo'), (req, res) => {
+  if (req.file) {
+    res.json(req.file);
+  }
+  else throw 'error';
 });
 
 const port = process.env.PORT || 3000;
