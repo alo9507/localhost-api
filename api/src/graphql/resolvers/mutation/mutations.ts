@@ -3,14 +3,14 @@ import { generateQuery } from '../../../utils';
 const mutations = {
   sendNod: (parent, args, context) => {
     const session = context.driver.session();
-    const { from, to, message, location } = args.input;
-    const params = { from, to, message: args.input?.message, location: args.input?.location };
+    const { from, to, message, latitude, longitude } = args.input;
+    const params = { from, to, message: args.input?.message, latitude: args.input?.latitude, longitude: args.input?.longitude };
     return session
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 
                 WHERE a.id = $from AND b.id = $to 
-                CREATE (a)-[r:NODDED_AT { initiator: true, seen: false, createdAt: timestamp(), message: $message, location: $location }]->(b) 
-                RETURN a.id, b.id, $message, $location`,
+                CREATE (a)-[r:NODDED_AT { from: $from, to: $to, initiator: true, seen: false, createdAt: timestamp(), message: $message, latitude: $latitude, longitude: $longitude }]->(b) 
+                RETURN a.id, b.id, $message, $latitude, $longitude, timestamp()`,
         params
       )
       .then((result) => {
@@ -19,7 +19,8 @@ const mutations = {
           from: result.records[0].get('a.id'),
           to: result.records[0].get('b.id'),
           message: result.records[0].get('$message'),
-          location: result.records[0].get('$location')
+          latitude: result.records[0].get('$latitude'),
+          longitude: result.records[0].get('$longitude')
         };
       });
   },

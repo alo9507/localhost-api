@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import {print} from 'graphql';
+import { print } from 'graphql';
 
 const CREATE_USER = print(gql`
   mutation CreateUser($input: CreateUserInput!) {
@@ -54,7 +54,8 @@ const SEND_NOD = print(gql`
     sendNod(input: $input) {
       from
       to
-      location
+      latitude
+      longitude
       message
     }
   }
@@ -65,7 +66,8 @@ const RETURN_NOD = print(gql`
     returnNod(input: $input) {
       from
       to
-      location
+      latitude
+      longitude
       message
     }
   }

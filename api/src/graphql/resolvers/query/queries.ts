@@ -1,9 +1,9 @@
-import {generateQuery} from '../../../utils';
+import { generateQuery } from '../../../utils';
 
 const queries = {
   user: (parent, args, context, info) => {
     const session = context.driver.session();
-    const params = {id: args.id};
+    const params = { id: args.id };
     return session.run('MATCH (n:User) WHERE n.id=$id RETURN n', params).then((result) => {
       session.close();
       if (result.records == 0) {
@@ -23,7 +23,7 @@ const queries = {
   },
   showMeCriteria: (parent, args, context, info) => {
     const session = context.driver.session();
-    const params = {id: args.id};
+    const params = { id: args.id };
     return session.run('MATCH (n: ShowMeCriteria { id: $id }) RETURN n', params).then((result) => {
       session.close();
       if (result.records == 0) {
@@ -34,7 +34,7 @@ const queries = {
   },
   getDistanceBetween: (parent, args, context) => {
     const session = context.driver.session();
-    const params = {user1ID: args.user1, user2ID: args.user2};
+    const params = { user1ID: args.user1, user2ID: args.user2 };
     return session
       .run(
         'MATCH (user1:User), (user2:User) WHERE user1.id = $user1ID AND user2.id = $user2ID WITH point({ longitude: user1.longitude, latitude: user1.latitude }) AS user1Point, point({ longitude: user2.longitude, latitude: user2.latitude }) AS user2point RETURN round(distance(user1Point, user2point)) AS distanceBetweenUsers',
@@ -47,7 +47,7 @@ const queries = {
   },
   getViableUsers: (parent, args, context) => {
     const session = context.driver.session();
-    const params = {id: args.id};
+    const params = { id: args.id };
     return session
       .run(
         `
@@ -67,6 +67,33 @@ const queries = {
         const users = result.records.map((record) => record.get(0).properties);
         session.close();
         return users;
+      });
+  },
+  getIncomingNods: (parent, args, context) => {
+    const session = context.driver.session();
+    const params = { id: args.id };
+    return session
+      .run(
+        `
+        MATCH (nodder:SocialNode)-[nod: NODDED_AT]-(recipient:SocialNode { id: $id })
+        WITH nodder, nod
+        MATCH (user: User { id: nodder.id })
+        RETURN user, nod
+        ORDER BY nod.createdAt
+        `,
+        params
+      )
+      .then((result) => {
+        const users = result.records.map((record) => record.get("user").properties);
+        const nods = result.records.map((record) => record.get("nod").properties);
+
+        const userAndNod = users.map(function (e, i) {
+          return { user: e, nod: nods[i] };
+        });
+        console.log(userAndNod)
+
+        session.close();
+        return userAndNod
       });
   }
 };

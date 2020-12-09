@@ -1,4 +1,4 @@
-const {gql} = require('apollo-server');
+const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type User {
@@ -30,13 +30,30 @@ const typeDefs = gql`
     getDistanceBetween(user1: ID!, user2: ID!): Float
     showMeCriteria(id: ID!): ShowMeCriteria
     getViableUsers(id: ID!): [User]
+    getIncomingNods(id: ID!): [UserWithNod]
+    getMatches(id: ID!): [User]
+  }
+
+  type Nod {
+    createdAt: Int
+    latitude: Float
+    longitude: Float
+    message: String
+    initiator: Boolean
+    seen: Boolean
+  }
+
+  type UserWithNod {
+    user: User
+    nod: Nod
   }
 
   input SendNodInput {
     from: ID!
     to: ID!
     message: String
-    location: String
+    latitude: Float
+    longitude: Float
   }
 
   type Mutation {
@@ -70,6 +87,8 @@ const typeDefs = gql`
     to: ID!
     reason: String
     message: String
+    latitude: Float
+    longitude: Float
   }
 
   input BecomeVisibleToInput {
@@ -100,10 +119,12 @@ const typeDefs = gql`
   }
 
   type ReportedResponse {
-    from: ID!
-    to: ID!
+    from: ID
+    to: ID
     reason: String
     message: String
+    latitude: Float
+    longitude: Float
   }
 
   type BlockResponse {
@@ -154,7 +175,10 @@ const typeDefs = gql`
     from: String
     to: String
     message: String
-    location: String
+    latitude: Float
+    longitude: Float
+    createdAt: Int
+    
   }
 
   type NodSeenResponse {
@@ -257,6 +281,7 @@ const typeDefs = gql`
   input ModelUserFilterInput {
     id: ModelIDInput
     name: ModelStringInput
+    email: ModelStringInput
     bio: ModelStringInput
     whatAmIDoing: ModelStringInput
     location: ModelStringInput
