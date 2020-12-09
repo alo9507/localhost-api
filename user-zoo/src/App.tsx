@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { SEND_NOD } from "./graphql/mutations"
+import { SEND_NOD, CLEAR_ALL_NODS } from "./graphql/mutations"
 
 function App() {
 
@@ -38,6 +38,20 @@ function App() {
     }
   }
 
+  const clearAllNods = async (e: any) => {
+    e.preventDefault()
+    e.stopPropagation();
+
+    try {
+      const result = await client.mutate({
+        mutation: CLEAR_ALL_NODS
+      });
+      console.log(result.data.clearAllNods)
+    } catch (e) {
+      setSendNodResponse(e)
+    }
+  }
+
   return (
     <>
       <h1>Send Nod</h1>
@@ -49,6 +63,8 @@ function App() {
         <label htmlFor="message">Message:</label><br />
         <input type="text" value={sendNodState.message} onChange={(e) => handleSendNodChange(e, "message")} /><br />
         <button onClick={sendNod}>Send Nod</button>
+        <br />
+        <button onClick={clearAllNods}>Delete All Nods</button>
         <div>{JSON.stringify(sendNodResponse)}</div>
       </form>
     </>

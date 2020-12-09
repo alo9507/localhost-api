@@ -66,6 +66,11 @@ mutation SendNod($input: SendNodInput!) {
     }
 }`
 
+export const CLEAR_ALL_NODS = gql`
+mutation ClearAllNods {
+    clearAllNods
+}`
+
 export const RETURN_NOD = gql`
 mutation ReturnNod($input: SendNodInput!) {
     returnNod(input: $input ) {
