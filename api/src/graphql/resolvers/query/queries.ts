@@ -75,9 +75,10 @@ const queries = {
     return session
       .run(
         `
-        MATCH (nodder:SocialNode)-[nod: NODDED_AT]-(recipient:SocialNode { id: $id })
-        WITH nodder, nod
-        MATCH (user: User { id: nodder.id })
+        MATCH (sender:SocialNode)-[nod: NODDED_AT]->(recipient:SocialNode { id: $id })
+        WHERE NOT (sender)<-[:NODDED_AT]-(recipient)
+        WITH sender, nod
+        MATCH (user: User { id: sender.id })
         RETURN user, nod
         ORDER BY nod.createdAt
         `,

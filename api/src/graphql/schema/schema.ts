@@ -178,7 +178,6 @@ const typeDefs = gql`
     latitude: Float
     longitude: Float
     createdAt: Int
-    
   }
 
   type NodSeenResponse {
