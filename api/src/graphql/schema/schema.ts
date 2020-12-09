@@ -70,6 +70,7 @@ const typeDefs = gql`
     becomeInvisibleTo(input: BecomeInvisibleToInput!): BecomeInvisibleToResponse
     becomeVisibleTo(input: BecomeVisibleToInput!): BecomeVisibleToResponse
     updateLocationGetUsers(input: UpdateLocationInput!): [User]
+    clearAllNods: String
   }
 
   type Subscription {

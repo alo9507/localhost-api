@@ -76,6 +76,13 @@ const mutations = {
       return 'Succesfully deleted all users';
     });
   },
+  clearAllNods: (parent, args, context) => {
+    const session = context.driver.session();
+    return session.run('MATCH (n: SocialNode)-[edge:NODDED_AT]->(m: SocialNode) DETACH DELETE edge').then((result) => {
+      session.close();
+      return 'Succesfully deleted all nods';
+    });
+  },
   updateUser: (parent, args, context) => {
     const session = context.driver.session();
     const params = { id: args.input.id, input: args.input };
