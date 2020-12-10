@@ -175,7 +175,7 @@ const mutations = {
         };
       });
   },
-  block: (parent, args, context) => {
+  unmatch: (parent, args, context) => {
     const session = context.driver.session();
     const { from, to, message, reason } = args.input;
     const params = {
@@ -188,7 +188,7 @@ const mutations = {
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 
                 WHERE a.id = $from AND b.id = $to 
-                CREATE (a)-[r:BLOCKED { createdAt: timestamp(), reason: $reason, message: $message }]->(b) 
+                CREATE (a)-[r:UNMATCHED { createdAt: timestamp(), reason: $reason, message: $message }]->(b) 
                 RETURN a.id, b.id, $reason, $message`,
         params
       )
@@ -244,7 +244,7 @@ const mutations = {
         session.close();
         if (result.records == 0) {
           throw new Error(
-            `User with id ${args.from} or user with id ${args.to} does not exist in databse or they were invisible to begin with`
+            `User with id ${args.from} or user with id ${args.to} does not exist in databse OR user A was already visible to user B`
           );
         }
         return {

@@ -66,7 +66,7 @@ const typeDefs = gql`
     updateShowMeCriteria(input: UpdateShowMeCriteriaInput!): ShowMeCriteria
     nodSeen(recipient: ID!, sender: ID!): NodSeenResponse
     report(input: ReportInput!): ReportedResponse
-    block(input: BlockInput!): BlockResponse
+    unmatch(input: UnmatchInput!): UnmatchResponse
     becomeInvisibleTo(input: BecomeInvisibleToInput!): BecomeInvisibleToResponse
     becomeVisibleTo(input: BecomeVisibleToInput!): BecomeVisibleToResponse
     updateLocationGetUsers(input: UpdateLocationInput!): [User]
@@ -112,7 +112,7 @@ const typeDefs = gql`
     to: ID
   }
 
-  input BlockInput {
+  input UnmatchInput {
     from: ID!
     to: ID!
     reason: String
@@ -124,11 +124,9 @@ const typeDefs = gql`
     to: ID
     reason: String
     message: String
-    latitude: Float
-    longitude: Float
   }
 
-  type BlockResponse {
+  type UnmatchResponse {
     from: ID!
     to: ID!
     reason: String
