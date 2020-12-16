@@ -1,4 +1,4 @@
-import {Auth} from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import AuthError from '../AuthError/AuthError';
 import AuthSession from '../AuthSession/AuthSession';
 import RemoteAuthProvider from '../RemoteAuthProvider/RemoteAuthProvider';
@@ -86,6 +86,23 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
       }
     });
     return promise;
+  }
+
+  confirmSignUp(username: string, code: string): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+
+  changePassword(oldPassword: string, newPassword: string): Promise<boolean> {
+    // fetch CognitoUser with userId?
+    throw new Error('Method not implemented.');
+  }
+
+  forgotPassword(username: string): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+
+  forgotPasswordSubmit(username: string, code: string, newPassword: string): Promise<boolean> {
+    throw new Error('Method not implemented.');
   }
 }
 

@@ -18,6 +18,49 @@ const typeDefs = gql`
     createdAt: Int
     updatedAt: Int
     showMeCriteria: ShowMeCriteria
+    schools: [School]
+    workExperience: [WorkExperience]
+    hometown: String
+    profileImageUrl: String
+    gender: Gender
+  }
+
+  type School {
+    name: String
+    entryYear: Int
+    graduationYear: Int
+    focus: String
+    degree: Degree
+  }
+
+  input SchoolInput {
+    name: String
+    entryYear: Int
+    graduationYear: Int
+    focus: String
+    degree: Degree
+  }
+
+  enum Degree {
+    highschool
+    ms
+    ma
+    md
+    phd
+  }
+
+  type WorkExperience {
+    organizationName: String
+    startYear: Int
+    endYear: Int
+    title: String
+  }
+
+  input WorkExperienceInput {
+    organizationName: String
+    startYear: Int
+    endYear: Int
+    title: String
   }
 
   input InboundFilterInput {
@@ -155,6 +198,11 @@ const typeDefs = gql`
     age: Int
     latitude: Float
     longitude: Float
+    schools: [SchoolInput]
+    workExperience: [WorkExperienceInput]
+    hometown: String
+    profileImageUrl: String,
+    gender: Gender
   }
 
   input CreateUserInput {
@@ -168,6 +216,16 @@ const typeDefs = gql`
     isVisible: Boolean
     sex: String
     age: Int
+    schools: [SchoolInput]
+    workExperience: [WorkExperienceInput]
+    hometown: String
+    profileImageUrl: String,
+    gender: Gender
+  }
+
+  enum Gender {
+    man
+    woman
   }
 
   type SendNodResponse {

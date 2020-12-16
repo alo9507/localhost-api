@@ -17,7 +17,8 @@ const users = {
         bio: "George's bio",
         whatAmIDoing: 'What George is doing',
         isVisible: true,
-        age: 25
+        age: 25,
+        profileImageUrl: "https://randomuser.me/portraits/men/55.jpg"
     },
     john: {
         id: 'john',
@@ -27,7 +28,8 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
         isVisible: true,
-        age: 25
+        age: 25,
+        profileImageUrl: "https://randomuser.me/portraits/men/56.jpg"
     },
     nearby: {
         id: 'nearby',
@@ -39,7 +41,8 @@ const users = {
         isVisible: true,
         age: 25,
         latitude: 10,
-        longitude: 10
+        longitude: 10,
+        profileImageUrl: "https://randomuser.me/portraits/men/57.jpg"
     },
     lat10_long10: {
         id: 'lat10_long10',
@@ -51,7 +54,8 @@ const users = {
         isVisible: true,
         age: 25,
         latitude: 10,
-        longitude: 10
+        longitude: 10,
+        profileImageUrl: "https://randomuser.me/portraits/men/25.jpg"
     },
     lat80_long80: {
         id: 'lat80_long80',
@@ -63,7 +67,8 @@ const users = {
         isVisible: true,
         age: 25,
         latitude: 80,
-        longitude: 80
+        longitude: 80,
+        profileImageUrl: "https://randomuser.me/portraits/men/15.jpg"
     },
     male_25_visible: {
         id: 'male_25_visible',
@@ -73,7 +78,8 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
         isVisible: true,
-        age: 25
+        age: 25,
+        profileImageUrl: "https://randomuser.me/portraits/men/43.jpg"
     },
     male_25_invisible: {
         id: 'male_25_invisible',
@@ -83,7 +89,8 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
         isVisible: false,
-        age: 25
+        age: 25,
+        profileImageUrl: "https://randomuser.me/portraits/men/23.jpg"
     },
     female_25_visible: {
         id: 'female_25_visible',
@@ -93,7 +100,8 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
         isVisible: true,
-        age: 25
+        age: 25,
+        profileImageUrl: "https://randomuser.me/portraits/men/23.jpg"
     },
     female_25_invisible: {
         id: 'female_25_invisible',
@@ -103,7 +111,8 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
         isVisible: false,
-        age: 25
+        age: 25,
+        women: "https://randomuser.me/portraits/women/55.jpg"
     },
     male_40_visible: {
         id: 'male_40_visible',
@@ -113,7 +122,8 @@ const users = {
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
         isVisible: true,
-        age: 40
+        age: 40,
+        profileImageUrl: "https://randomuser.me/portraits/men/65.jpg"
     },
     female_40_visible: {
         id: 'female_40_visible',
@@ -125,7 +135,8 @@ const users = {
         isVisible: true,
         age: 40,
         latitude: locations['networkingEvent'].latitude,
-        longitude: locations['networkingEvent'].longitude
+        longitude: locations['networkingEvent'].longitude,
+        profileImageUrl: "https://randomuser.me/portraits/women/23.jpg"
     },
     jenny: {
         id: 'jenny',
@@ -137,7 +148,8 @@ const users = {
         isVisible: true,
         age: 50,
         latitude: locations['networkingEvent'].latitude,
-        longitude: locations['networkingEvent'].longitude
+        longitude: locations['networkingEvent'].longitude,
+        profileImageUrl: "https://randomuser.me/portraits/men/25.jpg"
     },
     bill: {
         id: 'bill',
@@ -149,7 +161,8 @@ const users = {
         isVisible: true,
         age: 20,
         latitude: locations['cafe'].latitude,
-        longitude: locations['cafe'].longitude
+        longitude: locations['cafe'].longitude,
+        profileImageUrl: "https://randomuser.me/portraits/men/76.jpg"
     },
     tamara: {
         id: 'tamara',
@@ -161,7 +174,8 @@ const users = {
         isVisible: true,
         age: 24,
         latitude: locations['cafe'].latitude,
-        longitude: locations['cafe'].longitude
+        longitude: locations['cafe'].longitude,
+        profileImageUrl: "https://randomuser.me/portraits/women/78.jpg"
     }
 };
 

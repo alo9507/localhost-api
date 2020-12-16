@@ -13,6 +13,46 @@ const typeDefs = gql`
     signUp(input: SignUpInput!): SignUpResponse
     signIn(input: SignInInput!): SignInResponse
     signOut: SignOutResponse
+    confirmSignUp(input: ConfirmSignUpInput): ConfirmSignUpResponse
+    changePassword(input: ChangePasswordInput): ChangePasswordResponse
+    forgotPassword(input: ForgotPasswordInput): ForgotPasswordResponse
+    forgotPasswordSubmit(input: ForgotPasswordSubmitInput): ForgotPasswordSubmitResponse
+  }
+
+  input ConfirmSignUpInput {
+    username: String!
+    code: String!
+  }
+
+  input ChangePasswordInput {
+    oldPassword: String
+    newPassword: String
+  }
+
+  input ForgotPasswordInput {
+    username: String
+  }
+
+  input ForgotPasswordSubmitInput {
+    username: String
+    code: String
+    newPassword: String
+}
+
+  type ChangePasswordResponse {
+    success: Boolean
+  }
+
+  type ForgotPasswordResponse {
+    success: Boolean
+  }
+
+  type ForgotPasswordSubmitResponse {
+    success: Boolean
+  }
+
+  type ConfirmSignUpResponse {
+    success: Boolean
   }
 
   input SignUpInput {

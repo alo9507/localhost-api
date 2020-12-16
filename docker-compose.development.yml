@@ -2,6 +2,7 @@ version: "3"
 services:
     nginx:
         restart: always
+        container_name: nginx
         depends_on:
             - "api"
             - "neo4j"
@@ -11,6 +12,7 @@ services:
         ports:
             - '80:80'
     neo4j:
+        container_name: neo4j
         build:
             dockerfile: Dockerfile
             context: ./neo4j
@@ -20,6 +22,7 @@ services:
         environment:
             - NEO4J_AUTH=none
     api:
+        container_name: api
         depends_on:
             - "neo4j"
         build:
@@ -31,6 +34,7 @@ services:
         env_file:
             - api/.env.docker
     account:
+        container_name: account
         depends_on:
             - "neo4j"
         build:
@@ -42,6 +46,7 @@ services:
         env_file:
             - account-services/.env.docker
     media:
+        container_name: media
         depends_on:
             - "neo4j"
         build:
@@ -51,3 +56,5 @@ services:
             - ./media-services:/app
         env_file:
             - media-services/.env.docker
+        ports:
+            - "3001:3001"
