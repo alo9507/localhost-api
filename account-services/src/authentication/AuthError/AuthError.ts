@@ -8,7 +8,8 @@ enum AuthError {
   userIsNotConfirmed = 'UserIsNotConfirmed',
   incorrectUsernameOrPassword = 'IncorrectUsernameOrPassword',
   userDoesNotExist = 'UserDoesNotExist',
-  notAuthneticated = 'NotAuthenticated'
+  notAuthneticated = 'NotAuthenticated',
+  usernameCannotBeEmpty = "UsernameCannotBeEmpty"
 }
 
 export default AuthError;

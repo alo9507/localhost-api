@@ -2,48 +2,17 @@ import { Auth } from 'aws-amplify';
 import AuthError from '../AuthError/AuthError';
 import AuthSession from '../AuthSession/AuthSession';
 import RemoteAuthProvider from '../RemoteAuthProvider/RemoteAuthProvider';
-import AWS from 'aws-sdk'
-import config from '../../aws-exports';
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
 
-  poolData = {
-    UserPoolId: config.aws_user_pools_id,
-    ClientId: config.aws_user_pools_web_client_id
-  }
-
-  cognito = new AWS.CognitoIdentityServiceProvider();
-
-  deleteAccount(email: string): Promise<boolean> {
-    const promise: Promise<boolean> = new Promise(async (resolve, reject) => {
-      try {
-        AWS.config.update({
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-          region: 'us-east-2',
-        });
-
-        await this.cognito.adminDeleteUser({
-          UserPoolId: config.aws_user_pools_id,
-          Username: email,
-        }).promise();
-
-        resolve(true)
-      } catch (e) {
-        reject(e)
-      }
-    });
-    return promise;
-  }
-
-  signIn(email: string, password: string): Promise<AuthSession> {
+  signIn(emailOrPhoneNumber: string, password: string): Promise<AuthSession> {
     const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const signInResult = await Auth.signIn({
-          username: email,
+          username: emailOrPhoneNumber,
           password
         });
 
@@ -87,11 +56,11 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     return promise;
   }
 
-  signUp(email: string, password: string): Promise<AuthSession> {
+  signUp(emailOrPhoneNumber: string, password: string): Promise<AuthSession> {
     const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const signUpResult = await Auth.signUp({
-          username: email,
+          username: emailOrPhoneNumber,
           password
         });
 
@@ -101,22 +70,24 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
       } catch (e) {
         switch (e.message) {
           case "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6":
-            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+            reject(AuthError.passwordTooShort);
             break;
           case 'User does not exist.':
-            reject(`${AuthError.userNotFound}:  ${e.message}`);
+            reject(AuthError.userNotFound);
             break;
           case 'Username should be either an email or a phone number.':
-            reject(`${AuthError.usernameInvalid}:  ${e.message}`);
+            reject(AuthError.usernameInvalid);
             break;
           case 'Password did not conform with policy: Password not long enough':
-            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+            reject(AuthError.passwordTooShort);
             break;
           case 'An account with the given email already exists.':
-            reject(`${AuthError.emailAlreadyExists}:  ${e.message}`);
+            reject(AuthError.emailAlreadyExists);
             break;
+          case "Username cannot be empty":
+            reject(AuthError.usernameCannotBeEmpty);
           default:
-            reject(`${AuthError.unknownError}:  ${e.message}`);
+            reject(AuthError.unknownError);
         }
       }
     });
@@ -143,7 +114,12 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
   disableAccount(email: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
+
   enableAccount(email: string): Promise<boolean> {
+    throw new Error('Method not implemented.');
+  }
+
+  deleteAccount(email: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 }
