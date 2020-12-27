@@ -28,17 +28,20 @@ describe('Authentication Manager', () => {
     // Act
     let authSession = await authManager.signUp(email, password)
 
-    // Assert - you can sign into the account
+    // Assert - you receive a userId and an indication that the email must be verified
     expect(authSession.userId).not.toBeUndefined()
     expect(authSession.emailVerified).toBe(false)
   });
 
   it('should create a new account with phone number and password', async () => {
+    // Arrange
     let phoneNumber = `+19782341232`
     let password = "abc1233!!"
 
+    // Act
     let authSession = await authManager.signUp(phoneNumber, password)
 
+    // Assert - you receive a userId and an indication that the phone number must be verified
     expect(authSession.userId).not.toBeUndefined()
     expect(authSession.emailVerified).toBe(false)
   });
