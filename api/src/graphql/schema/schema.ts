@@ -3,7 +3,8 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   type User {
     id: ID!
-    name: String
+    firstname: String
+    lastname: String
     bio: String
     whatAmIDoing: String
     isVisible: Boolean
@@ -190,7 +191,8 @@ const typeDefs = gql`
   input UpdateUserInput {
     id: ID!
     email: String
-    name: String
+    firstname: String
+    lastname: String
     bio: String
     whatAmIDoing: String
     isVisible: Boolean
@@ -208,7 +210,8 @@ const typeDefs = gql`
   input CreateUserInput {
     id: ID!
     email: String!
-    name: String
+    firstname: String
+    lastname: String
     bio: String
     whatAmIDoing: String
     latitude: Float
@@ -336,7 +339,8 @@ const typeDefs = gql`
 
   input ModelUserFilterInput {
     id: ModelIDInput
-    name: ModelStringInput
+    firstname: ModelStringInput
+    lastname: ModelStringInput
     email: ModelStringInput
     bio: ModelStringInput
     whatAmIDoing: ModelStringInput

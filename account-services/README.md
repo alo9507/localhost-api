@@ -1,0 +1,1 @@
+`cd account-services && npm run start`

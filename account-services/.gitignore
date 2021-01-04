@@ -1,4 +1,4 @@
-
+.env.*
 
 #amplify
 amplify/\#current-cloud-backend
@@ -15,5 +15,3 @@ amplifyconfiguration.json
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
-
-.env.*
