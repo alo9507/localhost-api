@@ -1,5 +1,4 @@
 enum AuthError {
-  userNotFound = 'UserNotFound',
   emailAlreadyExists = 'EmailAlreadyExists',
   PasswordNotAllowed = 'PasswordNotAllowed',
   passwordTooShort = 'PasswordTooShort',
@@ -9,7 +8,10 @@ enum AuthError {
   incorrectUsernameOrPassword = 'IncorrectUsernameOrPassword',
   userDoesNotExist = 'UserDoesNotExist',
   notAuthneticated = 'NotAuthenticated',
-  usernameCannotBeEmpty = "UsernameCannotBeEmpty"
+  usernameCannotBeEmpty = "UsernameCannotBeEmpty",
+  userdisabled = "UserDisabled",
+  userIsAlreadyConfirmed = "UserAlreadyConfirmed",
+  invalidVerificationCode = "InvalidVerficationCode"
 }
 
 export default AuthError;

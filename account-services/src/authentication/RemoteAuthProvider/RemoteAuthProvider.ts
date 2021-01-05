@@ -6,7 +6,7 @@ interface RemoteAuthProvider {
   signOut(): Promise<boolean>;
 
   // Should send email
-  signUp(emailOrPhoneNumber: string, password: string): Promise<AuthSession>;
+  signUp(username: string,emailOrPhoneNumber: string, password: string): Promise<AuthSession>;
   confirmSignUp(username: string, code: string): Promise<boolean>
 
   // Updates

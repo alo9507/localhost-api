@@ -7,7 +7,7 @@ Amplfiy.configure(config);
 
 const cleanUp = (async (email) => {
   const authManager = new AWSAmplifyRemoteAuthProvider()
-  await authManager.deleteAccount(email)
+  //await authManager.deleteAccount(email)
 })
 
 describe('Authentication Manager', () => {
@@ -17,16 +17,15 @@ describe('Authentication Manager', () => {
     authManager = new AWSAmplifyRemoteAuthProvider()
   })
 
-  // Basics
+  //Basics
   it('should create a new account with email and password', async () => {
-    // Assume - account does not exist
-
+    //Assume - account does not exist
     // Arrange
-    let email = `${Date.now()}@g.com`
+    let email = `azheraleem6@gmail.com`
     let password = "abc1233!!"
 
     // Act
-    let authSession = await authManager.signUp(email, password)
+    let authSession = await authManager.signUp(email, '', password, )
 
     // Assert - you receive a userId and an indication that the email must be verified
     expect(authSession.userId).not.toBeUndefined()
@@ -34,19 +33,20 @@ describe('Authentication Manager', () => {
   });
 
   it('should create a new account with phone number and password', async () => {
-    // Arrange
-    let phoneNumber = `+19782341232`
+    //Arrange
+    let phoneNumber = `+923004843643`
+    let username = 'azheraleem6@gmail.com'
     let password = "abc1233!!"
 
     // Act
-    let authSession = await authManager.signUp(phoneNumber, password)
+    let authSession = await authManager.signUp(username,phoneNumber, password,)
 
     // Assert - you receive a userId and an indication that the phone number must be verified
     expect(authSession.userId).not.toBeUndefined()
     expect(authSession.emailVerified).toBe(false)
   });
 
-  it('should delete an account', () => {
+  it('should delete an account', async () => {
     // Arrange
     //  - create a new account
     //  - show you can sign into that account and get an AuthSession back
@@ -54,29 +54,54 @@ describe('Authentication Manager', () => {
     // Act - delete the account
 
     // Assert - you can no longer sign into the account
+    //let email = "edf4f7e5-61b7-4097-9f49-f40e5b993f3c";
+    //let password = "12345678";
+
+    // Act
+    //let authSession = await authManager.disableAccount(email);
+    //console.log(authSession)
+    // Assert - you receive a userId and an indication that the phone number must be verified
+    // expect(authSession.userId).not.toBeUndefined();
+    // expect(authSession.emailVerified).toBe(false);
   });
 
-  it('should let a user sign in', () => {
-    // Arrange - create random account
+  it('should let a user sign in', async () => {
+    // Arrange
+    let email = "azheraleem6@gmail.com";
+    let password = "abc1233!!";
 
-    // Act - sign in with the new account
-
-    // Assert - you had an AuthSession returned
+    // Act
+    let authSession = await authManager.signIn(email, password);
+    //console.log(authSession.token);
+    // Assert - you receive a userId and an indication that the phone number must be verified
+    expect(authSession.userId).not.toBeUndefined();
+    expect(authSession.token).not.toBeUndefined();
+    expect(authSession.emailVerified).toBe(false);
   });
 
-  it('should allow for sign out', () => {
+  it('should allow for sign out', async () => {
     // Arrange 
     // - create random account
     // - sign in
+    //let email='azheraleem6@gmail.com';
+    //let password = 'abc1233!!';    
 
+    let authSession = await authManager.signOut();
+    console.log(authSession);
+    
     // Act - sign out
 
-    // Assert - a success message was returned and the user is 
-  });
+  //   // Assert - a success message was returned and the user is 
+  //   //expect(authSession).toBe(false);
+   });
 
+  //Confirm Account - not sure how to test this, maybe just manually
+  it('should send a confirmation email if email is used for sign up', async () => {
 
-  // Confirm Account - not sure how to test this, maybe just manually
-  it('should send a confirmation email if email is used for sign up', () => {
+    let email = "azheraleem6@gmail.com";
+    let authSession =  await authManager.confirmSignUp(email, "227184");
+    console.log(authSession);
+    
   });
 
   it('should send a confirmation text if phone is used for sign up', () => {

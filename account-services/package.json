@@ -7,7 +7,7 @@
     "build": "rm -rf ./build && tsc",
     "start": "npm run build && NODE_ENV=prod node build/index.js",
     "start:dev": "NODE_ENV=dev nodemon",
-    "test": "NODE_ENV=test jest",
+    "test": "jest",
     "test-report": "NODE_ENV=test jest --coverage",
     "lint": "eslint . --ext .ts",
     "lint+": "eslint . --ext .ts --fix"
