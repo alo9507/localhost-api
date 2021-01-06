@@ -17,7 +17,7 @@ describe('Authentication Manager', () => {
     authManager = new AWSAmplifyRemoteAuthProvider()
   })
 
-  //Basics
+  // //Basics
   it('should create a new account with email and password', async () => {
     //Assume - account does not exist
     // Arrange
@@ -68,7 +68,8 @@ describe('Authentication Manager', () => {
   it('should let a user sign in', async () => {
     // Arrange
     let email = "azheraleem6@gmail.com";
-    let password = "abc1233!!";
+    //let password = "abc1233!!";
+    let password = "87654321";
 
     // Act
     let authSession = await authManager.signIn(email, password);
@@ -128,11 +129,11 @@ describe('Authentication Manager', () => {
 
   // this is not the same as forgot password. 
   // this is for people who are already logged in and just want to change their password
-  it('should change password', () => {
+  it('should change password', async () => {
     // ARRANGE 
     // - create a random account
     // - confirm you can sign into the account
-
+    let authSession = await authManager.changePassword("abc1233!!", "123");
     // ACT - change the password
 
     // ASSERT 

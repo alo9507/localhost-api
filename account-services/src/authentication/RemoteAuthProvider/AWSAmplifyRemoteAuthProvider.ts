@@ -128,7 +128,17 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
 
   changePassword(oldPassword: string, newPassword: string): Promise<boolean> {
     // fetch CognitoUser with userId?
-    throw new Error('Method not implemented.');
+    const promise: Promise<any> = new Promise(async (resolve, reject) => {
+      try {
+        let user = await Auth.currentAuthenticatedUser();
+        //console.log(user);
+        let authSession = await Auth.changePassword(user, oldPassword, newPassword);
+        resolve(true)
+      } catch (error) {
+        reject(`Error changing password: ${error.message}`);
+      }
+    })
+    return promise;
   }
 
   forgotPassword(username: string): Promise<boolean> {
