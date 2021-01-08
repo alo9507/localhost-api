@@ -5,7 +5,8 @@ mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
         id
         sex
-        name
+        firstname
+        lastname
         email
         bio
         whatAmIDoing
@@ -33,7 +34,8 @@ mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input ) {
         id
         sex
-        name
+        firstname
+        lastname
         email
         bio
         whatAmIDoing
@@ -109,6 +111,14 @@ mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
     }
 }`
 
+export const UNMATCH = gql`
+mutation Unmatch($input: UnmatchInput!) {
+    unmatch(input: $input) {
+        from
+        to
+    }
+}`
+
 export const BECOME_VISIBLE_TO = gql`
 mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
     becomeVisibleTo(input: $input) {
@@ -129,7 +139,8 @@ export const UPDATE_LOCATION_AND_GET_USERS = gql`
 mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
     updateLocationGetUsers(input: $input) {
         id
-        name
+        firstname
+        lastname
         bio
         whatAmIDoing
         sex

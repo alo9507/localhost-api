@@ -3,7 +3,7 @@ import { REPORT } from "../graphql/mutations"
 
 function ReportForm(props: any) {
 
-    const [reportState, setReportState] = useState({ from: "", to: "", message: "", reason: "" })
+    const [reportState, setReportState] = useState({ from: "", to: props.recipient, message: "", reason: "" })
     const [reportResponse, setReportResponse] = useState({})
 
     const handleReportChange = (e: any, key: any) => {
@@ -28,13 +28,13 @@ function ReportForm(props: any) {
     }
 
     return (
-        <>
+        <div>
             <h1>Report</h1>
             <form onSubmit={report}>
                 <label htmlFor="from">From ID:</label><br />
                 <input type="text" value={reportState.from} onChange={(e) => handleReportChange(e, "from")} /><br />
                 <label htmlFor="to">To ID:</label><br />
-                <input type="text" value={props.recipient} onChange={(e) => handleReportChange(e, "to")} /><br />
+                <input type="text" value={reportState.to} onChange={(e) => handleReportChange(e, "to")} /><br />
                 <label htmlFor="message">Message:</label><br />
                 <input type="text" value={reportState.message} onChange={(e) => handleReportChange(e, "message")} /><br />
                 <label htmlFor="reason">Reason:</label><br />
@@ -43,7 +43,7 @@ function ReportForm(props: any) {
                 <br />
                 <div>{JSON.stringify(reportResponse)}</div>
             </form>
-        </>
+        </div>
     );
 }
 

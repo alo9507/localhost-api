@@ -3,9 +3,12 @@ import './App.css';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import SendNodForm from "./components/SendNodForm"
 import ReportForm from './components/ReportForm';
+import BecomeInvisibleToForm from './components/BecomeInvisibleToForm';
+import BecomeVisibleToForm from './components/BecomeVisibleToForm';
+import UnmatchForm from './components/UnmatchForm';
 
 function App() {
-  const [recipient, setRecipient] = useState("433b6860-51a1-411a-ad43-ad74035541a3")
+  const [recipient, setRecipient] = useState("d78d7693-11bd-4692-a7b3-5023cb5daa62")
 
   const client = new ApolloClient({
     uri: 'http://localhost:80/api',
@@ -24,9 +27,13 @@ function App() {
     <>
       <label htmlFor="recipient">Recipient</label><br />
       <input type="text" value={recipient} onChange={(e) => handleSetRecipient(e)} /><br />
-      <SendNodForm client={client} recipient={recipient} />
-      <br />
-      <ReportForm client={client} recipient={recipient} />
+      <div className="formgrid">
+        <SendNodForm client={client} recipient={recipient} />
+        <ReportForm client={client} recipient={recipient} />
+        <BecomeInvisibleToForm client={client} recipient={recipient} />
+        <BecomeVisibleToForm client={client} recipient={recipient} />
+        <UnmatchForm client={client} recipient={recipient} />
+      </div>
     </>
   );
 }
