@@ -108,13 +108,18 @@ const typeDefs = gql`
     deleteUser(id: ID!): ID
     deleteAllUsers: String
     updateShowMeCriteria(input: UpdateShowMeCriteriaInput!): ShowMeCriteria
-    nodSeen(recipient: ID!, sender: ID!): NodSeenResponse
+    nodSeen(input: NodSeenInput!): NodSeenResponse
     report(input: ReportInput!): ReportedResponse
     unmatch(input: UnmatchInput!): UnmatchResponse
     becomeInvisibleTo(input: BecomeInvisibleToInput!): BecomeInvisibleToResponse
     becomeVisibleTo(input: BecomeVisibleToInput!): BecomeVisibleToResponse
     updateLocationGetUsers(input: UpdateLocationInput!): [User]
     clearAllNods: String
+  }
+
+  input NodSeenInput {
+    recipient: String!
+    sender: String!
   }
 
   type Subscription {

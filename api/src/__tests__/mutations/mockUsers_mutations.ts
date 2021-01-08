@@ -12,7 +12,8 @@ const users = {
     john: {
         id: 'john',
         sex: 'male',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -22,7 +23,8 @@ const users = {
     nearby: {
         id: 'nearby',
         sex: 'male',
-        name: 'Near By',
+        firstname: 'Near By',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -34,7 +36,8 @@ const users = {
     lat10_long10: {
         id: 'lat10_long10',
         sex: 'male',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -46,7 +49,8 @@ const users = {
     lat80_long80: {
         id: 'lat80_long80',
         sex: 'male',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -58,7 +62,8 @@ const users = {
     male_25_visible: {
         id: 'male_25_visible',
         sex: 'male',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -68,7 +73,8 @@ const users = {
     male_25_invisible: {
         id: 'male_25_invisible',
         sex: 'male',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -78,7 +84,8 @@ const users = {
     female_25_visible: {
         id: 'female_25_visible',
         sex: 'female',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -88,7 +95,8 @@ const users = {
     female_25_invisible: {
         id: 'female_25_invisible',
         sex: 'female',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -98,7 +106,8 @@ const users = {
     male_40_visible: {
         id: 'male_40_visible',
         sex: 'male',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -108,7 +117,8 @@ const users = {
     female_40_visible: {
         id: 'female_40_visible',
         sex: 'female',
-        name: 'John',
+        firstname: 'John',
+        lastname: "LastName",
         email: 'john@g.com',
         bio: "John's bio",
         whatAmIDoing: 'What john is doing',
@@ -120,7 +130,8 @@ const users = {
     jenny: {
         id: 'jenny',
         sex: 'female',
-        name: 'Jenny',
+        firstname: 'Jenny',
+        lastname: "LastName",
         email: 'jenny@g.com',
         bio: "Jenny's bio",
         whatAmIDoing: 'What jenny is doing',
@@ -130,7 +141,8 @@ const users = {
     bill: {
         id: 'bill',
         sex: 'male',
-        name: 'Bill',
+        firstname: 'Bill',
+        lastname: "LastName",
         email: 'bill@g.com',
         bio: "Bill's bio",
         whatAmIDoing: 'What Bill is doing',
@@ -142,7 +154,8 @@ const users = {
     tamara: {
         id: 'tamara',
         sex: 'female',
-        name: 'Tamara',
+        firstname: 'Tamara',
+        lastname: "LastName",
         email: 'tamara@g.com',
         bio: "Tamara's bio",
         whatAmIDoing: 'What Tamara is doing',

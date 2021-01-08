@@ -15,7 +15,8 @@ server.listen({ port }).then(async ({ url }) => {
   const query = `
                 mutation CreateUser($input: CreateUserInput!){
                     createUser(input: $input) {
-                        name
+                        firstname
+                        lastname
                         id
                         email
                         age

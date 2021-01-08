@@ -1,12 +1,13 @@
 const gql = require('graphql-tag');
-const {print} = require('graphql');
+const { print } = require('graphql');
 
 const GET_USER = print(gql`
   query GetUser($id: ID!) {
     user(id: $id) {
       id
       sex
-      name
+      firstname
+      lastname
       email
       bio
       whatAmIDoing
@@ -30,7 +31,8 @@ const GET_USER_FULL = print(gql`
     user(id: $id) {
       id
       sex
-      name
+      firstname
+      lastname
       email
       bio
       whatAmIDoing
@@ -70,4 +72,4 @@ const SHOW_ME_CRITERIA = print(gql`
   }
 `);
 
-export {GET_USER, GET_USER_FULL, GET_VIABLE_USERS, SHOW_ME_CRITERIA};
+export { GET_USER, GET_USER_FULL, GET_VIABLE_USERS, SHOW_ME_CRITERIA };
