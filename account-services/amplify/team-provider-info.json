@@ -13,7 +13,11 @@
     },
     "categories": {
       "auth": {
-        "accountservice1223b5e1": {}
+        "accountservice1223b5e1": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "AdminQueries0e5e28a6": {}
       }
     }
   }

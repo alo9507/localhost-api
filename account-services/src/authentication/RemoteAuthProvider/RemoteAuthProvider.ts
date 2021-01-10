@@ -18,6 +18,7 @@ interface RemoteAuthProvider {
   deleteAccount(email: string): Promise<boolean>
   disableAccount(email: string): Promise<boolean>
   enableAccount(email: string): Promise<boolean>
+  getUser(email: string): Promise<boolean>
 }
 
 export default RemoteAuthProvider;
