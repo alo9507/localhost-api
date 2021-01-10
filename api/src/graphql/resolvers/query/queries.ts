@@ -80,7 +80,7 @@ const queries = {
         WITH sender, nod
         MATCH (user: User { id: sender.id })
         RETURN user, nod
-        ORDER BY nod.createdAt
+        ORDER BY nod.createdAt DESC
         `,
         params
       )

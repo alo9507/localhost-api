@@ -55,7 +55,7 @@ const mutations = {
   },
   nodSeen: (parent, args, context) => {
     const session = context.driver.session();
-    const params = { recipient: args.recipient, sender: args.sender };
+    const params = { recipient: args.input.recipient, sender: args.input.sender };
     return session
       .run(
         'MATCH (a: SocialNode { id: $sender } )-[r:NODDED_AT]->(b: SocialNode { id: $recipient } ) SET r.seen = true RETURN $recipient, $sender',
