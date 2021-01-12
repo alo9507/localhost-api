@@ -1,7 +1,11 @@
 enum AuthError {
   emailAlreadyExists = 'EmailAlreadyExists',
-  PasswordNotAllowed = 'PasswordNotAllowed',
+  passwordNotAllowed = 'PasswordNotAllowed',
   passwordTooShort = 'PasswordTooShort',
+  passwordUpperCaseMissing = 'PasswordMissingUpperCaseLetters',
+  passwordLowerCaseMissing = 'PasswordMissingLowerCaseLetters',
+  passwordSepcialCharacterMissing = 'PasswordMissingSpecialCharacters',
+  passwordNumericMissing = 'PasswordNumericCharacterMissing',
   usernameInvalid = 'UsernameInvalid',
   unknownError = 'UnknownError',
   userIsNotConfirmed = 'UserIsNotConfirmed',
@@ -9,9 +13,12 @@ enum AuthError {
   userDoesNotExist = 'UserDoesNotExist',
   notAuthneticated = 'NotAuthenticated',
   usernameCannotBeEmpty = "UsernameCannotBeEmpty",
-  userdisabled = "UserDisabled",
+  userdisabled = "UserIsDisabled",
   userIsAlreadyConfirmed = "UserAlreadyConfirmed",
-  invalidVerificationCode = "InvalidVerficationCode"
+  invalidVerificationCode = "InvalidVerficationCode",
+  invalidAccessToken = "AccessTokenInvalid",
+  accessTokenRevoked = "AccessTokenHasBeenRevoked",
+  attempLimitexceeded = "AttemptLimitExceeded"
 }
 
 export default AuthError;
