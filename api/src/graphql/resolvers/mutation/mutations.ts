@@ -27,13 +27,8 @@ const mutations = {
   },
   returnNod: (parent, args, context) => {
     const session = context.driver.session();
-    const { from, to, message, location } = args.input;
-    const params = {
-      from,
-      to,
-      message: message === undefined ? '' : message,
-      location: location === undefined ? '' : location
-    };
+    const { from, to } = args.input;
+    const params = { from, to, message: args.input?.message, latitude: args.input?.latitude, longitude: args.input?.longitude };
     return session
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 

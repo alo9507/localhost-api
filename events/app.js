@@ -34,9 +34,12 @@ io.on("connection", (socket) => {
 });
 
 const getApiAndEmit = socket => {
-    const response = new Date();
+    const type = "time";
+    const payload = {
+        time: new Date()
+    };
     // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI", response);
+    socket.emit("FromAPI", { type, payload });
 };
 
 httpServer.listen(port, () => console.log(`Listening on port ${port}`));
