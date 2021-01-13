@@ -1,4 +1,4 @@
-import AWSAmplifyRemoteAuthProvider from "../authentication/RemoteAuthProvider/AWSAmplifyRemoteAuthProvider";
+import AWSCognitoRemoteAuthProvider from "../authentication/RemoteAuthProvider/AWSAmplifyRemoteAuthProvider";
 import config from "../aws-exports"
 import Amplfiy from 'aws-amplify';
 import RemoteAuthProvider from "../authentication/RemoteAuthProvider/RemoteAuthProvider";
@@ -9,7 +9,7 @@ const userPoolId = "";         //UserPoolId goes here
 const ClientId = "";    //ClientAppId goes here
 
 const cleanUp = (async (email) => {
-  const authManager = new AWSAmplifyRemoteAuthProvider(userPoolId, ClientId)
+  const authManager = new AWSCognitoRemoteAuthProvider(userPoolId, ClientId)
   //await authManager.deleteAccount(email)
 })
 
@@ -17,7 +17,7 @@ describe('Authentication Manager', () => {
   let authManager: RemoteAuthProvider
 
   beforeEach(async () => {
-    authManager = new AWSAmplifyRemoteAuthProvider(userPoolId, ClientId)
+    authManager = new AWSCognitoRemoteAuthProvider(userPoolId, ClientId)
     //await authManager.deleteAccount('azheraleem6@gmail.com')
   })
 
@@ -95,6 +95,7 @@ describe('Authentication Manager', () => {
 
   it('should send a forgot password email', async () => {
     let emailOrPhoneNumber = "azheraleem6@gmail.com";
+    
     let authSession = await authManager.forgotPassword(emailOrPhoneNumber);
     expect(authSession).toBe(true); 
   })

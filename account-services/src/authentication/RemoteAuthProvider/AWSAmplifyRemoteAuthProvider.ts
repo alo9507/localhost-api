@@ -1,16 +1,14 @@
-import { Auth, API } from 'aws-amplify';
 import AuthError from '../AuthError/AuthError';
 import AuthSession from '../AuthSession/AuthSession';
 import RemoteAuthProvider from '../RemoteAuthProvider/RemoteAuthProvider';
 import path, { resolve } from 'path';
 import dotenv from 'dotenv';
 
-const AWS = require('aws-sdk');
-global.fetch = require('node-fetch');
+import AWS from 'aws-sdk';
 
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
-class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
+class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
   
   poolData: {};
   cognitoidentityserviceprovider: AWS.CognitoIdentityServiceProvider
@@ -426,4 +424,4 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
 
 }
 
-export default AWSAmplifyRemoteAuthProvider;
+export default AWSCognitoRemoteAuthProvider;
