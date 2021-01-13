@@ -1,142 +1,110 @@
-import AWSAmplifyRemoteAuthProvider from "../authentication/RemoteAuthProvider/AWSAmplifyRemoteAuthProvider";
+import AWSCognitoRemoteAuthProvider from "../authentication/RemoteAuthProvider/AWSAmplifyRemoteAuthProvider";
 import config from "../aws-exports"
 import Amplfiy from 'aws-amplify';
 import RemoteAuthProvider from "../authentication/RemoteAuthProvider/RemoteAuthProvider";
 
 Amplfiy.configure(config);
 
+const userPoolId = "";         //UserPoolId goes here
+const ClientId = "";    //ClientAppId goes here
+
 const cleanUp = (async (email) => {
-  const authManager = new AWSAmplifyRemoteAuthProvider()
-  await authManager.deleteAccount(email)
+  const authManager = new AWSCognitoRemoteAuthProvider(userPoolId, ClientId)
+  //await authManager.deleteAccount(email)
 })
 
 describe('Authentication Manager', () => {
   let authManager: RemoteAuthProvider
 
-  beforeEach(() => {
-    authManager = new AWSAmplifyRemoteAuthProvider()
+  beforeEach(async () => {
+    authManager = new AWSCognitoRemoteAuthProvider(userPoolId, ClientId)
+    //await authManager.deleteAccount('azheraleem6@gmail.com')
   })
 
-  // Basics
   it('should create a new account with email and password', async () => {
-    // Assume - account does not exist
+    let email = `azheraleem6@gmail.com`
+    let password = "123abcdeA!"
 
-    // Arrange
-    let email = `${Date.now()}@g.com`
-    let password = "abc1233!!"
-
-    // Act
-    let authSession = await authManager.signUp(email, password)
-
-    // Assert - you receive a userId and an indication that the email must be verified
+    let authSession = await authManager.signUp(email, '', password, )
+    
     expect(authSession.userId).not.toBeUndefined()
     expect(authSession.emailVerified).toBe(false)
   });
 
   it('should create a new account with phone number and password', async () => {
-    // Arrange
-    let phoneNumber = `+19782341232`
-    let password = "abc1233!!"
+    let phoneNumber = `+923004843643`
+    let username = '+923004843643'
+    let password = "123abcdeA!"
 
-    // Act
-    let authSession = await authManager.signUp(phoneNumber, password)
+    let authSession = await authManager.signUp(username,phoneNumber, password);
 
-    // Assert - you receive a userId and an indication that the phone number must be verified
     expect(authSession.userId).not.toBeUndefined()
     expect(authSession.emailVerified).toBe(false)
   });
 
-  it('should delete an account', () => {
-    // Arrange
-    //  - create a new account
-    //  - show you can sign into that account and get an AuthSession back
-
-    // Act - delete the account
-
-    // Assert - you can no longer sign into the account
+  //Confirm Account - not sure how to test this, maybe just manually
+  it('should confirm a user', async () => {
+    let email = "azheraleem6@gmail.com";
+    let authSession =  await authManager.confirmSignUp(email, "142588");
+    expect(authSession).toBe(true); 
+  });
+ 
+  var accessToken='';
+  it('should let a user sign in', async () => {
+    let emailOrPhoneNumber = "azheraleem6@gmail.com";
+    let password = "123abcdeA!";
+    let authSession = await authManager.signIn(emailOrPhoneNumber, password);
+    accessToken =authSession.token;
+    expect(authSession.token).not.toBeUndefined();
+    expect(authSession.emailVerified).toBe(false);
+  });
+   
+  it('should disable an account', async () => {
+    let emailOrPhoneNumber = "+923004843643";
+    let authSession = await authManager.disableAccount(emailOrPhoneNumber);
+    expect(authSession).toBe(true); 
   });
 
-  it('should let a user sign in', () => {
-    // Arrange - create random account
-
-    // Act - sign in with the new account
-
-    // Assert - you had an AuthSession returned
+  it('should enable an account', async () => {
+    let emailOrPhoneNumber = "azheraleem6@gmail.com";
+    let authSession = await authManager.enableAccount(emailOrPhoneNumber);
+    expect(authSession).toBe(true); 
   });
 
-  it('should allow for sign out', () => {
-    // Arrange 
-    // - create random account
-    // - sign in
+  it('should allow for sign out', async () => {
+    let authSession = await authManager.signOut(accessToken);
+    expect(authSession).toBe(true);
+   });
 
-    // Act - sign out
-
-    // Assert - a success message was returned and the user is 
+  it('should delete an account', async () => {
+    let emailOrPhoneNumber = "azheraleem6@gmail.com";
+    let authSession = await authManager.deleteAccount(emailOrPhoneNumber);
+    expect(authSession).toBe(true); 
   });
 
 
-  // Confirm Account - not sure how to test this, maybe just manually
-  it('should send a confirmation email if email is used for sign up', () => {
-  });
-
-  it('should send a confirmation text if phone is used for sign up', () => {
+  //Change Password 
+  //this is for people who are already logged in and just want to change their password
+  it('should change password', async () => {
+    
+    let authSession = await authManager.changePassword(accessToken, "AASDASDASA1!a", "123abcdaA!");
+   
+    expect(authSession).toBe(true); 
   })
 
-  it('should confirm the new account when the correct confirmation is received (email)', () => {
+
+  it('should send a forgot password email', async () => {
+    let emailOrPhoneNumber = "azheraleem6@gmail.com";
+    
+    let authSession = await authManager.forgotPassword(emailOrPhoneNumber);
+    expect(authSession).toBe(true); 
   })
 
-  it('should confirm the new account when the correct confirmation is received (password)', () => {
-  })
-
-  // Account Services (update email/phone number, change password, forgot password)
-  it('should update email', () => {
-    // ARRANGE 
-    // - create a random account
-    // - confirm you can sign into the account
-
-    // ACT - change the email
-
-    // ASSERT 
-    // - you cannot sign in with the old email
-    // - you can sign in with the new email
-  })
-
-  // this is not the same as forgot password. 
-  // this is for people who are already logged in and just want to change their password
-  it('should change password', () => {
-    // ARRANGE 
-    // - create a random account
-    // - confirm you can sign into the account
-
-    // ACT - change the password
-
-    // ASSERT 
-    // - you cannot sign in with the old password
-    // - you can sign in with the new password
-  })
-
-  it('should send a forgot password email', () => {
-    // ARRANGE 
-    // - create a random account
-    // - confirm you can sign into the account
-
-    // ACT - send a forgot password email
-
-    // ASSERT
-    // - you received an email
-  })
-
-  it('should send change password after a submitForgotPassword is received', () => {
-    // ARRANGE 
-    // - create a random account
-    // - confirm you can sign into the account
-
-    // ACT
-    // - send a forgot password email
-    // - submit the confirmation code to forgotPasswordSubmit
-
-    // ASSERT
-    // - you cannot sign in with the old password
-    // - you can sign in with the new password
+  it('should send change password after a submitForgotPassword is received', async () => {
+    let emailOrPhoneNumber = "azheraleem6@gmail.com";
+    let code = "276657";
+    let newPassword = "AASDASDASA1!a";
+    let authSession = await authManager.forgotPasswordSubmit(emailOrPhoneNumber, code, newPassword);
+    expect(authSession).toBe(true); 
   });
 });
