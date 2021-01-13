@@ -10,7 +10,7 @@ services:
             dockerfile: Dockerfile.dev
             context: ./nginx
         ports:
-            - '80:80'
+            - "80:80"
     neo4j:
         container_name: neo4j
         build:
@@ -41,7 +41,6 @@ services:
             dockerfile: Dockerfile.dev
             context: ./account-services
         volumes:
-            - /app/node_modules
             - ./account-services:/app
         env_file:
             - account-services/.env.docker

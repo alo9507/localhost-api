@@ -12,7 +12,7 @@ const typeDefs = gql`
   type Mutation {
     signUp(input: SignUpInput!): SignUpResponse
     signIn(input: SignInInput!): SignInResponse
-    signOut: SignOutResponse
+    signOut(input: SignOutInput!): SignOutResponse
     confirmSignUp(input: ConfirmSignUpInput!): ConfirmSignUpResponse
     changePassword(input: ChangePasswordInput!): ChangePasswordResponse
     forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse
@@ -20,6 +20,10 @@ const typeDefs = gql`
     deleteAccount(input: DeleteAccountInput!): DeleteAccountResponse
     enableAccount(input: EnableAccountInput!): EnableAccountResponse
     disableAccount(input: DisableAccountInput!): DisableAccountResponse
+  }
+
+  input SignOutInput {
+    accessToken: String!
   }
 
   input EnableAccountInput {
@@ -85,7 +89,7 @@ const typeDefs = gql`
   input SignUpInput {
     email: String
     phoneNumber: String
-    password: String!
+    password: String
   }
 
   type SignUpResponse {
@@ -96,15 +100,14 @@ const typeDefs = gql`
   }
 
   input SignInInput {
-    email: String
+    username: String
     password: String
   }
 
   type SignInResponse {
-    email: String
-    password: String
-    authToken: String
     userId: String
+    accessToken: String
+    userVerified: Boolean
   }
 
   type SignOutResponse {

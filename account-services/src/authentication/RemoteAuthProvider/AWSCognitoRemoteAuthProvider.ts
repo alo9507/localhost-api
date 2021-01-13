@@ -2,6 +2,7 @@ import AuthError from '../AuthError/AuthError';
 import AuthSession from '../AuthSession/AuthSession';
 import RemoteAuthProvider from './RemoteAuthProvider';
 import AWS from 'aws-sdk';
+import jwt_decode from "jwt-decode";
 
 class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
 
@@ -15,15 +16,14 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
     this.cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ 'region': 'us-east-2' });
   }
 
-  signIn(emailOrPhoneNumber: string, password: string): Promise<AuthSession> {
+  signIn(username: string, password: string): Promise<AuthSession> {
     const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       var params = {
         AuthFlow: 'USER_PASSWORD_AUTH', /* required */
         ClientId: this.poolData['ClientId'], /* required */
         AuthParameters: {
-          'USERNAME': emailOrPhoneNumber,
+          'USERNAME': username,
           'PASSWORD': password
-          /* '<StringType>': ... */
         }
       };
 
@@ -54,7 +54,8 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
           }
         }
         else {
-          resolve(new AuthSession('', data.AuthenticationResult.AccessToken, false));
+          var decoded: any = jwt_decode(data.AuthenticationResult.AccessToken);
+          resolve(new AuthSession(decoded.sub, data.AuthenticationResult.AccessToken, false));
         }
       });
     });
@@ -244,7 +245,7 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
           }
         }
         else {
-          resolve(true);
+          resolve(JSON.stringify(data));
         }
       });
     });

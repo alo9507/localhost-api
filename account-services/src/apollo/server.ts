@@ -3,7 +3,7 @@ import typeDefs from '../graphql/schema/schema';
 import resolvers from '../graphql/resolvers/resolvers';
 import AWSCognitoRemoteAuthProvider from '../authentication/RemoteAuthProvider/AWSCognitoRemoteAuthProvider';
 import dotenv from 'dotenv';
-import path, { resolve } from 'path';
+import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 

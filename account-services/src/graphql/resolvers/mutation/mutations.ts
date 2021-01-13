@@ -12,16 +12,15 @@ const mutations = {
     };
   },
   signIn: async (parent, args, context) => {
-    const result = await context.authProvider.signIn(args.input.email, args.input.password);
+    const authSession = await context.authProvider.signIn(args.input.username, args.input.password);
     return {
-      email: args.input.email,
-      password: args.input.password,
-      userId: result.userId,
-      authToken: result.authToken
+      userId: authSession.userId,
+      accessToken: authSession.accessToken,
+      userVerified: authSession.userVerified
     };
   },
   signOut: async (parent, args, context) => {
-    const result = await context.authProvider.signOut();
+    const result = await context.authProvider.signOut(args.input.accessToken);
     return {
       success: result
     };
