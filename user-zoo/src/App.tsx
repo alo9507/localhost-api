@@ -33,6 +33,7 @@ function App() {
         <BecomeInvisibleToForm client={client} recipient={recipient} />
         <BecomeVisibleToForm client={client} recipient={recipient} />
         <UnmatchForm client={client} recipient={recipient} />
+        <DeleteAccountForm />
       </div>
     </>
   );

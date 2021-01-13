@@ -1,12 +1,7 @@
 import AuthError from '../AuthError/AuthError';
 import AuthSession from '../AuthSession/AuthSession';
 import RemoteAuthProvider from './RemoteAuthProvider';
-import path, { resolve } from 'path';
-import dotenv from 'dotenv';
-
 import AWS from 'aws-sdk';
-
-dotenv.config({ path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`) });
 
 class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
 
@@ -14,10 +9,10 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
   cognitoidentityserviceprovider: AWS.CognitoIdentityServiceProvider
   constructor (userPoolId: string, clientId: string) {
     this.poolData = {
-      UserPoolId: userPoolId, // Your user pool id here    
-      ClientId: clientId // Your client id here
+      UserPoolId: userPoolId,
+      ClientId: clientId
     };
-    this.cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ 'region': 'us-east-1' });
+    this.cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ 'region': 'us-east-2' });
   }
 
   signIn(emailOrPhoneNumber: string, password: string): Promise<AuthSession> {
@@ -96,19 +91,13 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
     return promise;
   }
 
-  signUp(username: string, phone_number: string, password: string): Promise<AuthSession> {
+  signUp(email: string, phoneNumber: string, password: string): Promise<AuthSession> {
     const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
 
       var params = {
-        ClientId: this.poolData['ClientId'], /* required */
-        Password: password, /* required */
-        Username: username, /* required */
-        UserAttributes: [
-          {
-            Name: 'phone_number', /* required */
-            Value: phone_number
-          },
-        ],
+        ClientId: this.poolData['ClientId'],
+        Password: password,
+        Username: phoneNumber ? phoneNumber : email,
       };
       this.cognitoidentityserviceprovider.signUp(params, function (err, data) {
         if (err) {
@@ -367,8 +356,8 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
   deleteAccount(email: string): Promise<boolean> {
     const promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       var params = {
-        UserPoolId: this.poolData['UserPoolId'], /* required */
-        Username: email /* required */
+        UserPoolId: this.poolData['UserPoolId'],
+        Username: email
       };
 
       this.cognitoidentityserviceprovider.adminDeleteUser(params, function (err, data) {

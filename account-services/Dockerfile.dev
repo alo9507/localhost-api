@@ -2,4 +2,5 @@ FROM node:alpine
 WORKDIR "/app"
 COPY . .
 EXPOSE 4001
+ENV NODE_ENV="prod"
 CMD ["npm", "run", "start:dev"]

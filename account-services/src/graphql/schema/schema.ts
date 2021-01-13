@@ -13,10 +13,37 @@ const typeDefs = gql`
     signUp(input: SignUpInput!): SignUpResponse
     signIn(input: SignInInput!): SignInResponse
     signOut: SignOutResponse
-    confirmSignUp(input: ConfirmSignUpInput): ConfirmSignUpResponse
-    changePassword(input: ChangePasswordInput): ChangePasswordResponse
-    forgotPassword(input: ForgotPasswordInput): ForgotPasswordResponse
-    forgotPasswordSubmit(input: ForgotPasswordSubmitInput): ForgotPasswordSubmitResponse
+    confirmSignUp(input: ConfirmSignUpInput!): ConfirmSignUpResponse
+    changePassword(input: ChangePasswordInput!): ChangePasswordResponse
+    forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse
+    forgotPasswordSubmit(input: ForgotPasswordSubmitInput!): ForgotPasswordSubmitResponse
+    deleteAccount(input: DeleteAccountInput!): DeleteAccountResponse
+    enableAccount(input: EnableAccountInput!): EnableAccountResponse
+    disableAccount(input: DisableAccountInput!): DisableAccountResponse
+  }
+
+  input EnableAccountInput {
+    username: String!
+  }
+
+  type EnableAccountResponse {
+    success: Boolean
+  }
+
+  input DisableAccountInput {
+    username: String!
+  }
+
+  type DisableAccountResponse {
+    success: Boolean
+  }
+  
+  input DeleteAccountInput {
+    username: String!
+  }
+
+  type DeleteAccountResponse {
+    success: Boolean
   }
 
   input ConfirmSignUpInput {
@@ -56,14 +83,15 @@ const typeDefs = gql`
   }
 
   input SignUpInput {
-    email: String!
+    email: String
+    phoneNumber: String
     password: String!
   }
 
   type SignUpResponse {
     email: String
+    phoneNumber: String
     password: String
-    authToken: String
     userId: String
   }
 
