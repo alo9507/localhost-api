@@ -94,7 +94,7 @@ const mutations = {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const userResult = await txc.run(
-          'MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n.latitude=0.0, n.longitude=0.0, n += $input RETURN n',
+          'MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n.latitude=0.0, n.longitude=0.0, n.isVisible=true, n += $input RETURN n',
           params
         );
         const user = userResult.records[0].get(0).properties;
