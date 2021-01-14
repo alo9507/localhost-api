@@ -1,40 +1,40 @@
 import { useState } from 'react';
-import { BECOME_VISIBLE_TO } from "../graphql/mutations"
+import { DELETE_ACCOUNT } from "../graphql/mutations"
 
 function DeleteAccountForm(props: any) {
 
-    const [becomeVisibleToState, setBecomeVisibleToState] = useState({ from: "", to: props.recipient })
-    const [becomeVisibleToResponse, setBecomeVisibleToResponse] = useState({})
+    const [deleteAccountState, setDeleteAccountState] = useState({ username: "+19782694479" })
+    const [deleteAccountResponse, setDeleteAccountResponse] = useState({})
 
-    const handleReportChange = (e: any, key: any) => {
-        setBecomeVisibleToState({ ...becomeVisibleToState, [key]: e.target.value });
+    const handleDeleteAccountChange = (e: any, key: any) => {
+        setDeleteAccountState({ ...deleteAccountState, [key]: e.target.value });
     }
 
-    const becomeVisibleTo = async (e: any) => {
+    const deleteAccount = async (e: any) => {
         e.preventDefault()
         e.stopPropagation();
-        const input = { from: becomeVisibleToState.from, to: props.recipient }
+        const input = { username: deleteAccountState.username }
 
         try {
-            const result = await props.client.mutate({
-                mutation: BECOME_VISIBLE_TO,
+            const result = await props.accountClient.mutate({
+                mutation: DELETE_ACCOUNT,
                 variables: { input },
             });
-            setBecomeVisibleToResponse(result.data.report)
+            setDeleteAccountResponse(result.data.report)
         } catch (e) {
-            setBecomeVisibleToResponse(e)
+            setDeleteAccountResponse(e)
         }
     }
 
     return (
         <div>
-            <h1>Become Visible To</h1>
-            <form onSubmit={becomeVisibleTo}>
+            <h1>Delete Account</h1>
+            <form onSubmit={deleteAccount}>
                 <label htmlFor="to">To ID:</label><br />
-                <input type="text" value={becomeVisibleToState.to} onChange={(e) => handleReportChange(e, "to")} /><br />
-                <button onClick={becomeVisibleTo}>Become Visible To</button>
+                <input type="text" value={deleteAccountState.username} onChange={(e) => handleDeleteAccountChange(e, "username")} /><br />
+                <button onClick={deleteAccount}>Delete Account</button>
                 <br />
-                <div>{JSON.stringify(becomeVisibleToResponse)}</div>
+                <div>{JSON.stringify(deleteAccountResponse)}</div>
             </form>
         </div>
     );

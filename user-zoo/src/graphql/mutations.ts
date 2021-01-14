@@ -135,6 +135,13 @@ mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
     }
 }`
 
+export const DELETE_ACCOUNT = gql`
+mutation DeleteAccount($input: DeleteAccountInput!) {
+    deleteAccount(input: $input) {
+        success
+    }
+}`
+
 export const UPDATE_LOCATION_AND_GET_USERS = gql`
 mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
     updateLocationGetUsers(input: $input) {

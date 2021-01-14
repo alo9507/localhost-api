@@ -6,6 +6,7 @@ import ReportForm from './components/ReportForm';
 import BecomeInvisibleToForm from './components/BecomeInvisibleToForm';
 import BecomeVisibleToForm from './components/BecomeVisibleToForm';
 import UnmatchForm from './components/UnmatchForm';
+import DeleteAccountForm from "./components/DeleteAccountForm"
 
 function App() {
   const [recipient, setRecipient] = useState("d78d7693-11bd-4692-a7b3-5023cb5daa62")
@@ -17,6 +18,12 @@ function App() {
     }),
   });
 
+  const accountClient = new ApolloClient({
+    uri: 'http://localhost:80/account',
+    cache: new InMemoryCache({
+      addTypename: false
+    }),
+  });
 
 
   const handleSetRecipient = (e: any) => {
@@ -33,7 +40,7 @@ function App() {
         <BecomeInvisibleToForm client={client} recipient={recipient} />
         <BecomeVisibleToForm client={client} recipient={recipient} />
         <UnmatchForm client={client} recipient={recipient} />
-        <DeleteAccountForm />
+        <DeleteAccountForm accountClient={accountClient} />
       </div>
     </>
   );
