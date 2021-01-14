@@ -116,7 +116,7 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
               reject(`${AuthError.passwordTooShort}:  ${err.message}`);
               break;
             case 'An account with the given email already exists.':
-              reject(`${AuthError.emailAlreadyExists}:  ${err.message}`);
+              reject(`${AuthError.usernameAlreadyExists}:  ${err.message}`);
               break;
             case "Username cannot be empty":
               reject(`${AuthError.usernameCannotBeEmpty}:  ${err.message}`);
@@ -129,6 +129,8 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
               break;
             case "Password did not conform with policy: Password must have uppercase characters":
               reject(`${AuthError.passwordUpperCaseMissing}:  ${err.message}`);
+            case "An account with the given phone_number already exists.":
+              reject(`${AuthError.usernameAlreadyExists}:  ${err.message}`);
               break;
             default:
               reject(`${AuthError.unknownError}:  ${err.message}`);

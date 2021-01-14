@@ -1,5 +1,5 @@
 enum AuthError {
-  emailAlreadyExists = 'EmailAlreadyExists',
+  usernameAlreadyExists = 'UsernameAlreadyExists',
   passwordNotAllowed = 'PasswordNotAllowed',
   passwordTooShort = 'PasswordTooShort',
   passwordUpperCaseMissing = 'PasswordMissingUpperCaseLetters',

@@ -95,7 +95,6 @@ const typeDefs = gql`
   type SignUpResponse {
     email: String
     phoneNumber: String
-    password: String
     userId: String
   }
 
