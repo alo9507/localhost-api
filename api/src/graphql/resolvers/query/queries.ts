@@ -10,7 +10,8 @@ const queries = {
       if (result.records == 0) {
         throw new Error(`User with id ${args.id} does not exist in databse`);
       }
-      return result.records[0].get(0).properties;
+
+      return postProcess(result.records[0].get(0).properties);
     });
   },
   users: (parent, args, context, info) => {
