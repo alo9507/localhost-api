@@ -1,4 +1,5 @@
 import { generateQuery } from '../../../utils';
+import { preProcess, postProcess } from "../utils/parsers"
 
 const mutations = {
   sendNod: (parent, args, context) => {
@@ -80,16 +81,17 @@ const mutations = {
   },
   updateUser: (parent, args, context) => {
     const session = context.driver.session();
-    const params = { id: args.input.id, input: args.input };
+    const input = preProcess(args.input)
+    const params = { id: args.input.id, input };
     return session.run('MATCH (n: User { id: $id }) SET n += $input RETURN n', params).then((result) => {
       session.close();
-      return result.records[0].get(0).properties;
+      return postProcess(result)
     });
   },
-  // session.run('MERGE (n: ShowMeCriteria { id: $id }) ON CREATE SET n += $input ON CREATE SET n.sex = ["male", "female"] RETURN n', params)
   createUser: (parents, args, context) => {
     const session = context.driver.session();
-    const params = { id: args.input.id, input: args.input };
+    const input = preProcess(args.input)
+    const params = { id: args.input.id, input };
     const txc = session.beginTransaction();
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -97,7 +99,7 @@ const mutations = {
           'MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n.latitude=0.0, n.longitude=0.0, n.isVisible=true, n += $input RETURN n',
           params
         );
-        const user = userResult.records[0].get(0).properties;
+        const user = postProcess(userResult)
         const showMeCriteriaResult = await txc.run(
           `
                 MERGE (showmecriteria: ShowMeCriteria { id: $id }) 
