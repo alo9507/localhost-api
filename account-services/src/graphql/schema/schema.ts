@@ -20,6 +20,15 @@ const typeDefs = gql`
     deleteAccount(input: DeleteAccountInput!): DeleteAccountResponse
     enableAccount(input: EnableAccountInput!): EnableAccountResponse
     disableAccount(input: DisableAccountInput!): DisableAccountResponse
+    resendConfirmationCode(input: ResendConfirmationCodeInput!): ResendConfirmationCodeResponse
+  }
+
+  input ResendConfirmationCodeInput {
+    username: String
+  }
+
+  type ResendConfirmationCodeResponse {
+    success: Boolean
   }
 
   input SignOutInput {

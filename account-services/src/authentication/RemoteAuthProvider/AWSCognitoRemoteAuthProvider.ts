@@ -382,6 +382,32 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
     return promise;
   }
 
+  resendConfirmationCode(emailOrPhoneNumber: string): Promise<boolean> {
+    const promise: Promise<boolean> = new Promise(async (resolve, reject) => {
+      var params = {
+        ClientId: this.poolData['ClientId'],
+        Username: emailOrPhoneNumber
+      };
+
+      this.cognitoidentityserviceprovider.resendConfirmationCode(params, function (err, data) {
+        if (err) {
+          switch (err.message) {
+            case "User does not exist.":
+              reject(`${AuthError.userDoesNotExist}:  ${err.message}`);
+              break;
+            default:
+              reject(`${AuthError.unknownError}:  ${err.message}`);
+              break;
+          }
+        }
+        else {
+          resolve(true);
+        }
+      });
+    });
+    return promise;
+  }
+
 }
 
 export default AWSCognitoRemoteAuthProvider;

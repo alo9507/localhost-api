@@ -74,6 +74,13 @@ const mutations = {
       success: result
     };
   },
+  resendConfirmationCode: async (parent, args, context) => {
+    const session = context.authProvider;
+    const result = await context.authProvider.resendConfirmationCode(args.input.username);
+    return {
+      success: result
+    };
+  },
 };
 
 export default mutations;

@@ -203,6 +203,7 @@ const typeDefs = gql`
     whatAmIDoing: String
     isVisible: Boolean
     sex: String
+    phoneNumber: String
     age: Int
     latitude: Float
     longitude: Float
