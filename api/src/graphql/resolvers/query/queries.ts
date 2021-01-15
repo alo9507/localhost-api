@@ -10,15 +10,18 @@ const queries = {
       if (result.records == 0) {
         throw new Error(`User with id ${args.id} does not exist in databse`);
       }
-
-      return postProcess(result.records[0].get(0).properties);
+      const user = result.records[0].get(0).properties
+      return postProcess(user);
     });
   },
   users: (parent, args, context, info) => {
     const query = generateQuery(args.filter);
     const session = context.driver.session();
     return session.run(query).then((result) => {
-      const users = result.records.map((record) => record.get(0).properties);
+      const users = result.records.map((record) => {
+        const user = record.get(0).properties
+        return postProcess(user)
+      });
       session.close();
       return users;
     });
@@ -66,7 +69,10 @@ const queries = {
         params
       )
       .then((result) => {
-        const users = result.records.map((record) => record.get(0).properties);
+        const users = result.records.map((record) => {
+          const user = record.get(0).properties
+          return postProcess(user)
+        });
         session.close();
         return users;
       });
@@ -87,7 +93,10 @@ const queries = {
         params
       )
       .then((result) => {
-        const users = result.records.map((record) => record.get("user").properties);
+        const users = result.records.map((record) => {
+          const user = record.get("user").properties
+          return postProcess(user)
+        });
         const nods = result.records.map((record) => record.get("nod").properties);
 
         const userAndNod = users.map(function (e, i) {

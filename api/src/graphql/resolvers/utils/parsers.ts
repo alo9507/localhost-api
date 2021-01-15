@@ -3,8 +3,7 @@ export const preProcess = (input) => {
     return input
 }
 
-export const postProcess = (result) => {
-    const user = result.records[0].get(0).properties
+export const postProcess = (user) => {
     if (user?.workExperience) {
         user.workExperience = JSON.parse(user.workExperience)
     }
