@@ -169,7 +169,7 @@ const users = {
         firstname: 'Bill',
         lastname: "Lastname",
         bio: "Bill's bio",
-        // phoneNumber: "+1978323323",
+        phoneNumber: "+1978323323",
         whatAmIDoing: 'What Bill is doing',
         isVisible: true,
         age: 20,

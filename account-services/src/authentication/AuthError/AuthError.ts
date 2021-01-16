@@ -15,8 +15,9 @@ enum AuthError {
   usernameCannotBeEmpty = "UsernameCannotBeEmpty",
   userdisabled = "UserIsDisabled",
   userIsAlreadyConfirmed = "UserAlreadyConfirmed",
-  invalidVerificationCode = "InvalidVerficationCode",
+  invalidVerificationCode = "InvalidVerificationCode",
   invalidAccessToken = "AccessTokenInvalid",
+  invalidSession = "InvalidSession",
   accessTokenRevoked = "AccessTokenHasBeenRevoked",
   attempLimitexceeded = "AttemptLimitExceeded"
 }

@@ -13,11 +13,7 @@ const mutations = {
   },
   signIn: async (parent, args, context) => {
     const authSession = await context.authProvider.signIn(args.input.username, args.input.password);
-    return {
-      userId: authSession.userId,
-      accessToken: authSession.accessToken,
-      userVerified: authSession.userVerified
-    };
+    return authSession
   },
   signOut: async (parent, args, context) => {
     const result = await context.authProvider.signOut(args.input.accessToken);
@@ -79,6 +75,15 @@ const mutations = {
     const result = await context.authProvider.resendConfirmationCode(args.input.username);
     return {
       success: result
+    };
+  },
+  respondToAuthChallenge: async (parent, args, context) => {
+    const session = context.authProvider;
+    const authSession = await context.authProvider.respondToAuthChallenge(args.input.username, args.input.code, args.input.session);
+    return {
+      userId: authSession.userId,
+      accessToken: authSession.accessToken,
+      userVerified: authSession.userVerified
     };
   },
 };

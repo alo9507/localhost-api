@@ -16,8 +16,8 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
     this.cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ 'region': 'us-east-2' });
   }
 
-  signIn(username: string, password: string): Promise<AuthSession> {
-    const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
+  signIn(username: string, password: string): Promise<any> {
+    const promise: Promise<any> = new Promise(async (resolve, reject) => {
       var params = {
         AuthFlow: 'USER_PASSWORD_AUTH', /* required */
         ClientId: this.poolData['ClientId'], /* required */
@@ -47,6 +47,54 @@ class AWSCognitoRemoteAuthProvider implements RemoteAuthProvider {
               break;
             case "User is disabled.":
               reject(`${AuthError.userdisabled}:  ${err.message}`);
+              break;
+            case "Invalid session for the user, session can only be used once.":
+              reject(`${AuthError.invalidSession}:  ${err.message}`);
+              break;
+            default:
+              reject(`${AuthError.unknownError}:  ${err.message}`);
+              break;
+          }
+        }
+        else {
+          resolve({ success: true, session: data.Session });
+        }
+      });
+    });
+    return promise;
+  }
+
+  respondToAuthChallenge(username: string, code: string, session: string): Promise<AuthSession> {
+    const promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
+      var params = {
+        ClientId: this.poolData['ClientId'], /* required */
+        ChallengeName: "SMS_MFA", /* required */
+        ChallengeResponses: {
+          "SMS_MFA_CODE": code,
+          "USERNAME": username
+        },
+        Session: session
+      };
+
+      this.cognitoidentityserviceprovider.respondToAuthChallenge(params, function (err, data) {
+        if (err) {
+          switch (err.message) {
+            case 'User is disabled.':
+              reject(`${AuthError.userdisabled}:  ${err.message}`);
+              break;
+            case 'User cannot be confirmed. Current status is CONFIRMED':
+              reject(`${AuthError.userIsAlreadyConfirmed}:  ${err.message}`);
+              break;
+            case 'Username/client id combination not found.':
+              reject(`${AuthError.userDoesNotExist}: ${err.message}`)
+            case 'Invalid verification code provided, please try again.':
+              reject(`${AuthError.invalidVerificationCode}:  ${err.message}`);
+              break;
+            case 'Invalid code provided, please request a code again.':
+              reject(`${AuthError.invalidVerificationCode}:  ${err.message}`);
+              break;
+            case "Invalid session for the user, session can only be used once.":
+              reject(`${AuthError.invalidSession}:  ${err.message}`);
               break;
             default:
               reject(`${AuthError.unknownError}:  ${err.message}`);

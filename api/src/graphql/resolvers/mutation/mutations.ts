@@ -85,7 +85,8 @@ const mutations = {
     const params = { id: args.input.id, input };
     return session.run('MATCH (n: User { id: $id }) SET n += $input RETURN n', params).then((result) => {
       session.close();
-      return postProcess(result)
+      const user = result.records[0].get(0).properties
+      return postProcess(user)
     });
   },
   createUser: (parents, args, context) => {
@@ -99,7 +100,8 @@ const mutations = {
           'MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n.latitude=0.0, n.longitude=0.0, n.isVisible=true, n += $input RETURN n',
           params
         );
-        const user = postProcess(userResult)
+        const rawUser = userResult.records[0].get(0).properties
+        const user = postProcess(rawUser)
         const showMeCriteriaResult = await txc.run(
           `
                 MERGE (showmecriteria: ShowMeCriteria { id: $id }) 
@@ -275,7 +277,10 @@ const mutations = {
         params
       )
       .then((result) => {
-        const users = result.records.map((record) => record.get(0).properties);
+        const users = result.records.map((record) => {
+          const user = record.get(0).properties
+          return postProcess(user)
+        });
         session.close();
         return users;
       });

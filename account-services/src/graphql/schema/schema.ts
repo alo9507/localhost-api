@@ -21,6 +21,19 @@ const typeDefs = gql`
     enableAccount(input: EnableAccountInput!): EnableAccountResponse
     disableAccount(input: DisableAccountInput!): DisableAccountResponse
     resendConfirmationCode(input: ResendConfirmationCodeInput!): ResendConfirmationCodeResponse
+    respondToAuthChallenge(input: RespondToAuthChallengeInput!): RespondToAuthChallengeResponse
+  }
+
+  input RespondToAuthChallengeInput {
+    username: String
+    code: String
+    session: String
+  }
+
+  type RespondToAuthChallengeResponse {
+    userId: String
+    accessToken: String
+    userVerified: Boolean
   }
 
   input ResendConfirmationCodeInput {
@@ -113,9 +126,8 @@ const typeDefs = gql`
   }
 
   type SignInResponse {
-    userId: String
-    accessToken: String
-    userVerified: Boolean
+    success: Boolean
+    session: String
   }
 
   type SignOutResponse {
