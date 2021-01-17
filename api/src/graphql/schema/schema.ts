@@ -20,14 +20,14 @@ const typeDefs = gql`
     createdAt: Int
     updatedAt: Int
     showMeCriteria: ShowMeCriteria
-    schools: [School]
+    education: [Education]
     workExperience: [WorkExperience]
     hometown: String
     profileImageUrl: String
     gender: Gender
   }
 
-  type School {
+  type Education {
     name: String
     entryYear: Int
     graduationYear: Int
@@ -35,7 +35,7 @@ const typeDefs = gql`
     degree: Degree
   }
 
-  input SchoolInput {
+  input EducationInput {
     name: String
     entryYear: Int
     graduationYear: Int
@@ -207,7 +207,7 @@ const typeDefs = gql`
     age: Int
     latitude: Float
     longitude: Float
-    schools: [SchoolInput]
+    education: [EducationInput]
     workExperience: [WorkExperienceInput]
     hometown: String
     profileImageUrl: String,
@@ -226,7 +226,7 @@ const typeDefs = gql`
     isVisible: Boolean
     sex: String
     age: Int
-    schools: [SchoolInput]
+    education: [EducationInput]
     workExperience: [WorkExperienceInput]
     hometown: String
     profileImageUrl: String,
