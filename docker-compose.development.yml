@@ -57,3 +57,14 @@ services:
             - media-services/.env.docker
         ports:
             - "3001:3001"
+    userzoo:
+        container_name: userzoo
+        depends_on:
+            - "neo4j"
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./user-zoo
+        volumes:
+            - ./user-zoo:/app
+        ports:
+            - "3000:3000"
