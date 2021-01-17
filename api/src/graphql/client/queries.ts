@@ -1,5 +1,5 @@
-const gql = require('graphql-tag');
-const { print } = require('graphql');
+import gql from 'graphql-tag';
+import { print } from 'graphql';
 
 const GET_USER = print(gql`
   query GetUser($id: ID!) {

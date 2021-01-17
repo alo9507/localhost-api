@@ -5,10 +5,10 @@ async function createUsers(users, port) {
   const uri = `http://localhost:${port}/graphql`;
   const apolloFetch = createFetch(uri, false);
 
-  const promise = new Promise(async (resolve, reject) => {
+  const promise = new Promise(async (resolve, _) => {
     for (const user of users) {
       const variables = { input: user };
-      const result = await apolloFetch({ query: CREATE_USER, variables });
+      const __ = await apolloFetch({ query: CREATE_USER, variables });
     }
     resolve(users);
   });

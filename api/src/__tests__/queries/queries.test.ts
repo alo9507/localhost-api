@@ -30,7 +30,7 @@ describe('Integration Test queries', () => {
   });
 
   test('should fetch only viable users according to user visibility and ShowMeCriteria of both parties', async () => {
-    const users = await createUsers(
+    const _ = await createUsers(
       [
         mockUsers.john,
         mockUsers.male_25_visible,

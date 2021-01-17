@@ -1,8 +1,8 @@
 import { generateQuery } from '../../../utils';
-import { preProcess, postProcess } from "../utils/parsers"
+import { postProcess } from '../utils/parsers';
 
 const queries = {
-  user: (parent, args, context, info) => {
+  user: (_, args, context) => {
     const session = context.driver.session();
     const params = { id: args.id };
     return session.run('MATCH (n:User) WHERE n.id=$id RETURN n', params).then((result) => {
@@ -10,23 +10,23 @@ const queries = {
       if (result.records == 0) {
         throw new Error(`User with id ${args.id} does not exist in databse`);
       }
-      const user = result.records[0].get(0).properties
+      const user = result.records[0].get(0).properties;
       return postProcess(user);
     });
   },
-  users: (parent, args, context, info) => {
+  users: (_, args, context) => {
     const query = generateQuery(args.filter);
     const session = context.driver.session();
     return session.run(query).then((result) => {
       const users = result.records.map((record) => {
-        const user = record.get(0).properties
-        return postProcess(user)
+        const user = record.get(0).properties;
+        return postProcess(user);
       });
       session.close();
       return users;
     });
   },
-  showMeCriteria: (parent, args, context, info) => {
+  showMeCriteria: (_, args, context) => {
     const session = context.driver.session();
     const params = { id: args.id };
     return session.run('MATCH (n: ShowMeCriteria { id: $id }) RETURN n', params).then((result) => {
@@ -37,7 +37,7 @@ const queries = {
       return result.records[0].get(0).properties;
     });
   },
-  getDistanceBetween: (parent, args, context) => {
+  getDistanceBetween: (_, args, context) => {
     const session = context.driver.session();
     const params = { user1ID: args.user1, user2ID: args.user2 };
     return session
@@ -50,7 +50,7 @@ const queries = {
         return result.records[0].get('distanceBetweenUsers');
       });
   },
-  getViableUsers: (parent, args, context) => {
+  getViableUsers: (_, args, context) => {
     const session = context.driver.session();
     const params = { id: args.id };
     return session
@@ -70,14 +70,14 @@ const queries = {
       )
       .then((result) => {
         const users = result.records.map((record) => {
-          const user = record.get(0).properties
-          return postProcess(user)
+          const user = record.get(0).properties;
+          return postProcess(user);
         });
         session.close();
         return users;
       });
   },
-  getIncomingNods: (parent, args, context) => {
+  getIncomingNods: (_, args, context) => {
     const session = context.driver.session();
     const params = { id: args.id };
     return session
@@ -94,18 +94,18 @@ const queries = {
       )
       .then((result) => {
         const users = result.records.map((record) => {
-          const user = record.get("user").properties
-          return postProcess(user)
+          const user = record.get('user').properties;
+          return postProcess(user);
         });
-        const nods = result.records.map((record) => record.get("nod").properties);
+        const nods = result.records.map((record) => record.get('nod').properties);
 
         const userAndNod = users.map(function (e, i) {
           return { user: e, nod: nods[i] };
         });
-        console.log(userAndNod)
+        console.log(userAndNod);
 
         session.close();
-        return userAndNod
+        return userAndNod;
       });
   }
 };

@@ -1,7 +1,5 @@
-import { generateQuery } from '../../../utils';
-
 const user = {
-  outbound: (parent, args, context, info) => {
+  outbound: (parent, _, context) => {
     const session = context.driver.session();
     const params = { id: parent.id };
     return session
@@ -18,7 +16,7 @@ const user = {
         return result.records.map((record) => record.get('other').properties);
       });
   },
-  inbound: (parent, args, context, info) => {
+  inbound: (parent, _, context) => {
     const session = context.driver.session();
     const params = { id: parent.id };
     return session
@@ -35,7 +33,7 @@ const user = {
         return result.records.map((record) => record.get('other').properties);
       });
   },
-  mutual: (parent, args, context, info) => {
+  mutual: (parent, _, context) => {
     const session = context.driver.session();
     const params = { id: parent.id };
     return session
@@ -54,7 +52,7 @@ const user = {
         return result.records.map((record) => record.get('other').properties);
       });
   },
-  showMeCriteria: (parent, args, context, info) => {
+  showMeCriteria: (parent, _, context) => {
     const session = context.driver.session();
     const params = { id: parent.id };
     return session.run('MATCH (n: ShowMeCriteria { id: $id }) RETURN n', params).then((result) => {

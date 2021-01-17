@@ -4,15 +4,15 @@ function createFetch(uri, debug) {
   const apolloFetch = createApolloFetch({ uri });
 
   if (debug === true) {
-    const afterware = ({ response, options }, next) => {
+    const afterware = ({ response }, next) => {
       if (response.status != 200) {
-        console.log("ERROR RESPONE: ", response.raw);
+        console.log('ERROR RESPONE: ', response.raw);
       }
       next();
     };
     apolloFetch.useAfter(afterware);
 
-    const middleware = ({ request, options }, next) => {
+    const middleware = ({ request }, next) => {
       console.log(request);
       next();
     };

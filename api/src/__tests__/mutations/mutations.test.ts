@@ -9,8 +9,7 @@ import {
   SEND_NOD,
   RETURN_NOD,
   REPORT,
-  UPDATE_SHOWME_CRITERIA,
-  UPDATE_USER_LOCATION
+  UPDATE_SHOWME_CRITERIA
 } from '../../graphql/client/mutations';
 import { GET_USER, GET_USER_FULL } from '../../graphql/client/queries';
 import clearDb from '../../scripts/clearDb';
@@ -67,7 +66,7 @@ describe('Integration Test mutations', () => {
     const result = await apolloFetch({ query: CREATE_USER, variables });
     expect(result.data.createUser).toEqual(expectedResponse);
 
-    const getUserResult = await apolloFetch({ query: GET_USER, variables: { id: newUserId } });
+    const _ = await apolloFetch({ query: GET_USER, variables: { id: newUserId } });
     expect(result.data.createUser).toEqual(expectedResponse);
   });
 
@@ -98,7 +97,7 @@ describe('Integration Test mutations', () => {
     const input = { from: senderId, to: recipientId, message: 'nice ass', location: 'mylocation' };
     const variables = { input };
     const sendNodResult = await apolloFetch({ query: SEND_NOD, variables });
-    console.log(sendNodResult)
+    console.log(sendNodResult);
     expect(sendNodResult.data.sendNod).toEqual(input);
 
     const expectedSenderResponse = {
@@ -232,7 +231,7 @@ describe('Integration Test mutations', () => {
     const becomeInvisibleToInput = { from: 'john', to: 'jenny' };
     const variables = { input: becomeInvisibleToInput };
     const becomeInvisibleToResult = await apolloFetch({ query: BECOME_INVISIBLE_TO, variables });
-    console.log(becomeInvisibleToResult)
+    console.log(becomeInvisibleToResult);
     expect(becomeInvisibleToResult.data.becomeInvisibleTo).toEqual(becomeInvisibleToInput);
   });
 
@@ -262,19 +261,21 @@ describe('Integration Test mutations', () => {
     const updateShowMeCriteriaInput = { id: users[0].id, sex: ['male'], age: [20, 30] };
     const variables = { input: updateShowMeCriteriaInput };
     const updateShowMeCriteriaResult = await apolloFetch({ query: UPDATE_SHOWME_CRITERIA, variables });
-    console.log("showmecriteria", updateShowMeCriteriaResult)
+    console.log('showmecriteria', updateShowMeCriteriaResult);
     expect(updateShowMeCriteriaResult.data.updateShowMeCriteria).toEqual({ sex: ['male'], age: [20, 30] });
   });
 
   test('should fetch only viable users according to user visibility, ShowMeCriteria of both parties, and location', async () => {
-    const users = await createUsers([mockUsers.john, mockUsers.nearby, mockUsers.lat80_long80], port);
+    const _ = await createUsers([mockUsers.john, mockUsers.nearby, mockUsers.lat80_long80], port);
 
     const johnLocation = { latitude: 24.22244098031902, longitude: 23.125367053780863 };
 
     const nearbyPoint = generateRandomPoint(johnLocation, 999);
 
-    const nearbyVariables = { input: { id: 'nearby', latitude: nearbyPoint.latitude, longitude: nearbyPoint.longitude } };
-    const stuff = await apolloFetch({ query: UPDATE_LOCATION_AND_GET_USERS, variables: nearbyVariables });
+    const nearbyVariables = {
+      input: { id: 'nearby', latitude: nearbyPoint.latitude, longitude: nearbyPoint.longitude }
+    };
+    const _ = await apolloFetch({ query: UPDATE_LOCATION_AND_GET_USERS, variables: nearbyVariables });
 
     const variables = { input: { id: 'john', latitude: johnLocation.latitude, longitude: johnLocation.longitude } };
     const usersNearJohn = await apolloFetch({ query: UPDATE_LOCATION_AND_GET_USERS, variables });

@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   type User {
@@ -32,7 +32,7 @@ const typeDefs = gql`
     entryYear: Int
     graduationYear: Int
     focus: String
-    degree: Degree
+    degree: String
   }
 
   input EducationInput {
@@ -40,15 +40,7 @@ const typeDefs = gql`
     entryYear: Int
     graduationYear: Int
     focus: String
-    degree: Degree
-  }
-
-  enum Degree {
-    highschool
-    ms
-    ma
-    md
-    phd
+    degree: String
   }
 
   type WorkExperience {
@@ -210,7 +202,7 @@ const typeDefs = gql`
     education: [EducationInput]
     workExperience: [WorkExperienceInput]
     hometown: String
-    profileImageUrl: String,
+    profileImageUrl: String
     gender: Gender
   }
 
@@ -229,7 +221,7 @@ const typeDefs = gql`
     education: [EducationInput]
     workExperience: [WorkExperienceInput]
     hometown: String
-    profileImageUrl: String,
+    profileImageUrl: String
     gender: Gender
   }
 

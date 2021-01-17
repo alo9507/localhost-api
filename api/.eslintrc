@@ -17,9 +17,25 @@
             {
                 "printWidth": 120,
                 "tabsWidth": 4,
-                "bracketSpacing": false,
+                "bracketSpacing": true,
                 "trailingComma": "none",
-                "singleQuote": true
+                "singleQuote": true,
+                "spaceBeforeFunctionParen": [
+                    "error",
+                    "never"
+                ]
+            }
+        ],
+        "@typescript-eslint/ban-types": 0,
+        "@typescript-eslint/no-explicit-any": 0,
+        "no-async-promise-executor": 0,
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "varsIgnorePattern": "^_",
+                "argsIgnorePattern": "^_"
             }
         ]
     }

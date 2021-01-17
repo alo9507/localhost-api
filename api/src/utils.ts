@@ -65,4 +65,4 @@ function wrapInString(filterTarget) {
   return pred;
 }
 
-export {rand, generateQuery};
+export { rand, generateQuery };

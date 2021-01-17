@@ -1,11 +1,16 @@
-import { generateQuery } from '../../../utils';
-import { preProcess, postProcess } from "../utils/parsers"
+import { preProcess, postProcess } from '../utils/parsers';
 
 const mutations = {
   sendNod: (parent, args, context) => {
     const session = context.driver.session();
     const { from, to } = args.input;
-    const params = { from, to, message: args.input?.message, latitude: args.input?.latitude, longitude: args.input?.longitude };
+    const params = {
+      from,
+      to,
+      message: args.input?.message,
+      latitude: args.input?.latitude,
+      longitude: args.input?.longitude
+    };
     return session
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 
@@ -16,7 +21,9 @@ const mutations = {
       )
       .then((result) => {
         session.close();
-        if (result.records.length === 0) { return [] }
+        if (result.records.length === 0) {
+          return [];
+        }
         return {
           from: result.records[0].get('a.id'),
           to: result.records[0].get('b.id'),
@@ -29,7 +36,13 @@ const mutations = {
   returnNod: (parent, args, context) => {
     const session = context.driver.session();
     const { from, to } = args.input;
-    const params = { from, to, message: args.input?.message, latitude: args.input?.latitude, longitude: args.input?.longitude };
+    const params = {
+      from,
+      to,
+      message: args.input?.message,
+      latitude: args.input?.latitude,
+      longitude: args.input?.longitude
+    };
     return session
       .run(
         `MATCH (a: SocialNode),(b: SocialNode) 
@@ -67,31 +80,31 @@ const mutations = {
   },
   deleteAllUsers: (parent, args, context) => {
     const session = context.driver.session();
-    return session.run('MATCH (n) DETACH DELETE n').then((result) => {
+    return session.run('MATCH (n) DETACH DELETE n').then((_) => {
       session.close();
       return 'Succesfully deleted all users';
     });
   },
   clearAllNods: (parent, args, context) => {
     const session = context.driver.session();
-    return session.run('MATCH (n: SocialNode)-[edge:NODDED_AT]->(m: SocialNode) DETACH DELETE edge').then((result) => {
+    return session.run('MATCH (n: SocialNode)-[edge:NODDED_AT]->(m: SocialNode) DETACH DELETE edge').then((_) => {
       session.close();
       return 'Succesfully deleted all nods';
     });
   },
   updateUser: (parent, args, context) => {
     const session = context.driver.session();
-    const input = preProcess(args.input)
+    const input = preProcess(args.input);
     const params = { id: args.input.id, input };
     return session.run('MATCH (n: User { id: $id }) SET n += $input RETURN n', params).then((result) => {
       session.close();
-      const user = result.records[0].get(0).properties
-      return postProcess(user)
+      const user = result.records[0].get(0).properties;
+      return postProcess(user);
     });
   },
   createUser: (parents, args, context) => {
     const session = context.driver.session();
-    const input = preProcess(args.input)
+    const input = preProcess(args.input);
     const params = { id: args.input.id, input };
     const txc = session.beginTransaction();
     const promise = new Promise(async (resolve, reject) => {
@@ -100,16 +113,16 @@ const mutations = {
           'MERGE (n:User { id: $id }) ON CREATE SET n.created = timestamp(), n.latitude=0.0, n.longitude=0.0, n.isVisible=true, n += $input RETURN n',
           params
         );
-        const rawUser = userResult.records[0].get(0).properties
-        const user = postProcess(rawUser)
-        const showMeCriteriaResult = await txc.run(
+        const rawUser = userResult.records[0].get(0).properties;
+        const user = postProcess(rawUser);
+        const _ = await txc.run(
           `
                 MERGE (showmecriteria: ShowMeCriteria { id: $id }) 
                 ON CREATE SET showmecriteria.sex = ["male", "female"], showmecriteria.age = [18, 100]
                 RETURN showmecriteria`,
           params
         );
-        const socialNodeResult = await txc.run('MERGE (socialNode: SocialNode { id: $id }) RETURN socialNode', params);
+        const __ = await txc.run('MERGE (socialNode: SocialNode { id: $id }) RETURN socialNode', params);
         txc.commit();
         resolve(user);
       } catch (e) {
@@ -139,7 +152,7 @@ const mutations = {
   },
   deleteUser: (parent, args, context) => {
     const session = context.driver.session();
-    return session.run('MATCH (n { id: $id }) DETACH DELETE n', { id: args.id }).then((result) => {
+    return session.run('MATCH (n { id: $id }) DETACH DELETE n', { id: args.id }).then((_) => {
       session.close();
       return args.id;
     });
@@ -278,8 +291,8 @@ const mutations = {
       )
       .then((result) => {
         const users = result.records.map((record) => {
-          const user = record.get(0).properties
-          return postProcess(user)
+          const user = record.get(0).properties;
+          return postProcess(user);
         });
         session.close();
         return users;

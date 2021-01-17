@@ -9,8 +9,7 @@ const server = createServer(process.env.NEO4J_URI);
 const port = 4005;
 
 server.listen({ port }).then(async ({ url }) => {
-  const uri = 'http://localhost:4005';
-  const apolloFetch = createFetch(uri, false);
+  const apolloFetch = createFetch(url, false);
 
   const query = `
                 mutation CreateUser($input: CreateUserInput!){

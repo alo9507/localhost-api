@@ -37,11 +37,11 @@ function generateRandomPoint(center, radius) {
   const xp = x / Math.cos(y0);
 
   // Resulting point.
-  return {latitude: y + y0, longitude: xp + x0};
+  return { latitude: y + y0, longitude: xp + x0 };
 }
 
-export {generateRandomPoint, generateRandomPoints};
+export { generateRandomPoint, generateRandomPoints };
 
 // Usage Example.
 // Generates 100 points that is in a 1km radius from the given latitude and longitude point.
-const randomGeoPoints = generateRandomPoint({latitude: 24.23, longitude: 23.12}, 1000);
+// const randomGeoPoints = generateRandomPoint({ latitude: 24.23, longitude: 23.12 }, 1000);
