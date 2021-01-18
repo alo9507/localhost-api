@@ -7,6 +7,7 @@ import BecomeInvisibleToForm from './components/BecomeInvisibleToForm';
 import BecomeVisibleToForm from './components/BecomeVisibleToForm';
 import UnmatchForm from './components/UnmatchForm';
 import DeleteAccountForm from "./components/DeleteAccountForm"
+import AddUserToLocationForm from './components/AddUserToLocationForm';
 
 function App() {
   const [recipient, setRecipient] = useState("d78d7693-11bd-4692-a7b3-5023cb5daa62")
@@ -31,7 +32,7 @@ function App() {
   }
 
   return (
-    <>
+    <div style={{ paddingLeft: "100px", paddingTop: "25px" }}>
       <label htmlFor="recipient">Recipient</label><br />
       <input type="text" value={recipient} onChange={(e) => handleSetRecipient(e)} /><br />
       <div className="formgrid">
@@ -41,8 +42,9 @@ function App() {
         <BecomeVisibleToForm client={client} recipient={recipient} />
         <UnmatchForm client={client} recipient={recipient} />
         <DeleteAccountForm accountClient={accountClient} />
+        <AddUserToLocationForm client={client} />
       </div>
-    </>
+    </div>
   );
 }
 
